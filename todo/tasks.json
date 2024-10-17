@@ -1,0 +1,17 @@
+{
+    "tasks": {
+        "task1-1": false,
+        "task1-2": false,
+        "task1-3": false,
+        "task1-4": false,
+        "task1-5": false,
+        "task1-6": false,
+        "task2-1": false,
+        "task2-2": false,
+        "task2-3": false,
+        "task2-4": false,
+        "task2-5": false,
+        "task2-6": false,
+        "task2-7": false
+    }
+}
