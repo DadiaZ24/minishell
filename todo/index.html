@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minishell Task Division</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Minishell Task Division</h1>
+
+        <h2>PAULO: Parsing/Lexing Responsibilities</h2>
+        <ul id="person1-tasks">
+            <li><input type="checkbox" id="task1-1"> <span>Input Handling & Lexical Analysis (Lexing)</span></li>
+            <li><input type="checkbox" id="task1-2"> <span>Token Validation</span></li>
+            <li><input type="checkbox" id="task1-3"> <span>Parser: Building the Command Structure</span></li>
+            <li><input type="checkbox" id="task1-4"> <span>Environment Variables Parsing</span></li>
+            <li><input type="checkbox" id="task1-5"> <span>Command Expansion</span></li>
+            <li><input type="checkbox" id="task1-6"> <span>Error Handling</span></li>
+        </ul>
+
+        <h2>DIOGO: Execution Responsibilities</h2>
+        <ul id="person2-tasks">
+            <li><input type="checkbox" id="task2-1"> <span>Command Execution</span></li>
+            <li><input type="checkbox" id="task2-2"> <span>Process Management</span></li>
+            <li><input type="checkbox" id="task2-3"> <span>Redirection</span></li>
+            <li><input type="checkbox" id="task2-4"> <span>Pipes</span></li>
+            <li><input type="checkbox" id="task2-5"> <span>Built-in Commands Execution</span></li>
+            <li><input type="checkbox" id="task2-6"> <span>Signals and Signal Handling</span></li>
+            <li><input type="checkbox" id="task2-7"> <span>Environment Management</span></li>
+        </ul>
+
+        <button class="save-btn" onclick="saveStatus()">Save Progress</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
