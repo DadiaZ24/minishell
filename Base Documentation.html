@@ -5,50 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minishell Functions Documentation</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 20px;
-        }
-        h2 {
-            color: #1e90ff;
-            cursor: pointer;
-        }
-        h3 {
-            color: #ff6347;
-        }
-        p {
-            margin: 5px 0;
-        }
-        code {
-            background-color: #f5f5f5;
-            padding: 2px 4px;
-            font-size: 14px;
-            border-radius: 4px;
-        }
-        .function-block {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            display: none; /* Initially hide the details */
-        }
-        .collapse-button {
-            background-color: #1e90ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-    </style>
+		body {
+			font-family: Arial, sans-serif;
+			line-height: 1.6;
+			background-color: #f4f4f9;
+			background-image: url("./handsome-giga-chad-hmsvijj0ji4dhedr.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+			color: #fff;
+			padding: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			margin: 0;
+		}
+	
+		.content {
+			background: rgba(0, 0, 0, 0.4);
+			padding: 20px;
+			border-radius: 12px;
+			margin-right: 40%;
+			text-align: left;
+			max-width: 800px;
+			width: 100%;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			background-size: 40px 40px;
+		}
+	
+		h2 {
+			color: #1e90ff;
+			cursor: pointer;
+		}
+	
+		h3 {
+			color: #ff6347;
+		}
+	
+		p {
+			margin: 5px 0;
+		}
+	
+		code {
+			background-color: rgba(0, 0, 0, 0.4);
+			padding: 2px 4px;
+			font-size: 14px;
+			border-radius: 4px;
+		}
+	
+		.function-block {
+			margin-bottom: 20px;
+			padding: 10px;
+			background-color: rgba(0, 0, 0, 0.4);
+			border: 1px solid #ddd;
+			border-radius: 8px;
+			display: none; /* Initially hide the details */
+		}
+	
+		.collapse-button {
+			background-color: #1e90ff;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			padding: 5px 10px;
+			cursor: pointer;
+		}
+	</style>
 </head>
 <body>
+	<div class="content">
     <h1>Minishell Functions Documentation</h1>
-
     <div>
         <h2 onclick="toggleFunctionBlock(1)">1. <code>readline</code> (GNU Readline library)</h2>
         <div id="function-1" class="function-block">
@@ -223,12 +249,11 @@
 			<h3>Description:</h3>
 			<p>Creates a new process by duplicating the calling process. The new process is referred to as the child process.</p>
 			<h3>Returns:</h3>
-			<p>The process ID (PID) of the child process to the parent process, <code>0</code> to the child process, or <code>-1</code</code> on error.</p>
+			<p>The process ID (PID) of the child process to the parent process, <code>0</code> to the child process, or <code>-1</code> on error.</p>
 			<h3>Usage:</h3>
 			<p><code>pid_t fork(void);</code></p>
 		</div>
 	</div>
-	
 	<div>
 		<h2 onclick="toggleFunctionBlock(16)">16. <code>wait</code> (System Call)</h2>
 		<div id="function-16" class="function-block">
@@ -681,7 +706,7 @@
 			<p><code>int tputs(const char *str, int affcnt, int (*outc)(int));</code></p>
 		</div>
 	</div>
-	
+</div>
 
     <script>
         function toggleFunctionBlock(number) {
