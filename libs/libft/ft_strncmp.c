@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:58:20 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:58:20 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_strncmp(char const *s1, char const *s2, size_t n)
 {
-	t_token	**tokens;
+	size_t	i;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	if (n == 0)
 		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	i = 0;
+	while ((s1[i]) && (s2[i]) && (s1[i] == s2[i]) && (i < n - 1))
+		i++;
+	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }

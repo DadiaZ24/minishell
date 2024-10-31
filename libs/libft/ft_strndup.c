@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/05/14 20:50:43 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/05/24 20:25:27 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+char	*ft_strndup(char *s, int len)
 {
-	t_token	**tokens;
+	char	*str;
+	int		i;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	if (len <= 0)
+		return (NULL);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	i = 0;
+	if (!str)
 		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	while (i < len)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

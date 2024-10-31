@@ -3,75 +3,68 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/09/16 11:02:10 by ptorrao-          #+#    #+#              #
-#    Updated: 2024/10/31 17:21:10 by ptorrao-         ###   ########.fr        #
+#    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
+#    Updated: 2024/10/24 16:55:42 by ddias-fe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#==============================================================================#
-#                                     NAMES                                    #
-#==============================================================================#
+# _______________________________________________________________
+#|___________________________[VARIABLES]_________________________|
+#|_______________________________________________________________|
 
-CC				= cc -g
-RM				= rm -rf
-CFLAGS			= -Wall -Wextra -Werror -lreadline
-NAME			= minishell
+NAME = minishell
+LIBFT = libs/libft/libft.a
+SRC_DIR = ./src
+OBJ_DIR = ./obj
 
-INC				= -I./include
-LIBFT			= libft/libft.a
+#COMPILE/RULE TOOLS
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g -I./include -lreadline
+RM = rm -f
+RMDIR = rmdir
 
-GENERAL			= main.c minishell.c
-PARSING			= parser.c mini_split.c mini_split_wc.c
-UTILS			= init.c free.c
+# _______________________________________________________________
+#|___________________________[SRC FILES]_________________________|
+#|_______________________________________________________________|
 
-#==============================================================================#
-#                                    PATHS                                     #
-#==============================================================================#
+SRC =	$(SRC_DIR)/main.c \
 
-SRC				= $(GENERAL)\
-					$(PARSING)\
-					$(UTILS)\
 
-VPATH 			= src\
-					src/parsing\
-					src/utils\
-					#src/init\
-					src/free\
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-OBJ_DIR			= obj
+# _______________________________________________________________
+#|_____________________________[RULES]___________________________|
+#|_______________________________________________________________|
 
-OBJ 			= $(SRC:%.c=$(OBJ_DIR)/%.o)
+all: deps $(NAME)
 
-#==============================================================================#
-#                                    RULES                                     #
-#==============================================================================#
+deps:
+#	COMPILE LIBFT LIBRARY
+	$(MAKE) -C ./libs/libft
 
-all:			$(NAME)
+#	CREATE OBJECTS FOLDER
+	@mkdir -p $(OBJ_DIR)/utils \
+		$(OBJ_DIR)/
+	@echo "Created object directories."
 
-$(OBJ_DIR):
-				mkdir -p obj
+$(NAME): $(OBJ) $(DEPS)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
-				$(CC) $(CFLAGS) $(OBJ)-o -Llibft -lft $(NAME)
+clean: 
+	$(MAKE) clean -C ./libs/libft
+	$(RM) $(OBJ)
 
-$(LIBFT):
-				make -C libft
+fclean: clean
+	@$(RM) $(LIBFT) $(NAME)
+	@$(RMDIR) $(OBJ_DIR)/utils \
+			$(OBJ_DIR)
 
-clean:
-				$(RM) $(OBJ) readline.supp
+gdb:
+	gdb -tui ./minishell
 
-fclean: 		clean
-				$(RM) $(NAME) $(OBJ_DIR)
-
-re: 			fclean all
-
-valgrind: 
-	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
-	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
-
-.PHONY: 		all clean fclean re
+re: fclean all

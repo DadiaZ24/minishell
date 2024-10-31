@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:56:55 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:56:55 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-int	main(void)
+void	*ft_memset(void *str, int c, size_t n)
 {
-	t_token	**tokens;
+	size_t	i;
+	char	*s;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	s = (char *)str;
+	i = 0;
+	while (i < n)
+	{
+		s[i] = c;
+		i++;
+	}
+	return (s);
 }

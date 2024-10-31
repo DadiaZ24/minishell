@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:53:53 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:53:53 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_calloc(size_t nitems, size_t size)
 {
-	t_token	**tokens;
+	void	*str;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	if (((nitems > 2147483647 && size != 0)
+			|| (size > 2147483647 && nitems != 0)))
+		return (NULL);
+	str = malloc (nitems * size);
+	if (!str)
+		return (NULL);
+	ft_bzero(str, size * nitems);
+	return (str);
 }

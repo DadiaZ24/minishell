@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:55:36 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:55:36 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+//#include "libft.h"
+#include <string.h>
+#include <stdio.h>
 
-int	main(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	t_token	**tokens;
+	size_t			i;
+	unsigned char	*ms;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	ms = (unsigned char *)s;
+	i = 0;
+	while (n > 0)
+	{
+		if (ms[i] == (unsigned char)c)
+			return (ms + i);
+		i++;
+		n--;
+	}
+	return (NULL);
 }

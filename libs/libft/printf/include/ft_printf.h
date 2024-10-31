@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/02/04 16:03:11 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/02/04 16:03:11 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-int	main(void)
-{
-	t_token	**tokens;
+# include <stdarg.h>
+# include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
-}
+int	ft_printf(const char *str, ...);
+int	ft_putchar(int c);
+int	ft_putnbr(int nbr);
+int	ft_putnbrhex(unsigned int nbr, const char c);
+int	ft_putptr(unsigned long nbr);
+int	ft_putstr(char *str);
+int	ft_utoa(unsigned int nbr);
+
+#endif

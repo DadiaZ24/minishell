@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:57:40 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:57:40 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_strlcpy(char *dst, char *src, size_t n)
 {
-	t_token	**tokens;
+	size_t	i;
+	size_t	size;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	size = ft_strlen(src);
+	i = 0;
+	if (!dst || !src)
 		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	if (n == 0)
+		return (size);
+	while ((src[i]) && (i < n - 1))
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (size);
 }

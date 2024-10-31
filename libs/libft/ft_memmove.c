@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/09 14:56:51 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/04/09 14:56:51 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void	*ft_memmove(void *s1, void *s2, size_t n)
 {
-	t_token	**tokens;
+	size_t	i;
+	char	*dst;
+	char	*src;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	dst = (char *)s1;
+	src = (char *)s2;
+	if (!s1 && !s2)
 		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	i = -1;
+	if (dst > src)
+	{
+		while (n-- > 0)
+			dst[n] = src[n];
+	}
+	else
+	{
+		while (++i < n)
+			dst[i] = src[i];
+	}
+	return (dst);
 }

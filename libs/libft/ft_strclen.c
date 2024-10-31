@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strclen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/05/14 20:51:20 by ddias-fe          #+#    #+#             */
+/*   Updated: 2024/05/14 20:51:35 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+int	ft_strclen(char *str, char c)
 {
-	t_token	**tokens;
+	int	i;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	i = 0;
+	if (!str)
 		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	while ((str[i] && str[i] != c))
+		i++;
+	return (i);
 }
