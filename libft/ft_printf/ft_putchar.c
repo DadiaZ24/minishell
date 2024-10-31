@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/05/16 16:28:04 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/05/22 18:53:17 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int	main(void)
+int	ft_putchar(char c)
 {
-	t_token	**tokens;
-
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
+	write(1, &c, 1);
 	return (1);
 }

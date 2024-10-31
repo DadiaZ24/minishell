@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/10/26 16:48:23 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/10/26 18:49:08 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	init_token(char **mtr)
 {
-	t_token	**tokens;
-
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	/* NEED TO DO */
+	return ;
 }

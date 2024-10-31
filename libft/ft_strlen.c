@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/04/17 14:13:39 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/04/17 15:22:40 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+size_t	ft_strlen(const char *str)
 {
-	t_token	**tokens;
+	size_t	i;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	i = 0;
+	while (str[i])
+		i ++;
+	return (i);
 }

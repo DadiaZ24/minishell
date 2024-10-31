@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 15:29:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/26 18:39:59 by ptorrao-         ###   ########.fr       */
+/*   Created: 2024/05/16 19:38:21 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/05/24 16:28:49 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int	main(void)
+int	ft_putnbr(int nb)
 {
-	t_token	**tokens;
+	long	i;
+	int		count;
 
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
-		return (0);
-	minishell(tokens);
-	free_tokens(tokens);
-	return (1);
+	count = 0;
+	i = nb;
+	if (i < 0)
+	{
+		count += ft_putchar('-');
+		i *= -1;
+	}
+	if (i >= 10)
+		count += ft_putnbr(i / 10);
+	count += ft_putchar(i % 10 + '0');
+	return (count);
 }

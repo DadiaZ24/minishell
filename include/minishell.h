@@ -17,9 +17,15 @@
 //|_____________________________[LIBS]____________________________|
 //|_______________________________________________________________|
 
-# include "../libs/libft/libft.h"
+# include <stdio.h>
+# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "parser.h"
+# include "utils.h"
+# include "libft/ft_printf/ft_printf.h"
+# include "libft/libft.h"
+# include "libft/get_next_line/get_next_line_bonus.h"
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|
