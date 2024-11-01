@@ -67,7 +67,9 @@ clean:
 fclean: clean
 	@$(RM) $(LIBFT) $(NAME)
 	@$(RMDIR) $(OBJ_DIR)/utils \
-			$(OBJ_DIR)
+			$(OBJ_DIR)/executor/builtins/ \
+			$(OBJ_DIR)/executor \
+			$(OBJ_DIR)/
 
 gdb:
 	gdb -tui ./minishell
