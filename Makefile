@@ -20,11 +20,15 @@ CFLAGS			= -Wall -Wextra -Werror -lreadline
 NAME			= minishell
 
 INC				= -I./include
-LIBFT			= libft/libft.a
+LIBFT			= libs/libft/libft.a
 
-GENERAL			= main.c minishell.c
-PARSING			= parser.c mini_split.c mini_split_wc.c
-UTILS			= init.c free.c
+READLINE_PATH    = vendor/readline/
+RLFLAG             = -L$(READLINE_PATH)/lib -lreadline
+
+GENERAL			= main.c
+PARSING			= #parser.c mini_split.c mini_split_wc.c
+UTILS			= #init.c free.c
+EXECUTOR		= executor.c pwd.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
@@ -33,12 +37,13 @@ UTILS			= init.c free.c
 SRC				= $(GENERAL)\
 					$(PARSING)\
 					$(UTILS)\
+					$(EXECUTOR)\
 
 VPATH 			= src\
 					src/parsing\
 					src/utils\
-					#src/init\
-					src/free\
+					src/executor\
+					src/executor/builtins\
 
 OBJ_DIR			= obj
 
@@ -52,12 +57,14 @@ all:			$(NAME)
 
 $(OBJ_DIR):
 				mkdir -p obj
+				mkdir -p obj/executor
+				mkdir -p obj/executor/builtins
 
 $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
-				$(CC) $(CFLAGS) $(OBJ)-o -Llibft -lft $(NAME)
+				$(CC) $(CFLAGS) $(OBJ) $(RLFLAG) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 				make -C libft
