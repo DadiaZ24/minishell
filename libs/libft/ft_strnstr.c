@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:58:26 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:58:26 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/04/19 18:36:29 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/04/22 17:18:20 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(char *origin, char *find, size_t n)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
-	size_t	j;
+	size_t	big_i;
 
 	i = 0;
-	if (!n && !origin)
-		return (NULL);
-	if (!origin[i] && !find[i])
-		return (origin);
-	if (!find[i])
-		return (origin);
-	while ((origin[i]))
+	big_i = 0;
+	if (*little == '\0' || big == little)
+		return ((char *) big);
+	while (big_i < len && big[big_i] != '\0')
 	{
-		j = 0;
-		while (origin[i + j] == find[j] && (i + j) < n)
+		if (big[big_i] == little[i])
 		{
-			if (find[j] == '\0' && origin[i + j] == '\0')
-				return (origin + i);
-			j++;
+			i++;
+			big_i++;
 		}
-		if (find[j] == '\0')
-			return (origin + i);
-		i++;
+		else
+		{
+			big_i = big_i - i + 1;
+			i = 0;
+		}
+		if (little[i] == '\0')
+			return ((char *) big + big_i - i);
 	}
-	return (0);
+	return (NULL);
 }

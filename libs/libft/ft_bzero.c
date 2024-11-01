@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:53:49 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:53:49 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/04/22 14:59:46 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/04/22 17:36:18 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
+	char	*c;
 
-	i = -1;
-	while (++i < n)
-		((char *)s)[i] = 0;
+	c = s;
+	i = 0;
+	while (i < n)
+	{
+		c[i] = '\0';
+		i++;
+	}
 }

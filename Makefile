@@ -14,57 +14,64 @@
 #|___________________________[VARIABLES]_________________________|
 #|_______________________________________________________________|
 
-NAME = minishell
-LIBFT = libs/libft/libft.a
-SRC_DIR = ./src
-OBJ_DIR = ./obj
+CC				= cc -g
+RM				= rm -rf
+CFLAGS			= -Wall -Wextra -Werror -lreadline
+NAME			= minishell
 
-#COMPILE/RULE TOOLS
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I./include -lreadline
-RM = rm -f
-RMDIR = rmdir
+INC				= -I./include
+LIBFT			= libft/libft.a
+
+GENERAL			= main.c minishell.c
+PARSING			= parser.c mini_split.c mini_split_wc.c
+UTILS			= init.c free.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
 #|_______________________________________________________________|
 
-SRC =	$(SRC_DIR)/main.c \
+SRC				= $(GENERAL)\
+					$(PARSING)\
+					$(UTILS)\
 
+VPATH 			= src\
+					src/parsing\
+					src/utils\
+					#src/init\
+					src/free\
 
-OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJ_DIR			= obj
+
+OBJ 			= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 # _______________________________________________________________
 #|_____________________________[RULES]___________________________|
 #|_______________________________________________________________|
 
-all: deps $(NAME)
+all:			$(NAME)
 
-deps:
-#	COMPILE LIBFT LIBRARY
-	$(MAKE) -C ./libs/libft
+$(OBJ_DIR):
+				mkdir -p obj
 
-#	CREATE OBJECTS FOLDER
-	@mkdir -p $(OBJ_DIR)/utils \
-		$(OBJ_DIR)/
-	@echo "Created object directories."
+$(OBJ_DIR)/%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
-$(NAME): $(OBJ) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
+				$(CC) $(CFLAGS) $(OBJ)-o -Llibft -lft $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(LIBFT):
+				make -C libft
 
-clean: 
-	$(MAKE) clean -C ./libs/libft
-	$(RM) $(OBJ)
+clean:
+				$(RM) $(OBJ) readline.supp
 
-fclean: clean
-	@$(RM) $(LIBFT) $(NAME)
-	@$(RMDIR) $(OBJ_DIR)/utils \
-			$(OBJ_DIR)
+fclean: 		clean
+				$(RM) $(NAME) $(OBJ_DIR)
 
-gdb:
-	gdb -tui ./minishell
+re: 			fclean all
 
-re: fclean all
+valgrind: 
+	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
+	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
+
+.PHONY: 		all clean fclean re

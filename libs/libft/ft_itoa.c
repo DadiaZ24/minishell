@@ -3,53 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:54:34 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:54:34 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/04/30 16:10:35 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/05/02 15:21:01 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nsize(int n)
+int	ft_size(int n)
 {
-	int	count;
+	int	i;
 
-	count = 0;
+	i = 0;
 	if (n <= 0)
-		count++;
+		i++;
 	while (n != 0)
 	{
-		count++;
+		i++;
 		n /= 10;
 	}
-	return (count);
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	int		size;
+	int		i;
 	char	*str;
-	long	i;
+	long	t_n;
 
-	i = n;
-	size = ft_nsize(i);
-	str = (char *)malloc(sizeof(char) * (size + 1));
+	t_n = n;
+	i = ft_size(n);
+	str = (char *)malloc((i + 1) * sizeof(char));
 	if (!str)
-		return (0);
-	str[size] = '\0';
-	if (i < 0)
+		return (NULL);
+	str[i] = '\0';
+	if (t_n < 0)
 	{
 		str[0] = '-';
-		i *= -1;
+		t_n *= -1;
 	}
-	else if (i == 0)
+	else if (t_n == 0)
 		str[0] = '0';
-	while (i != 0)
+	while (t_n != 0)
 	{
-		str[--size] = (i % 10) + 48;
-		i /= 10;
+		str[--i] = (t_n % 10) + 48;
+		t_n /= 10;
 	}
 	return (str);
 }

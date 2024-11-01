@@ -3,39 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:57:32 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:57:32 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/05/02 15:37:08 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/05/03 12:50:42 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*newstring;
-	int		i;
-	int		j;
-	int		size;
+	size_t	i;
+	size_t	s1_i;
+	size_t	s2_i;
+	char	*s_s;
 
-	if (!s1)
+	if (!s1 || !s2)
+		return (NULL);
+	s1_i = ft_strlen(s1);
+	s2_i = ft_strlen(s2);
+	s_s = malloc((s1_i + s2_i + 1) * (sizeof(char)));
+	if (!s_s)
+		return (NULL);
+	i = 0;
+	while (i < s1_i && s1)
 	{
-		s1 = malloc(sizeof(char));
-		s1[0] = '\0';
+		s_s[i] = s1[i];
+		i++;
 	}
-	size = ft_strclen(s1, '\0') + ft_strclen(s2, '\0');
-	newstring = malloc(sizeof(char *) * (size + 1));
-	if (!newstring)
-		return (0);
-	i = -1;
-	j = 0;
-	while ((i < size) && (s1[++i]))
-		newstring[i] = s1[i];
-	while ((i < size) && (s2[j]))
-		newstring[i++] = s2[j++];
-	newstring[i] = '\0';
-	if (s1)
-		free (s1);
-	return (newstring);
+	s1_i = 0;
+	while (s1_i < s2_i && s2)
+		s_s[i++] = s2[s1_i++];
+	s_s[i] = '\0';
+	return (s_s);
 }

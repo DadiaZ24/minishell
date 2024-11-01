@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 16:53:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/10/24 16:53:40 by ddias-fe         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -21,11 +9,13 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "parser.h"
-# include "utils.h"
-# include "libft/ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "libft/get_next_line/get_next_line_bonus.h"
+# include <stdbool.h>
+# include "parsing/parser.h"
+# include "utils/utils.h"
+//# include "executor/executor.h"
+# include "../libs/libft/ft_printf/ft_printf.h"
+# include "../libs/libft/libft.h"
+# include "../libs/libft/get_next_line/get_next_line_bonus.h"
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|
@@ -55,6 +45,8 @@ typedef struct s_shell
 //________________________________________________________________
 //|__________________________[FUNCTIONS]__________________________|
 //|_______________________________________________________________|
+
+void	minishell(t_token **tokens);
 
 //Utils
 

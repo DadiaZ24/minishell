@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:56:47 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:56:47 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/04/24 14:20:13 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/04/24 15:34:58 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t	i;
-	char	*d;
-	char	*s;
+	unsigned char	*t_dst;
+	unsigned char	*t_src;
 
-	d = (char *)dst;
-	s = (char *)src;
-	if (!d && !s)
-		return (0);
-	i = -1;
-	while (++i < n)
-		d[i] = s[i];
-	return (d);
+	if (!src && !dst)
+		return (NULL);
+	t_dst = (unsigned char *) dst;
+	t_src = (unsigned char *) src;
+	while (n > 0)
+	{
+		*(t_dst++) = *(t_src++);
+		n--;
+	}
+	return (dst);
 }

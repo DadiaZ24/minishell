@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 18:26:12 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/10/30 15:45:06 by ptorrao-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-void	free_tokens(char **tokens)
+void	free_tokens(t_token **tokens)
 {
 	t_token	*temp;
 	
@@ -20,11 +8,10 @@ void	free_tokens(char **tokens)
 	while (temp)
 	{
 		temp = (*tokens)->next;
-		temp->previous = NULL;
+		temp->prev = NULL;
 		free(*tokens);
 		*tokens = temp;
 	}
-	ft_split
 	free(tokens);
 	exit(1);
 }

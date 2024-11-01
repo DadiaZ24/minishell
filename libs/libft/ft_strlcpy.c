@@ -3,31 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:57:40 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:57:40 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/04/17 15:28:49 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/04/17 16:49:31 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strlcpy(char *dst, char *src, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	i;
-	size_t	size;
+	size_t	src_i;
 
-	size = ft_strlen(src);
+	src_i = 0;
 	i = 0;
-	if (!dst || !src)
-		return (0);
-	if (n == 0)
-		return (size);
-	while ((src[i]) && (i < n - 1))
+	while (src[src_i])
+		src_i++;
+	if (size == 0)
+		return (src_i);
+	while (i < size - 1 && src[i])
 	{
 		dst[i] = src[i];
-		i++;
+		i ++;
 	}
 	dst[i] = '\0';
-	return (size);
+	return (src_i);
 }
+
+/* int	main(void)
+{
+	char	dest[15];
+	printf("%zu\n", ft_strlcpy(dest, "lorem ipsum dolor sit amet", 0));
+	printf("%s\n", dest);
+	printf("%zu\n", strlcpy(dest, "lorem ipsum dolor sit amet", 0));
+	printf("%s\n", dest);
+	return (0);
+} */
