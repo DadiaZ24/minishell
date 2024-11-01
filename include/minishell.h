@@ -61,8 +61,6 @@ typedef struct s_shell
 //|__________________________[FUNCTIONS]__________________________|
 //|_______________________________________________________________|
 
-void	minishell(t_token **tokens);
-
 //Utils
 int	minishell(t_shell *shell, t_token **tokens, char **envp);
 
