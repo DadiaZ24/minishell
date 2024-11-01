@@ -3,101 +3,98 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 15:23:56 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/11 15:23:56 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/05/03 15:58:10 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/08/12 11:54:07 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_countwords(char const *s, char c)
+int	ft_words(char const *s, char c)
 {
 	int	i;
-	int	count;
+	int	c_words;
 
 	i = 0;
-	count = 0;
-	while (s[i])
+	c_words = 0;
+	while (*s)
 	{
-		while (s[i] == c)
-			i++;
-		if ((s[i] != c) && s[i])
-			count++;
-		while ((s[i] != c) && s[i])
-			i++;
+		if (*s != c && i == 0)
+		{
+			i = 1;
+			c_words++;
+		}
+		else if (*s == c)
+			i = 0;
+		s++;
 	}
-	return (count);
+	return (c_words);
 }
 
-int	wordlen(char const *s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i] == c)
-		i++;
-	while (s[i] && s[i] != c)
-	{
-		i++;
-		count++;
-	}
-	return (count);
-}
-
-char	*makeword(char const *s, char c)
+char	*fill_word(const char *str, int start, int end)
 {
 	char	*word;
 	int		i;
 
 	i = 0;
-	word = malloc(sizeof(char) * (wordlen(s, c) + 1));
+	word = malloc((end - start + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
-	while (s[i] != c && s[i])
+	while (start < end)
 	{
-		word[i] = s[i];
+		word[i] = str[start];
 		i++;
+		start++;
 	}
 	word[i] = '\0';
 	return (word);
 }
 
-char	**free_data_split(char **split, int i)
+char	**ft_free(char **str, int j)
 {
-	while (i--)
-		free(split[i]);
-	free(split);
+	while (j--)
+		free(str[j]);
+	free(str);
 	return (NULL);
+}
+
+char	**ft_makesplit(char const *s, char c, char **lst_str)
+{
+	size_t	i;
+	int		j;
+	int		s_word;
+
+	i = -1;
+	j = 0;
+	s_word = -1;
+	while (++i <= ft_strlen(s))
+	{
+		if (s[i] != c && s_word < 0)
+			s_word = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && s_word >= 0)
+		{
+			lst_str[j] = fill_word(s, s_word, i);
+			if (!(lst_str[j]))
+				return (ft_free(lst_str, j));
+			s_word = -1;
+			j++;
+		}
+	}
+	lst_str[j] = NULL;
+	return (lst_str);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**newstring;
-	int		i;
-	int		j;
-	int		count_words;
+	char	**lst_str;
 
 	if (!s)
 		return (NULL);
-	i = -1;
-	j = 0;
-	count_words = ft_countwords(s, c);
-	newstring = malloc(sizeof(char *) * (count_words + 1));
-	if (!newstring)
+	lst_str = malloc((ft_words(s, c) + 1) * sizeof(char *));
+	if (!lst_str)
 		return (NULL);
-	while (++i < count_words)
-	{
-		while (s[j] == c)
-			j++;
-		newstring[i] = makeword(s + j, c);
-		if (!newstring[i])
-			return (free_data_split(newstring, i));
-		j += wordlen(s + j, c);
-	}
-	newstring[i] = NULL;
-	return (newstring);
+	lst_str = ft_makesplit(s, c, lst_str);
+	return (lst_str);
 }

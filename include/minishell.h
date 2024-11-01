@@ -13,6 +13,16 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+// Token Type
+# define CMD_BIN	0
+# define CMD_EVE	1
+# define ARG		2
+# define PIPE		3 
+# define RED_OUT	4
+# define RED_IN		5
+# define APPEND		6
+# define HERE_DOC	7
+
 //________________________________________________________________
 //|_____________________________[LIBS]____________________________|
 //|_______________________________________________________________|
@@ -21,11 +31,13 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "parser.h"
-# include "utils.h"
-# include "libft/ft_printf/ft_printf.h"
-# include "libft/libft.h"
-# include "libft/get_next_line/get_next_line_bonus.h"
+# include "parsing/parser.h"
+# include "utils/utils.h"
+# include "executor/executor.h"
+# include "../libs/libft/ft_printf/ft_printf.h"
+# include "../libs//libft/libft.h"
+# include "../libs//libft/get_next_line/get_next_line_bonus.h"
+# include <stdbool.h>
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|
@@ -44,19 +56,24 @@
 //|__________________________[STRUCTURES]_________________________|
 //|_______________________________________________________________|
 
+typedef struct s_token
+{
+	int				type;
+	char			*info;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
+
 typedef struct s_shell
 {
-	char	**vars;
-	int		count;
-	char	**input;
-	char	**output;	
-}	t_shell;
+	char	*line;
+} t_shell;
 
 //________________________________________________________________
 //|__________________________[FUNCTIONS]__________________________|
 //|_______________________________________________________________|
 
 //Utils
-
+int	minishell(t_shell *shell, t_token **tokens, char **envp);
 
 #endif

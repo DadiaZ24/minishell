@@ -21,7 +21,9 @@ OBJ_DIR = ./obj
 
 #COMPILE/RULE TOOLS
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I./include -lreadline
+READLINE_PATH    = vendor/readline/
+RLFLAG           = -L$(READLINE_PATH)/lib -lreadline
+CFLAGS = -Wall -Wextra -Werror -g -I./include
 RM = rm -f
 RMDIR = rmdir
 
@@ -30,6 +32,8 @@ RMDIR = rmdir
 #|_______________________________________________________________|
 
 SRC =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/executor/builtins/pwd.c \
+
 
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
@@ -46,11 +50,12 @@ deps:
 
 #	CREATE OBJECTS FOLDER
 	@mkdir -p $(OBJ_DIR)/utils \
-		$(OBJ_DIR)/
+		$(OBJ_DIR)/ \
+		$(OBJ_DIR)/executor/builtins/ 
 	@echo "Created object directories."
 
 $(NAME): $(OBJ) $(DEPS)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(RLFLAG) $(LIBFT) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
