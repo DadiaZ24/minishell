@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 14:58:35 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/04/09 14:58:35 by ddias-fe         ###   ########.fr       */
+/*   Created: 2024/05/03 13:44:16 by ptorrao-          #+#    #+#             */
+/*   Updated: 2024/05/03 15:45:49 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_check(char const *s, char const c)
+int	ft_in_set(char const c, char const *set)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (set[i])
 	{
-		if (s[i] == c)
+		if (set[i] == c)
 			return (1);
 		i++;
 	}
@@ -28,29 +28,25 @@ int	ft_check(char const *s, char const c)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		i;
-	int		s;
-	int		size;
-	char	*newstring;
+	size_t	i;
+	size_t	is;
+	size_t	s1_i;
+	char	*s_s1;
 
 	if (!s1)
 		return (NULL);
-	size = ft_strlen(s1);
+	s1_i = ft_strlen(s1);
+	is = 0;
 	i = 0;
-	s = 0;
-	while (s1[s] && ft_check(set, s1[s]))
-		s++;
-	while (size > s && ft_check(set, s1[size - 1]))
-		size--;
-	newstring = (char *)malloc(sizeof(char) * (size - s + 1));
-	if (!newstring)
-		return (0);
-	while (size > s)
-	{
-		newstring[i] = s1[s];
-		i++;
-		s++;
-	}
-	newstring[i] = '\0';
-	return (newstring);
+	while (s1[is] && ft_in_set(s1[is], set))
+		is++;
+	while (s1_i > is && ft_in_set(s1[s1_i - 1], set))
+		s1_i--;
+	s_s1 = (char *)malloc((s1_i - is + 1) * (sizeof(char)));
+	if (!s_s1)
+		return (NULL);
+	while (s1_i > is)
+		s_s1[i++] = s1[is++];
+	s_s1[i] = '\0';
+	return (s_s1);
 }
