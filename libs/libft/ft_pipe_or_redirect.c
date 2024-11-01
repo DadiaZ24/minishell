@@ -15,7 +15,6 @@
 int	ft_pipe_or_redirect(char *c)
 {
 	int	i;
-	//int	checker;
 
 	i = 0;
 	if (c[i] == '|')
