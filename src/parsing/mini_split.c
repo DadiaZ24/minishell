@@ -61,10 +61,10 @@ char	**ft_makesplit(char const *s, char **lst_str)
 	while (++i <= ft_strlen(s))
 	{
 		if (!ft_iswhitespc(s[i] && ft_pipe_or_redirect == 0
-			&& ft_isquote == 0) && s_word < 0)
+				&& ft_isquote == 0) && s_word < 0)
 			s_word = i;
 		else if ((ft_iswhitespc(s[i] && ft_pipe_or_redirect > 0
-			&& ft_isquote > 0) || i == ft_strlen(s)) && s_word >= 0)
+				&& ft_isquote > 0) || i == ft_strlen(s)) && s_word >= 0)
 		{
 			lst_str[j] = fill_word(s, s_word, i);
 			if (!(lst_str[j]))

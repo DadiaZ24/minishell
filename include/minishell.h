@@ -15,17 +15,22 @@
 //|_____________________________[LIBS]____________________________|
 //|_______________________________________________________________|
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include "parsing/parser.h"
 # include "utils/utils.h"
 # include "executor/executor.h"
 # include "../libs/libft/ft_printf/ft_printf.h"
 # include "../libs//libft/libft.h"
 # include "../libs//libft/get_next_line/get_next_line_bonus.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdbool.h>
+# include <bits/waitflags.h>
+# include <unistd.h>
+# include <string.h>
+# include <signal.h>
+# include <sys/wait.h>
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|
@@ -38,7 +43,6 @@
 # define DEFAULT_COLOR "\033[0m"
 
 //-----MESSAGES
-
 
 //________________________________________________________________
 //|__________________________[STRUCTURES]_________________________|
@@ -55,14 +59,18 @@ typedef struct s_token
 typedef struct s_shell
 {
 	char	*line;
-} t_shell;
+	int		status;
+}	t_shell;
 
 //________________________________________________________________
 //|__________________________[FUNCTIONS]__________________________|
 //|_______________________________________________________________|
 
 //Utils
-int	minishell(t_shell *shell, t_token **tokens, char **envp);
+int		minishell(t_token **tokens, t_shell *shell, char **envp);
+void	cd(t_token **tokens);
+int		executor(t_token **tokens, t_shell *shell);
+void	echo(t_token **tokens);
 
 void	free_tokens(t_token **tokens);
 

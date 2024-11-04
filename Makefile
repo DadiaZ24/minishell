@@ -28,7 +28,7 @@ RLFLAG             = -L$(READLINE_PATH)/lib -lreadline
 GENERAL			= main.c
 PARSING			= #parser.c mini_split.c mini_split_wc.c
 UTILS			= #init.c free.c
-EXECUTOR		= executor.c pwd.c
+EXECUTOR		= executor.c pwd.c cd.c echo.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
