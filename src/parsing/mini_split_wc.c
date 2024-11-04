@@ -24,7 +24,7 @@ void	lock_count(char **s, int *c_words, int *i, int *quote)
 void	unlock_count(char **s, int *i)
 {
 	if (ft_isquote(*s) == quote && i == 1)
-			i = 0;
+		i = 0;
 	else if (ft_iswhitespc(*s))
-			i = 0;
+		i = 0;
 }
