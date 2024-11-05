@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-void	free_tokens(t_token **tokens)
-{
-	t_token	*temp;
-	
-	temp = *tokens;
-	while (temp)
-	{
-		temp = (*tokens)->next;
-		temp->prev = NULL;
-		free(*tokens);
-		*tokens = temp;
-	}
-	free(tokens);
-	exit(1);
-}
-
-void	ft_free_mtr(char **str)
+void	free_mtr(char **mtr)
 {
 	int	j;
 
 	j = -1;
-	while (str[++j])
-		free(str[j]);
-	free(str);
+	while (mtr[++j])
+		free(mtr[j]);
+	free(mtr);
 }
+
+void	free_token(t_token **token)
+{
+	t_token	*temp;
+
+	temp = *token;
+	while (temp)
+	{
+		temp = (*token)->next;
+		free(*token);
+		*token = temp;
+		(*token)->prev = NULL;
+	}
+	free(token);
+}
+

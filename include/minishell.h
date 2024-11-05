@@ -2,14 +2,16 @@
 # define MINISHELL_H
 
 // Token Type
-# define CMD_BIN	0
-# define CMD_EVE	1
-# define ARG		2
-# define PIPE		3 
-# define RED_OUT	4
-# define RED_IN		5
-# define APPEND		6
-# define HERE_DOC	7
+# define ARG		0
+# define ARG_SQUO	1
+# define ARG_DQUO	2
+# define CMD_BIN	3
+# define CMD_EVE	4
+# define PIPE		5 
+# define RED_OUT	6
+# define RED_IN		7
+# define APPEND		8
+# define HERE_DOC	9
 
 //________________________________________________________________
 //|_____________________________[LIBS]____________________________|
@@ -43,14 +45,6 @@
 //________________________________________________________________
 //|__________________________[STRUCTURES]_________________________|
 //|_______________________________________________________________|
-
-typedef struct s_token
-{
-	int				type;
-	char			*info;
-	struct s_token	*next;
-	struct s_token	*prev;
-}	t_token;
 
 typedef struct s_shell
 {
