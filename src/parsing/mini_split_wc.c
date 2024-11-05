@@ -9,7 +9,7 @@ void	lock_count(char **s, int *c_words, int *i, int *quote, bool *bin)
 		*c_words += 1;
 		*bin = true;
 	}
-	else if (ft_isquote(**s) > 0 && *i == 0 && (*s + 1) != 0)
+	else if (ft_isquote(**s) > 0 && *i == 0 && (**s + 1) != 0)
 	{
 		*quote = ft_isquote(**s);
 		if (*bin)

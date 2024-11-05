@@ -6,9 +6,9 @@ int	executor(t_token **tokens, t_shell *shell)
 		cd(tokens);
 	else if (!strncmp((*tokens)->info, "pwd", ft_strlen((*tokens)->info)))
 		pwd();
-	else if (!strncmp((*tokens)->info, "echo", ft_strlen((*tokens)->info)))
+	/*else if (!strncmp((*tokens)->info, "echo", ft_strlen((*tokens)->info)))
 		echo(tokens);
-	/*else if (!strncmp((*tokens)->info, "export", ft_strlen((*tokens)->info)))
+	else if (!strncmp((*tokens)->info, "export", ft_strlen((*tokens)->info)))
 		//TODO
 		(void);
 	else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))

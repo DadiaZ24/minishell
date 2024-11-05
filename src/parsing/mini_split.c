@@ -57,6 +57,7 @@ char	**ft_makesplit(char const *s, char **lst_str)
 	i = -1;
 	j = 0;
 	s_word = -1;
+	quote = 0;
 
 	while (++i <= ft_strlen(s))
 	{
@@ -77,9 +78,9 @@ char	**ft_makesplit(char const *s, char **lst_str)
 				quote = ft_isquote(s[i]);
 			s_word = i;
 		}
-		else if (ft_isquote(s[i]) == quote)
+		else if (ft_isquote(s[i]) == quote && (*s - 1) == 0)
 		{
-			lst_str[j] = fill_word(s, s_word, i);
+			lst_str[j] = fill_word(s, s_word, wordlen(s + s_word, ' '));
 			if (!(lst_str[j]))
 				return (ft_free(lst_str, j));
 			s_word = -1;

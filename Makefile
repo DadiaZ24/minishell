@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/11/05 18:10:45 by ptorrao-         ###   ########.fr        #
+#    Updated: 2024/11/05 19:41:21 by ddias-fe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 
 GENERAL			= main.c
 PARSING			= parser.c mini_split.c mini_split_wc.c
-UTILS			= init.c free.c
-EXECUTOR		= executor.c pwd.c
+UTILS			= init.c free.c utils.c
+EXECUTOR		= executor.c pwd.c cd.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
@@ -80,5 +80,8 @@ re: 			fclean all
 valgrind: 
 	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
 	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
+
+gdb:
+	gdb -tui ./minishell
 
 .PHONY: 		all clean fclean re

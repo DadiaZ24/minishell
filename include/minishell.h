@@ -61,11 +61,15 @@ typedef struct s_shell
 //|_______________________________________________________________|
 
 //Utils
-int		minishell(t_token **tokens, t_shell *shell, char **envp);
+int	minishell(t_shell *shell, t_token **tokens, char **envp);
 void	cd(t_token **tokens);
 int		executor(t_token **tokens, t_shell *shell);
 void	echo(t_token **tokens);
 
 void	free_tokens(t_token **tokens);
+void	ft_add_token(t_token **lst, t_token *new);
+t_token	*ft_newtoken(int type, char *info);
+void	create_tokens(t_token **tokens, char **mtr);
+t_token	*ft_lsttoken(t_token *token);
 
 #endif

@@ -4,9 +4,9 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 {
 	(void)envp;
 	(void)tokens;
-	int	i;
+	char **mtr;
 
-	i = 0;
+	mtr = NULL;
 	while (1)
 	{
 		shell->line = readline("minishell$ ");
@@ -14,11 +14,29 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 			return (printf("error reading line"), 0);
 		if (shell->line)
 			add_history(shell->line);
-		i = ft_words(shell->line);
-		printf("WC == [%d]\n", i);
+		mtr = mini_split(shell->line);
+		ft_putmtr(mtr);
+		create_tokens(tokens, mtr);
+		printf("\n\nTOKENINFO: %s\n\n", (*tokens)->info);
 		printf("LINE == [%s]\n", shell->line);
-		pwd();
+		if ((*tokens)->type == CMD_BIN || (*tokens)->type == CMD_EVE)
+			executor(tokens, shell);
 		free (shell->line);
+	}
+}
+
+void	create_tokens(t_token **tokens, char **mtr)
+{
+	t_token	*temp;
+	char	**temp_str;
+
+	temp = *tokens;
+	temp_str = mtr;
+	while (*temp_str)
+	{
+		ft_add_token(tokens, ft_newtoken(1, *temp_str));
+		temp = temp->next;
+		temp_str++;
 	}
 }
 
@@ -32,30 +50,7 @@ int	main(int argc, char **argv, char **envp)
 	tokens = (t_token **)malloc(sizeof(t_token));
 	if (!tokens)
 		return (-1);
-	minishell(tokens, &shell, envp);
+	minishell(&shell, tokens, envp);
 	//free_tokens(tokens);
 	return (0);
-}
-
-int	minishell(t_token **tokens, t_shell *shell, char **envp)
-{
-	char *line;
-	(void)envp;
-	(void)tokens;
-
-	*tokens = malloc(sizeof(t_token));
-	if (!*tokens)
-		return (0);
-	printf("%s", (*tokens)->info);
-	while (1)
-	{
-		line = readline("minishell$ ");
-		if (!line)
-			return (printf("error reading line"), 0);
-		if (line)
-			add_history(line);
-		//SPLIT TOKENS;;;
-		if ((*tokens)->type == CMD_BIN || (*tokens)->type == CMD_EVE)
-			executor(tokens, shell);
-	}
 }
