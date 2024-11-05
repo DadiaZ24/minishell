@@ -73,4 +73,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
+//Added new functions
+char	*ft_joinpath(char const *s1, char const *s2);
+
 #endif
