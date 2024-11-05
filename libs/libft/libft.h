@@ -6,7 +6,7 @@
 /*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:43:51 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/10/31 16:03:04 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2024/11/05 13:58:08 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 
 // Part 2 Functions
+void	ft_putmtr(char **mtr);
+void	ft_v_putchar(char c);
+void	ft_v_putstr(char *s);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);

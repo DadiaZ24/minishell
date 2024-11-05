@@ -56,5 +56,13 @@
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "makefile.configureOnOpen": false
+"makefile.configureOnOpen": false,
+"files.associations": {
+	"libft.h": "c",
+	"minishell.h": "c",
+	"utils.h": "c",
+	"history.h": "c",
+	"parser.h": "c",
+	"stdbool.h": "c"
+}
 }

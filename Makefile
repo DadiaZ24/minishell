@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/10/24 16:55:42 by ddias-fe         ###   ########.fr        #
+#    Updated: 2024/11/05 18:10:45 by ptorrao-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,19 +16,19 @@
 
 CC				= cc -g
 RM				= rm -rf
-CFLAGS			= -Wall -Wextra -Werror -lreadline
+CFLAGS			= -Wall -Wextra -Werror
 NAME			= minishell
 
 INC				= -I./include
 LIBFT			= libs/libft/libft.a
 
-READLINE_PATH    = vendor/readline/
-RLFLAG             = -L$(READLINE_PATH)/lib -lreadline
+READLINE_PATH	= vendor/readline/
+RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 
 GENERAL			= main.c
-PARSING			= #parser.c mini_split.c mini_split_wc.c
-UTILS			= #init.c free.c
-EXECUTOR		= executor.c pwd.c cd.c echo.c
+PARSING			= parser.c mini_split.c mini_split_wc.c
+UTILS			= init.c free.c
+EXECUTOR		= executor.c pwd.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
@@ -57,8 +57,6 @@ all:			$(NAME)
 
 $(OBJ_DIR):
 				mkdir -p obj
-				mkdir -p obj/executor
-				mkdir -p obj/executor/builtins
 
 $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
@@ -67,13 +65,15 @@ $(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
 				$(CC) $(CFLAGS) $(OBJ) $(RLFLAG) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-				make -C libft
+				make -C libs/libft
+				mv libs/libft/*.o obj/
 
 clean:
-				$(RM) $(OBJ) readline.supp
+				$(RM) $(OBJ_DIR) readline.supp
 
 fclean: 		clean
-				$(RM) $(NAME) $(OBJ_DIR)
+				$(RM) $(NAME)
+				$(RM) $(LIBFT)
 
 re: 			fclean all
 
