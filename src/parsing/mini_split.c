@@ -1,26 +1,6 @@
 #include "minishell.h"
 
-int	ft_words(char const *s)
-{
-	int		i;
-	int		quote;
-	int		c_words;
-	bool	bin;
-
-	i = 0;
-	quote = 0;
-	c_words = 0;
-	bin = true;
-	while (*s)
-	{
-		lock_count((char **)&s, &c_words, &i, &quote, &bin);
-		s++;
-		unlock_count((char **)&s, &i, &bin);
-	}
-	return (c_words);
-}
-
-char	*fill_word(const char *str, int start, int end)
+char	*mini_fill_word(const char *str, int start, int end)
 {
 	char	*word;
 	int		i;
@@ -39,25 +19,19 @@ char	*fill_word(const char *str, int start, int end)
 	return (word);
 }
 
-char	**ft_free(char **str, int j)
-{
-	while (j--)
-		free(str[j]);
-	free(str);
-	return (NULL);
-}
-
-char	**ft_makesplit(char const *s, char **lst_str)
+char	**mini_makesplit(char const *s, char **lst_str)
 {
 	size_t	i;
 	int		j;
 	int		s_word;
 	int		quote;
+	bool	bin;
 
 	i = -1;
 	j = 0;
 	s_word = -1;
-
+	quote = 0;
+	bin = true;
 	while (++i <= ft_strlen(s))
 	{
 		if (ft_pipe_or_redirect((char *)&s[i]) > 0 && s_word < 0)
@@ -65,33 +39,40 @@ char	**ft_makesplit(char const *s, char **lst_str)
 			s_word = i;
 			if (ft_strncmp(&s[i], &s[i + 1], 1) == 0)
 				++i;
-			lst_str[j] = fill_word(s, s_word, i);
+			lst_str[j] = mini_fill_word(s, s_word, i + 1);
 			if (!(lst_str[j]))
-				return (ft_free(lst_str, j));
+				return (free_split(lst_str, j));
 			s_word = -1;
+			bin = true;
 			j++;
 		}
-		if ((!ft_iswhitespc(s[i]) && quote == 0) && s_word < 0)
+		else if (ft_isquote(s[i]) > 0 && s[i + 1] != 0)
 		{
-			if (ft_isquote(s[i]) > 0)
-				quote = ft_isquote(s[i]);
+			quote = ft_isquote(s[i]);
+			if (bin)
+			{
+				s_word = i;
+				bin = false;
+			}
+			++i;
+			while (ft_isquote(s[i]) != quote && s[i] != 0)
+				++i;
+		}
+		else if (!ft_iswhitespc(s[i]) && s_word < 0)
+		{
 			s_word = i;
+			bin = true;
 		}
-		else if (ft_isquote(s[i]) == quote)
+		else if ((ft_iswhitespc(s[i]) || ft_pipe_or_redirect((char *)&s[i]) > 0 || i == ft_strlen(s)) && s_word >= 0)
 		{
-			lst_str[j] = fill_word(s, s_word, i);
+			lst_str[j] = mini_fill_word(s, s_word, i);
 			if (!(lst_str[j]))
-				return (ft_free(lst_str, j));
+				return (free_split(lst_str, j));
 			s_word = -1;
+			bin = true;
 			j++;
-		}
-		else if (((ft_iswhitespc(s[i]) && quote == 0) || i == ft_strlen(s)) && s_word >= 0)
-		{
-			lst_str[j] = fill_word(s, s_word, i);
-			if (!(lst_str[j]))
-				return (ft_free(lst_str, j));
-			s_word = -1;
-			j++;
+			if (ft_pipe_or_redirect((char *)&s[i]) > 0)
+				--i;
 		}
 	}
 	lst_str[j] = NULL;
@@ -100,13 +81,13 @@ char	**ft_makesplit(char const *s, char **lst_str)
 
 char	**mini_split(char const *s)
 {
-	char	**lst_str;
+	char	**mtr;
 
 	if (!s)
 		return (NULL);
-	lst_str = malloc((ft_words(s) + 1) * sizeof(char *));
-	if (!lst_str)
+	mtr = malloc((mini_words(s) + 1) * sizeof(char *));
+	if (!mtr)
 		return (NULL);
-	lst_str = ft_makesplit(s, lst_str);
-	return (lst_str);
+	mtr = mini_makesplit(s, mtr);
+	return (mtr);
 }
