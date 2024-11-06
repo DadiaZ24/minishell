@@ -37,3 +37,23 @@ void	unlock_count(char **s, int *i, bool *bin)
 		*bin = true;
 	}
 }
+
+int	mini_words(char const *s)
+{
+	int		i;
+	int		quote;
+	int		c_words;
+	bool	bin;
+
+	i = 0;
+	quote = 0;
+	c_words = 0;
+	bin = true;
+	while (*s)
+	{
+		lock_count((char **)&s, &c_words, &i, &quote, &bin);
+		s++;
+		unlock_count((char **)&s, &i, &bin);
+	}
+	return (c_words);
+}

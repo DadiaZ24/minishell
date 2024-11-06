@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+char	**free_split(char **str, int j)
+{
+	while (j--)
+		free(str[j]);
+	free(str);
+	return (NULL);
+}
+
 void	free_mtr(char **mtr)
 {
 	int	j;

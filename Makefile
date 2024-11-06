@@ -67,6 +67,8 @@ $(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
 $(LIBFT):
 				make -C libs/libft
 				mv libs/libft/*.o obj/
+				mv libs/libft/ft_printf/*.o obj/
+				mv libs/libft/get_next_line/*.o obj/
 
 clean:
 				$(RM) $(OBJ_DIR) readline.supp

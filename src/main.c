@@ -5,8 +5,10 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 	(void)envp;
 	(void)tokens;
 	char	**mtr;
+	int		i;
 
 	mtr = NULL;
+	i = 0;
 	while (1)
 	{
 		shell->line = readline("minishell$ ");
@@ -14,9 +16,10 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 			return (printf("error reading line"), 0);
 		if (shell->line)
 			add_history(shell->line);
+		i = mini_words(shell->line);
 		mtr = mini_split(shell->line);
+		printf("WC == [%d]\n", i);
 		ft_putmtr(mtr);
-		printf("LINE == [%s]\n", shell->line);
 		//pwd();
 		free (shell->line);
 	}
