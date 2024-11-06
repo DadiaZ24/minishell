@@ -28,7 +28,7 @@ RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 GENERAL			= main.c
 PARSING			= parser.c mini_split.c mini_split_wc.c
 UTILS			= init.c free.c
-EXECUTOR		= executor.c pwd.c
+EXECUTOR		= executor.c pwd.c cd.c echo.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
@@ -80,5 +80,8 @@ re: 			fclean all
 valgrind: 
 	@echo "{\n   leak readline\n   Memcheck:Leak\n...\n   fun:readline\n}\n{\n   leak add_history\n   Memcheck:Leak\n...\n   fun:add_history\n}" > readline.supp
 	@valgrind --suppressions=readline.supp --leak-check=full -s --show-leak-kinds=all ./$(NAME)
+
+gdb:
+	gdb -tui ./$(NAME)
 
 .PHONY: 		all clean fclean re

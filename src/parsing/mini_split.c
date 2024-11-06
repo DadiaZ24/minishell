@@ -57,7 +57,7 @@ char	**ft_makesplit(char const *s, char **lst_str)
 	i = -1;
 	j = 0;
 	s_word = -1;
-
+	quote = 0;
 	while (++i <= ft_strlen(s))
 	{
 		if (ft_pipe_or_redirect((char *)&s[i]) > 0 && s_word < 0)
