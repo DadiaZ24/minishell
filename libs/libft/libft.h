@@ -6,7 +6,7 @@
 /*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:43:51 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/11/05 13:58:08 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:21:17 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include "ft_printf/ft_printf.h"
+# include "get_next_line/get_next_line_bonus.h"
 
 /* typedef struct s_list
 {

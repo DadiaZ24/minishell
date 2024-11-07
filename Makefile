@@ -6,7 +6,7 @@
 #    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/11/05 18:10:45 by ptorrao-         ###   ########.fr        #
+#    Updated: 2024/11/07 18:13:06 by ptorrao-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ $(OBJ_DIR)/%.o: %.c
 $(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
 				$(CC) $(CFLAGS) $(OBJ) $(RLFLAG) $(LIBFT) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT):		libs/libft/*.c
 				make -C libs/libft
 				mv libs/libft/*.o obj/
 				mv libs/libft/ft_printf/*.o obj/

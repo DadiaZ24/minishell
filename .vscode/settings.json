@@ -63,6 +63,7 @@
 	"utils.h": "c",
 	"history.h": "c",
 	"parser.h": "c",
-	"stdbool.h": "c"
+	"stdbool.h": "c",
+	"ft_printf.h": "c"
 }
 }

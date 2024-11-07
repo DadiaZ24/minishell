@@ -9,7 +9,13 @@ void	lock_count(char **s, int *c_words, int *i, int *quote, bool *bin)
 		*c_words += 1;
 		*bin = true;
 	}
-	else if (ft_isquote(**s) > 0 && *i == 0 && (**s + 1) != 0)
+	else if (!ft_iswhitespc(**s) && !ft_isquote(**s) && *i == 0)
+	{
+		*i = 1;
+		*c_words += 1;
+		*bin = false;
+	}
+	else if (ft_isquote(**s) > 0 && *i == 0)
 	{
 		*quote = ft_isquote(**s);
 		if (*bin)
@@ -20,12 +26,6 @@ void	lock_count(char **s, int *c_words, int *i, int *quote, bool *bin)
 		(*s)++;
 		while (ft_isquote(**s) != *quote && **s != 0)
 			(*s)++;
-	}
-	else if (!ft_iswhitespc(**s) && *i == 0)
-	{
-		*i = 1;
-		*c_words += 1;
-		*bin = true;
 	}
 }
 
@@ -52,8 +52,10 @@ int	mini_words(char const *s)
 	while (*s)
 	{
 		lock_count((char **)&s, &c_words, &i, &quote, &bin);
-		s++;
-		unlock_count((char **)&s, &i, &bin);
+		if (*s)
+			s++;
+		if (*s)
+			unlock_count((char **)&s, &i, &bin);
 	}
 	return (c_words);
 }

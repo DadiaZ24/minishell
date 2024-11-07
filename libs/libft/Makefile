@@ -1,4 +1,4 @@
-CC				= cc
+CC				= cc -g
 RM				= rm -rf
 CFLAGS			= -Wall -Wextra -Werror -fPIC
 NAME			= libft.a
