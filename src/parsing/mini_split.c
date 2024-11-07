@@ -46,7 +46,12 @@ char	**mini_makesplit(char const *s, char **lst_str)
 			bin = true;
 			j++;
 		}
-		else if (ft_isquote(s[i]) > 0 && s[i + 1] != 0)
+		else if (!ft_iswhitespc(s[i]) && !ft_isquote(s[i]) && s_word < 0)
+		{
+			s_word = i;
+			bin = false;
+		}
+		else if (ft_isquote(s[i]) > 0 && s_word < 0)
 		{
 			quote = ft_isquote(s[i]);
 			if (bin)
@@ -57,11 +62,16 @@ char	**mini_makesplit(char const *s, char **lst_str)
 			++i;
 			while (ft_isquote(s[i]) != quote && s[i] != 0)
 				++i;
-		}
-		else if (!ft_iswhitespc(s[i]) && s_word < 0)
-		{
-			s_word = i;
-			bin = true;
+			if (s[i] == 0)
+			{
+				lst_str[j] = mini_fill_word(s, s_word, i);
+				if (!(lst_str[j]))
+					return (free_split(lst_str, j));
+				s_word = -1;
+				bin = true;
+				j++;
+			}
+
 		}
 		else if ((ft_iswhitespc(s[i]) || ft_pipe_or_redirect((char *)&s[i]) > 0 || i == ft_strlen(s)) && s_word >= 0)
 		{

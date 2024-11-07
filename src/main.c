@@ -20,6 +20,7 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 		mtr = mini_split(shell->line);
 		printf("WC == [%d]\n", i);
 		ft_putmtr(mtr);
+		free_mtr(mtr);
 		//pwd();
 		free (shell->line);
 	}
