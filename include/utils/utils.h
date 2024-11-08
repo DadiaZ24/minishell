@@ -14,7 +14,10 @@ void	free_token(t_token **token);
 char	**free_split(char **str, int j);
 
 void	create_token(char **mtr, t_token **token);
+t_split	*init_split_var(void);
+t_words	*init_wc(void);
 
 void	ft_print_token(t_token **token);
+char	*mini_fill_word(const char *str, int start, int end);
 
 #endif
