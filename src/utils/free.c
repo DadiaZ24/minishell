@@ -32,4 +32,3 @@ void	free_token(t_token **token)
 	}
 	free(token);
 }
-
