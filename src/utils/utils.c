@@ -7,7 +7,7 @@ void	ft_print_token(t_token **token)
 	temp = *token;
 	while (temp)
 	{
-		ft_printf("Info->[%s]\nType->[%d]", temp->info, temp->type);
+		ft_printf("Info->[%s]\nType->[%d]\n", temp->info, temp->type);
 		temp = temp->next;
 	}
 }

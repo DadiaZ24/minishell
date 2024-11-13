@@ -3,7 +3,6 @@
 int	minishell(t_shell *shell, t_token **tokens, char **envp)
 {
 	(void)envp;
-	(void)tokens;
 	char	**mtr;
 	int		i;
 
@@ -16,12 +15,15 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 			return (printf("error reading line"), 0);
 		if (shell->line)
 			add_history(shell->line);
-		i = mini_words(shell->line);
 		mtr = mini_split(shell->line);
-		printf("WC == [%d]\n", i);
-		ft_putmtr(mtr);
-		free_mtr(mtr);
+		create_token(mtr, tokens);
+		lexer(tokens, false);
+		ft_print_token(tokens);
+		/* i = mini_words(shell->line); */
+		/* printf("WC == [%d]\n", i);
+		ft_putmtr(mtr); */
 		//pwd();
+		free_mtr(mtr);
 		free (shell->line);
 	}
 }

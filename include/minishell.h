@@ -3,26 +3,21 @@
 
 // Token Type
 # define ARG		0
-# define ARG_SQUO	1
-# define ARG_DQUO	2
-# define CMD_BIN	3
-# define CMD_EVE	4
-# define PIPE		5 
-# define RED_OUT	6
-# define RED_IN		7
-# define APPEND		8
-# define HERE_DOC	9
+# define CMD_BIN	1
+# define CMD_EVE	2
+# define PIPE		3
+# define D_PIPE		4 
+# define RED_OUT	5
+# define RED_IN		6
+# define APPEND		7
+# define HERE_DOC	8
+# define MINI_FILE	9
+# define MINI_EOF	10
 
 //________________________________________________________________
 //|_____________________________[LIBS]____________________________|
 //|_______________________________________________________________|
 
-# include "parsing/parser.h"
-# include "utils/utils.h"
-# include "executor/executor.h"
-# include "../libs/libft/ft_printf/ft_printf.h"
-# include "../libs//libft/libft.h"
-# include "../libs//libft/get_next_line/get_next_line_bonus.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -33,6 +28,12 @@
 # include <string.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include "parsing/parser.h"
+# include "utils/utils.h"
+# include "executor/executor.h"
+# include "../libs/libft/ft_printf/ft_printf.h"
+# include "../libs//libft/libft.h"
+# include "../libs//libft/get_next_line/get_next_line_bonus.h"
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|

@@ -1,0 +1,74 @@
+#include "minishell.h"
+
+int	check_cmd(char *s)
+{
+	if (ft_strcmp(s, "echo") == 0 ||
+		ft_strcmp(s, "cd") == 0 ||
+		ft_strcmp(s, "pwd") == 0 ||
+		ft_strcmp(s, "export") == 0 ||
+		ft_strcmp(s, "unset") == 0 ||
+		ft_strcmp(s, "env") == 0 ||
+		ft_strcmp(s, "exit") == 0)
+		return (CMD_BIN);
+	else
+		return (CMD_EVE);
+}
+
+int	check_redirect_or_pipe(char *s)
+{
+	if (ft_strcmp(s, "<") == 0)
+		return (RED_IN);
+	else if (ft_strcmp(s, ">") == 0)
+		return (RED_OUT);
+	else if (ft_strcmp(s, "<<") == 0)
+		return (HERE_DOC);
+	else if (ft_strcmp(s, ">>") == 0)
+		return (APPEND);
+	else if (ft_strcmp(s, "|") == 0)
+		return (PIPE);
+	else if (ft_strcmp(s, "||") == 0)
+		return (D_PIPE);
+	else
+		return (-1);
+}
+
+int	check_file_eof(char *s)
+{
+	if (ft_strcmp(s, ">") == 0 ||
+		ft_strcmp(s, ">>") == 0 ||
+		ft_strcmp(s, "<") == 0)
+		return (MINI_FILE);
+	else if (ft_strcmp(s, "<<") == 0)
+		return (MINI_EOF);
+	else
+		return (-1);
+}
+
+void	lexer(t_token **tokens, bool bin)
+{
+	t_token	*temp;
+
+	temp = *tokens;
+	temp->type = check_cmd(temp->info);
+	temp = temp->next;
+	while (temp)
+	{
+		if (bin && check_file_eof(temp->prev->info) > 0)
+			temp->type = check_file_eof(temp->prev->info);
+		else if (check_redirect_or_pipe(temp->info) > 0)
+		{
+			temp->type = check_redirect_or_pipe(temp->info);
+			bin = true;
+		}
+		else if (bin && check_redirect_or_pipe(temp->info) > 0)
+			temp->type = check_redirect_or_pipe(temp->info);
+		else if (!bin)
+		{
+			temp->type = ARG;
+			bin = true;
+		}
+		else if (bin)
+			temp->type = check_cmd(temp->info);
+		temp = temp->next;
+	}
+}
