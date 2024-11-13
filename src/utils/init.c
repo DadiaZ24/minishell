@@ -6,6 +6,8 @@ void	create_token(char **mtr, t_token **token)
 	t_token	*temp;
 
 	i = 0;
+	if (!mtr[i])
+		return ;
 	*token = (t_token *)malloc(sizeof(t_token));
 	if (!(*token))
 		return ;
