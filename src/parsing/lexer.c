@@ -2,16 +2,16 @@
 
 int	check_cmd(char *s)
 {
-	if (ft_strcmp(s, "echo") == 0 ||
-		ft_strcmp(s, "cd") == 0 ||
-		ft_strcmp(s, "pwd") == 0 ||
-		ft_strcmp(s, "export") == 0 ||
-		ft_strcmp(s, "unset") == 0 ||
-		ft_strcmp(s, "env") == 0 ||
-		ft_strcmp(s, "exit") == 0)
+	if (ft_strcmp(s, "echo") == 0
+		|| ft_strcmp(s, "cd") == 0
+		|| ft_strcmp(s, "pwd") == 0
+		|| ft_strcmp(s, "export") == 0
+		|| ft_strcmp(s, "unset") == 0
+		|| ft_strcmp(s, "env") == 0
+		|| ft_strcmp(s, "exit") == 0)
 		return (CMD_BIN);
 	else
-		return (CMD_EVE);
+		return (ARG);
 }
 
 int	check_redirect_or_pipe(char *s)
@@ -34,9 +34,9 @@ int	check_redirect_or_pipe(char *s)
 
 int	check_file_eof(char *s)
 {
-	if (ft_strcmp(s, ">") == 0 ||
-		ft_strcmp(s, ">>") == 0 ||
-		ft_strcmp(s, "<") == 0)
+	if (ft_strcmp(s, ">") == 0
+		|| ft_strcmp(s, ">>") == 0
+		|| ft_strcmp(s, "<") == 0)
 		return (MINI_FILE);
 	else if (ft_strcmp(s, "<<") == 0)
 		return (MINI_EOF);
@@ -44,30 +44,24 @@ int	check_file_eof(char *s)
 		return (-1);
 }
 
-void	lexer(t_token **tokens, bool bin)
+void	lexer(t_token **tokens)
 {
 	t_token	*temp;
 
 	temp = *tokens;
-	temp->type = check_cmd(temp->info);
+	if (check_redirect_or_pipe(temp->info) > 0)
+		temp->type = check_redirect_or_pipe(temp->info);
+	else
+		temp->type = check_cmd(temp->info);
 	temp = temp->next;
 	while (temp)
 	{
-		if (bin && check_file_eof(temp->prev->info) > 0)
+		if (check_file_eof(temp->prev->info) > 0 
+			&& check_redirect_or_pipe(temp->info) < 0)
 			temp->type = check_file_eof(temp->prev->info);
 		else if (check_redirect_or_pipe(temp->info) > 0)
-		{
 			temp->type = check_redirect_or_pipe(temp->info);
-			bin = true;
-		}
-		else if (bin && check_redirect_or_pipe(temp->info) > 0)
-			temp->type = check_redirect_or_pipe(temp->info);
-		else if (!bin)
-		{
-			temp->type = ARG;
-			bin = true;
-		}
-		else if (bin)
+		else
 			temp->type = check_cmd(temp->info);
 		temp = temp->next;
 	}

@@ -33,6 +33,6 @@ char	**mini_makesplit(char const *s, char **lst_str);
 int		mini_words(char const *s);
 void	lock_count(char **s, t_words *wc);
 void	unlock_count(char **s, t_words *wc);
-void	lexer(t_token **tokens, bool bin);
+void	lexer(t_token **tokens);
 
 #endif
