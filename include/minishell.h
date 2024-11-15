@@ -4,15 +4,14 @@
 // Token Type
 # define ARG		0
 # define CMD_BIN	1
-# define CMD_EVE	2
-# define PIPE		3
-# define D_PIPE		4 
-# define RED_OUT	5
-# define RED_IN		6
-# define APPEND		7
-# define HERE_DOC	8
-# define MINI_FILE	9
-# define MINI_EOF	10
+# define PIPE		2
+# define D_PIPE		3 
+# define RED_OUT	4
+# define RED_IN		5
+# define APPEND		6
+# define HERE_DOC	7
+# define MINI_FILE	8
+# define MINI_EOF	9
 
 //________________________________________________________________
 //|_____________________________[LIBS]____________________________|
