@@ -45,6 +45,7 @@ void	unlock_count(char **s, t_words *wc)
 int	mini_words(char const *s)
 {
 	t_words	*wc;
+	int		i;
 
 	wc = init_wc();
 	while (*s)
@@ -55,5 +56,7 @@ int	mini_words(char const *s)
 		if (*s)
 			unlock_count((char **)&s, wc);
 	}
-	return (wc->c_words);
+	i = wc->c_words;
+	free(wc);
+	return (i);
 }

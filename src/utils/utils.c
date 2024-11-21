@@ -30,3 +30,32 @@ char	*mini_fill_word(const char *str, int start, int end)
 	word[i] = '\0';
 	return (word);
 }
+
+void	ft_print_ast(t_ast *ast)
+{
+	ft_printf("=======================================\n");
+	ft_printf("Type->[%d]\n", ast->type);
+	ft_putmtr(ast->arg);
+	ft_printf("Red->[%s]\n", ast->red_target);
+	ft_printf("=======================================\n");
+	if (ast->parent)
+	{
+		while (ast)
+		{
+			ast = ast->parent;
+			if (ast->right)
+			{
+				ft_printf("=======================================\n");
+				ft_printf("Type->[%d]\n", ast->right->type);
+				ft_putmtr(ast->right->arg);
+				ft_printf("Red->[%s]\n", ast->right->red_target);
+				ft_printf("=======================================\n");
+			}
+			ft_printf("=======================================\n");
+			ft_printf("Type->[%d]\n", ast->type);
+			ft_putmtr(ast->arg);
+			ft_printf("Red->[%s]\n", ast->red_target);
+			ft_printf("=======================================\n");
+		}
+	}
+}

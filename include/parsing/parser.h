@@ -28,11 +28,23 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+typedef struct s_ast
+{
+	int				type;
+	char			*red_target;
+	char			**arg;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	struct s_ast	*parent;
+}	t_ast;
+
 char	**mini_split(char const *s);
 char	**mini_makesplit(char const *s, char **lst_str);
 int		mini_words(char const *s);
 void	lock_count(char **s, t_words *wc);
 void	unlock_count(char **s, t_words *wc);
 void	lexer(t_token **tokens);
+int		check_redirect_or_pipe(char *s);
+int		check_file_eof(char *s);
 
 #endif

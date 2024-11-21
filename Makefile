@@ -6,7 +6,7 @@
 #    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/11/11 17:56:19 by ptorrao-         ###   ########.fr        #
+#    Updated: 2024/11/18 17:42:52 by ptorrao-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ READLINE_PATH	= vendor/readline/
 RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 
 GENERAL			= main.c
-PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c
+PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c ast.c
 UTILS			= init.c free.c utils.c
 EXECUTOR		= executor.c pwd.c cd.c echo.c
 

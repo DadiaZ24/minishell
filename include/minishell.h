@@ -3,7 +3,7 @@
 
 // Token Type
 # define ARG		0
-# define CMD_BIN	1
+# define CMD		1
 # define PIPE		2
 # define D_PIPE		3 
 # define RED_OUT	4
@@ -65,7 +65,5 @@ int		minishell(t_shell *shell, t_token **tokens, char **envp);
 void	cd(t_token **tokens);
 int		executor(t_token **tokens, t_shell *shell);
 void	echo(t_token **tokens);
-
-void	free_tokens(t_token **tokens);
 
 #endif

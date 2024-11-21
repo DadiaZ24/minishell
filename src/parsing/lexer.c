@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_cmd(char *s)
+/* int	check_cmd(char *s)
 {
 	if (ft_strcmp(s, "echo") == 0
 		|| ft_strcmp(s, "cd") == 0
@@ -9,10 +9,10 @@ int	check_cmd(char *s)
 		|| ft_strcmp(s, "unset") == 0
 		|| ft_strcmp(s, "env") == 0
 		|| ft_strcmp(s, "exit") == 0)
-		return (CMD_BIN);
+		return (CMD);
 	else
 		return (ARG);
-}
+} */
 
 int	check_redirect_or_pipe(char *s)
 {
@@ -52,7 +52,7 @@ void	lexer(t_token **tokens)
 	if (check_redirect_or_pipe(temp->info) > 0)
 		temp->type = check_redirect_or_pipe(temp->info);
 	else
-		temp->type = check_cmd(temp->info);
+		temp->type = ARG;
 	temp = temp->next;
 	while (temp)
 	{
@@ -62,7 +62,7 @@ void	lexer(t_token **tokens)
 		else if (check_redirect_or_pipe(temp->info) > 0)
 			temp->type = check_redirect_or_pipe(temp->info);
 		else
-			temp->type = check_cmd(temp->info);
+			temp->type = ARG;
 		temp = temp->next;
 	}
 }
