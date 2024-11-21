@@ -14,6 +14,7 @@ void	create_token(char **mtr, t_token **token)
 	(*token)->info = ft_strdup(mtr[i]);
 	(*token)->type = -1;
 	(*token)->prev = NULL;
+	(*token)->next = NULL;
 	temp = *token;
 	while (mtr[++i])
 	{
@@ -63,4 +64,16 @@ t_words	*init_wc(void)
 	wc->c_words = 0;
 	wc->bin = true;
 	return (wc);
+}
+
+t_ast	*init_ast(t_ast	*ast)
+{
+	ast = (t_ast *)malloc(sizeof(t_ast));
+	ast->left = NULL;
+	ast->right = NULL;
+	ast->parent = NULL;
+	ast->red_target = NULL;
+	ast->arg = NULL;
+	ast->type = 0;
+	return (ast);
 }

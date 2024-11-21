@@ -90,5 +90,6 @@ char	**mini_makesplit(char const *s, char **lst_str)
 			return (NULL);
 	}
 	lst_str[split->j] = NULL;
+	free(split);
 	return (lst_str);
 }

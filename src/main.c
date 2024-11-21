@@ -3,28 +3,31 @@
 int	minishell(t_shell *shell, t_token **tokens, char **envp)
 {
 	(void)envp;
+	t_ast	**ast;
 	char	**mtr;
 	int		i;
 
 	mtr = NULL;
 	i = 0;
+	ast = (t_ast **)malloc(sizeof(t_ast));
+	if (!ast)
+		return (0);
 	while (1)
 	{
 		shell->line = readline("minishell$ ");
 		if (!shell->line)
-			return (printf("error reading line"), 0);
+			return (free(tokens), free(ast), printf("exit\n"), 0);
 		if (shell->line)
 			add_history(shell->line);
 		mtr = mini_split(shell->line);
 		create_token(mtr, tokens);
-		lexer(tokens, false);
-		ft_print_token(tokens);
-		/* i = mini_words(shell->line); */
-		/* printf("WC == [%d]\n", i);
-		ft_putmtr(mtr); */
-		//pwd();
+		lexer(tokens);
+		//ft_print_token(tokens);
+		ast = create_ast(tokens, ast);
+		ft_print_ast(*ast);
 		free_mtr(mtr);
-		free (shell->line);
+		free(shell->line);
+		free_token(tokens);
 	}
 }
 
@@ -39,7 +42,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!tokens)
 		return (-1);
 	minishell( &shell, tokens, envp);
-	//free_tokens(tokens);
 	return (0);
 }
 

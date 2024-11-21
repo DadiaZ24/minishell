@@ -26,9 +26,8 @@ void	free_token(t_token **token)
 	while (temp)
 	{
 		temp = (*token)->next;
+		free((*token)->info);
 		free(*token);
 		*token = temp;
-		(*token)->prev = NULL;
 	}
-	free(token);
 }
