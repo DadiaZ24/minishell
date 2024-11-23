@@ -23,7 +23,7 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 		create_token(mtr, tokens);
 		lexer(tokens);
 		//ft_print_token(tokens);
-		ast = create_ast(tokens, ast);
+		create_ast(tokens, ast);
 		ft_print_ast(*ast);
 		free_mtr(mtr);
 		free(shell->line);
