@@ -25,7 +25,7 @@ t_ast	*ast_node(t_token *start, t_token *end, t_ast *ast)
 	return (ast);
 }
 
-t_ast	**create_ast(t_token **token, t_ast **ast)
+void	create_ast(t_token **token, t_ast **ast)
 {
 	int		i;
 	t_token	*temp;
@@ -36,13 +36,13 @@ t_ast	**create_ast(t_token **token, t_ast **ast)
 	branch = *token;
 	temp = branch;
 	ast_temp = *ast;
-	while (temp)
+	while (branch)
 	{
-		if (ft_pipe_or_redirect(branch->info) && i++ == 0)
+		if (ft_pipe_or_redirect(branch->info) > 0 && i++ == 0)
 		{
 			*ast = init_ast(*ast);
 			if (!(*ast))
-				return (NULL);
+				return ;
 			(*ast)->type = branch->type;
 			(*ast)->red_target = ft_strdup(branch->next->info);
 			branch = branch->next;
@@ -56,14 +56,20 @@ t_ast	**create_ast(t_token **token, t_ast **ast)
 				if (!branch->next)
 					(*ast)->left = ast_node(temp, branch, (*ast)->left);
 				else
+				{
 					(*ast)->left = ast_node(temp, branch->prev, (*ast)->left);
+					(*ast)->parent = init_ast((*ast)->parent);
+					ast_temp = (*ast)->parent;
+				}
 				(*ast)->left->parent = *ast;
-				ast_temp = *ast;
 				(*ast) = (*ast)->left;
+				if (!branch->next)
+					branch = branch->next;
 			}
 		}
-		else if (ft_pipe_or_redirect(branch->info))
+		else if (ft_pipe_or_redirect(branch->info) > 0)
 		{
+			i = 1;
 			if (check_redirect_or_pipe(branch->info) == PIPE)
 			{
 				ast_temp->type = branch->type;
@@ -81,10 +87,13 @@ t_ast	**create_ast(t_token **token, t_ast **ast)
 				if (branch->next)
 					ast_temp->parent = init_ast(ast_temp->parent);
 				ast_temp = ast_temp->parent;
+				if (!branch->next)
+					branch = branch->next;
 			}
 		}
 		else
 		{
+			i = 1;
 			while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
 				branch = branch->next;
 			*ast = init_ast(*ast);
@@ -94,14 +103,16 @@ t_ast	**create_ast(t_token **token, t_ast **ast)
 				*ast = ast_node(temp, branch->prev, *ast);
 			if (branch->next)
 			{
-				(*ast)->parent = init_ast(ast_temp->parent);
+				(*ast)->parent = init_ast((*ast)->parent);
 				ast_temp = (*ast)->parent;
 				ast_temp->left = *ast;
 			}
 			else
+			{
 				(*ast)->parent = NULL;
+				branch = branch->next;
+			}
 		}
-		temp = branch->next;
+		temp = branch;
 	}
-	return (ast);
 }

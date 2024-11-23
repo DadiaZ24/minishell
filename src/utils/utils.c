@@ -40,9 +40,9 @@ void	ft_print_ast(t_ast *ast)
 	ft_printf("=======================================\n");
 	if (ast->parent)
 	{
+		ast = ast->parent;
 		while (ast)
 		{
-			ast = ast->parent;
 			if (ast->right)
 			{
 				ft_printf("=======================================\n");
@@ -56,6 +56,7 @@ void	ft_print_ast(t_ast *ast)
 			ft_putmtr(ast->arg);
 			ft_printf("Red->[%s]\n", ast->red_target);
 			ft_printf("=======================================\n");
+			ast = ast->parent;
 		}
 	}
 }
