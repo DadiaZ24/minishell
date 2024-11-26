@@ -75,20 +75,47 @@ void	create_ast(t_token **token, t_ast **ast)
 				ast_temp->type = branch->type;
 				branch = branch->next;
 				temp = branch;
-				while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
+				if (ft_pipe_or_redirect(branch->info) == 0)
+				{
+					while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
+						branch = branch->next;
+					ast_temp->right = init_ast(*ast);
+					if (!branch->next)
+						ast_temp->right = ast_node(temp, branch, ast_temp->right);
+					else
+						ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
+					ast_temp->right->parent = ast_temp;
+					ast_temp->parent = NULL;
+				}
+					if (branch->next)
+						ast_temp->parent = init_ast(ast_temp->parent);
+					ast_temp = ast_temp->parent;
+					if (!branch->next)
+						branch = branch->next;
+			}
+			else
+			{
+				ast_temp->type = branch->type;
+				ast_temp->red_target = ft_strdup(branch->next->info);
+				branch = branch->next->next;
+				temp = branch;
+				while (branch && branch->next && ft_pipe_or_redirect(branch->info) == 0)
 					branch = branch->next;
-				ast_temp->right = init_ast(*ast);
-				if (!branch->next)
-					ast_temp->right = ast_node(temp, branch, ast_temp->right);
-				else
-					ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
-				ast_temp->right->parent = ast_temp;
-				ast_temp->parent = NULL;
-				if (branch->next)
-					ast_temp->parent = init_ast(ast_temp->parent);
-				ast_temp = ast_temp->parent;
-				if (!branch->next)
-					branch = branch->next;
+				if (temp)
+				{
+					ast_temp->right = init_ast(*ast);
+					if (!branch->next)
+						ast_temp->right = ast_node(temp, branch, ast_temp->right);
+					else
+						ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
+					ast_temp->right->parent = ast_temp;
+					ast_temp->parent = NULL;
+					if (branch->next)
+						ast_temp->parent = init_ast(ast_temp->parent);
+					ast_temp = ast_temp->parent;
+					if (!branch->next)
+						branch = branch->next;
+				}
 			}
 		}
 		else
