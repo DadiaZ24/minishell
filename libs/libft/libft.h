@@ -6,7 +6,7 @@
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:43:51 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/11/05 19:35:25 by ddias-fe         ###   ########.fr       */
+/*   Updated: 2024/11/26 09:42:41 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include "ft_printf/ft_printf.h"
+# include "get_next_line/get_next_line_bonus.h"
 
 /* typedef struct s_list
 {
@@ -36,6 +38,7 @@ int		ft_pipe_or_redirect(char *c);
 int		ft_toupper(int c);
 int		ft_atoi(const char *str);
 long	ft_atol(const char *str);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 

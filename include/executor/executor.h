@@ -12,5 +12,7 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	pwd(void);
+void	cd(t_token **tokens);
+void	echo(t_token **tokens);
 
 #endif

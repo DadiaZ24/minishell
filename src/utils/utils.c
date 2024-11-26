@@ -7,52 +7,56 @@ void	ft_print_token(t_token **token)
 	temp = *token;
 	while (temp)
 	{
-		ft_printf("Info->[%s]\nType->[%d]", temp->info, temp->type);
+		ft_printf("Info->[%s]\nType->[%d]\n", temp->info, temp->type);
 		temp = temp->next;
 	}
 }
-void	ft_add_token(t_token **lst, t_token *new)
+
+char	*mini_fill_word(const char *str, int start, int end)
 {
-	t_token	*temp;
+	char	*word;
+	int		i;
 
-	if (!new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	temp = ft_lsttoken(*lst);
-	temp->next = new;
-	temp->next->prev = temp;
-}
-
-t_token	*ft_lsttoken(t_token *token)
-{
-	t_token *lst;
-
-	lst = token;
-	if (!lst)
-		return (0);
-	while (lst)
-	{
-		if (!lst->next)
-			return (lst);
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-t_token	*ft_newtoken(int type, char *info)
-{
-	t_token	*node;
-
-	node = (t_token *)malloc(sizeof(t_token));
-	if (!node)
+	i = 0;
+	word = malloc((end - start + 1) * sizeof(char));
+	if (!word)
 		return (NULL);
-	node->type = type;
-	node->info = info;
-	node->next = NULL;
-	node->prev = NULL;
-	return (node);
+	while (start < end)
+	{
+		word[i] = str[start];
+		i++;
+		start++;
+	}
+	word[i] = '\0';
+	return (word);
+}
+
+void	ft_print_ast(t_ast *ast)
+{
+	ft_printf("=======================================\n");
+	ft_printf("Type->[%d]\n", ast->type);
+	ft_putmtr(ast->arg);
+	ft_printf("Red->[%s]\n", ast->red_target);
+	ft_printf("=======================================\n");
+	if (ast->parent)
+	{
+		ast = ast->parent;
+		while (ast)
+		{
+			if (ast->right)
+			{
+				ft_printf("=======================================\n");
+				ft_printf("Type->[%d]\n", ast->right->type);
+				ft_putmtr(ast->right->arg);
+				ft_printf("Red->[%s]\n", ast->right->red_target);
+				ft_printf("=======================================\n");
+			}
+			ft_printf("=======================================\n");
+			ft_printf("Type->[%d]\n", ast->type);
+			ft_putmtr(ast->arg);
+			ft_printf("Red->[%s]\n", ast->red_target);
+			ft_printf("=======================================\n");
+			ast = ast->parent;
+		}
+	}
 }

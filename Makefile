@@ -6,7 +6,7 @@
 #    By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/11/05 19:41:21 by ddias-fe         ###   ########.fr        #
+#    Updated: 2024/11/26 09:42:28 by ddias-fe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ READLINE_PATH	= vendor/readline/
 RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 
 GENERAL			= main.c
-PARSING			= parser.c mini_split.c mini_split_wc.c
+PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c ast.c
 UTILS			= init.c free.c utils.c
-EXECUTOR		= executor.c pwd.c cd.c
+EXECUTOR		= executor.c pwd.c cd.c echo.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
@@ -64,9 +64,11 @@ $(OBJ_DIR)/%.o: %.c
 $(NAME):		$(OBJ_DIR) $(OBJ) $(LIBFT)
 				$(CC) $(CFLAGS) $(OBJ) $(RLFLAG) $(LIBFT) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT):		libs/libft/*.c
 				make -C libs/libft
 				mv libs/libft/*.o obj/
+				mv libs/libft/ft_printf/*.o obj/
+				mv libs/libft/get_next_line/*.o obj/
 
 clean:
 				$(RM) $(OBJ_DIR) readline.supp

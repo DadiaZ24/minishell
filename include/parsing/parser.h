@@ -1,11 +1,50 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <stdbool.h>
+# include "minishell.h"
+
+typedef struct s_split
+{
+	size_t	i;
+	int		j;
+	int		s_word;
+	int		quote;
+	bool	bin;
+}	t_split;
+
+typedef struct s_words
+{
+	int		i;
+	int		quote;
+	int		c_words;
+	bool	bin;
+}	t_words;
+
+typedef struct s_token
+{
+	int				type;
+	char			*info;
+	struct s_token	*next;
+	struct s_token	*prev;
+}	t_token;
+
+typedef struct s_ast
+{
+	int				type;
+	char			*red_target;
+	char			**arg;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	struct s_ast	*parent;
+}	t_ast;
 
 char	**mini_split(char const *s);
-int		ft_words(char const *s);
-void	lock_count(char **s, int *c_words, int *i, int *quote, bool *bin);
-void	unlock_count(char **s, int *i, bool *bin);
+char	**mini_makesplit(char const *s, char **lst_str);
+int		mini_words(char const *s);
+void	lock_count(char **s, t_words *wc);
+void	unlock_count(char **s, t_words *wc);
+void	lexer(t_token **tokens);
+int		check_redirect_or_pipe(char *s);
+int		check_file_eof(char *s);
 
 #endif

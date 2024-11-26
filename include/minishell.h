@@ -3,26 +3,20 @@
 
 // Token Type
 # define ARG		0
-# define ARG_SQUO	1
-# define ARG_DQUO	2
-# define CMD_BIN	3
-# define CMD_EVE	4
-# define PIPE		5 
-# define RED_OUT	6
-# define RED_IN		7
-# define APPEND		8
-# define HERE_DOC	9
+# define CMD		1
+# define PIPE		2
+# define D_PIPE		3 
+# define RED_OUT	4
+# define RED_IN		5
+# define APPEND		6
+# define HERE_DOC	7
+# define MINI_FILE	8
+# define MINI_EOF	9
 
 //________________________________________________________________
 //|_____________________________[LIBS]____________________________|
 //|_______________________________________________________________|
 
-# include "parsing/parser.h"
-# include "utils/utils.h"
-# include "executor/executor.h"
-# include "../libs/libft/ft_printf/ft_printf.h"
-# include "../libs//libft/libft.h"
-# include "../libs//libft/get_next_line/get_next_line_bonus.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -33,6 +27,12 @@
 # include <string.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include "parsing/parser.h"
+# include "utils/utils.h"
+# include "executor/executor.h"
+# include "../libs/libft/ft_printf/ft_printf.h"
+# include "../libs//libft/libft.h"
+# include "../libs//libft/get_next_line/get_next_line_bonus.h"
 
 //________________________________________________________________
 //|____________________________[MACROS]___________________________|
@@ -61,7 +61,7 @@ typedef struct s_shell
 //|_______________________________________________________________|
 
 //Utils
-int	minishell(t_shell *shell, t_token **tokens, char **envp);
+int		minishell(t_shell *shell, t_token **tokens, char **envp);
 void	cd(t_token **tokens);
 int		executor(t_token **tokens, t_shell *shell);
 void	echo(t_token **tokens);

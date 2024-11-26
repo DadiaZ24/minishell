@@ -3,25 +3,31 @@
 int	minishell(t_shell *shell, t_token **tokens, char **envp)
 {
 	(void)envp;
-	(void)tokens;
-	char **mtr;
+	t_ast	**ast;
+	char	**mtr;
+	int		i;
 
 	mtr = NULL;
+	i = 0;
+	ast = (t_ast **)malloc(sizeof(t_ast));
+	if (!ast)
+		return (0);
 	while (1)
 	{
 		shell->line = readline("minishell$ ");
 		if (!shell->line)
-			return (printf("error reading line"), 0);
+			return (free(tokens), free(ast), printf("exit\n"), 0);
 		if (shell->line)
 			add_history(shell->line);
 		mtr = mini_split(shell->line);
-		ft_putmtr(mtr);
-		create_tokens(tokens, mtr);
-		printf("\n\nTOKENINFO: %s\n\n", (*tokens)->info);
-		printf("LINE == [%s]\n", shell->line);
-		if ((*tokens)->type == CMD_BIN || (*tokens)->type == CMD_EVE)
-			executor(tokens, shell);
-		free (shell->line);
+		create_token(mtr, tokens);
+		lexer(tokens);
+		//ft_print_token(tokens);
+		create_ast(tokens, ast);
+		ft_print_ast(*ast);
+		free_mtr(mtr);
+		free(shell->line);
+		free_token(tokens);
 	}
 }
 
@@ -50,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	tokens = (t_token **)malloc(sizeof(t_token));
 	if (!tokens)
 		return (-1);
-	minishell(&shell, tokens, envp);
-	//free_tokens(tokens);
+	minishell( &shell, tokens, envp);
 	return (0);
 }
+

@@ -1,39 +1,62 @@
 #include "minishell.h"
 
-void	lock_count(char **s, int *c_words, int *i, int *quote, bool *bin)
+void	change_values(t_words *wc)
 {
-	if (ft_pipe_or_redirect(*s) > 0 && *i == 0)
+	wc->i = 1;
+	if (wc->bin)
+		wc->c_words += 1;
+	wc->bin = false;
+}
+
+void	lock_count(char **s, t_words *wc)
+{
+	if (ft_isquote(**s) > 0)
+	{
+		wc->quote = ft_isquote(**s);
+		if (wc->bin)
+		{
+			wc->c_words += 1;
+			wc->bin = false;
+		}
+		(*s)++;
+		while (ft_isquote(**s) != wc->quote && **s != 0)
+			(*s)++;
+	}
+	else if (ft_pipe_or_redirect(*s) > 0 && wc->i == 0)
 	{
 		if (ft_pipe_or_redirect(*s) == 2)
 			(*s)++;
-		*c_words += 1;
-		*bin = true;
+		wc->c_words += 1;
+		wc->bin = true;
 	}
-	else if (ft_isquote(**s) > 0 && *i == 0 && (**s + 1) != 0)
-	{
-		*quote = ft_isquote(**s);
-		if (*bin)
-		{
-			*c_words += 1;
-			*bin = false;
-		}
-		(*s)++;
-		while (ft_isquote(**s) != *quote && **s != 0)
-			(*s)++;
-	}
-	else if (!ft_iswhitespc(**s) && *i == 0)
-	{
-		*i = 1;
-		*c_words += 1;
-		*bin = true;
-	}
+	else if (!ft_iswhitespc(**s) && !ft_isquote(**s) && wc->i == 0)
+		change_values(wc);
 }
 
-void	unlock_count(char **s, int *i, bool *bin)
+void	unlock_count(char **s, t_words *wc)
 {
 	if (ft_iswhitespc(**s) || ft_pipe_or_redirect(*s) > 0)
 	{
-		*i = 0;
-		*bin = true;
+		wc->i = 0;
+		wc->bin = true;
 	}
+}
+
+int	mini_words(char const *s)
+{
+	t_words	*wc;
+	int		i;
+
+	wc = init_wc();
+	while (*s)
+	{
+		lock_count((char **)&s, wc);
+		if (*s)
+			s++;
+		if (*s)
+			unlock_count((char **)&s, wc);
+	}
+	i = wc->c_words;
+	free(wc);
+	return (i);
 }
