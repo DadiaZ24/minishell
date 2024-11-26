@@ -5,10 +5,8 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 	(void)envp;
 	t_ast	**ast;
 	char	**mtr;
-	int		i;
 
 	mtr = NULL;
-	i = 0;
 	ast = (t_ast **)malloc(sizeof(t_ast));
 	if (!ast)
 		return (0);
@@ -22,7 +20,6 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 		mtr = mini_split(shell->line);
 		create_token(mtr, tokens);
 		lexer(tokens);
-		//ft_print_token(tokens);
 		create_ast(tokens, ast);
 		ft_print_ast(*ast);
 		free_mtr(mtr);
