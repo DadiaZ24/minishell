@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:43:51 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/11/12 22:39:43 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2024/11/26 18:28:53 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
 //Added new functions
 char	*ft_joinpath(char const *s1, char const *s2);
+size_t	ft_strclen(const char *str, const char c);
 
 #endif

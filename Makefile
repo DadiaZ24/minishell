@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
+#    By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/11/18 17:42:52 by ptorrao-         ###   ########.fr        #
+#    Updated: 2024/11/26 17:55:09 by ddias-fe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 GENERAL			= main.c
 PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c ast.c
 UTILS			= init.c free.c utils.c
-EXECUTOR		= executor.c pwd.c cd.c echo.c
+EXECUTOR		= executor.c pwd.c cd.c echo.c env.c exec_utils.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
