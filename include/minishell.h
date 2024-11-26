@@ -27,6 +27,7 @@
 # include <string.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "parsing/parser.h"
 # include "utils/utils.h"
 # include "executor/executor.h"
@@ -50,11 +51,7 @@
 //|__________________________[STRUCTURES]_________________________|
 //|_______________________________________________________________|
 
-typedef struct s_shell
-{
-	char	*line;
-	int		status;
-}	t_shell;
+
 
 //________________________________________________________________
 //|__________________________[FUNCTIONS]__________________________|
@@ -62,8 +59,9 @@ typedef struct s_shell
 
 //Utils
 int		minishell(t_shell *shell, t_token **tokens, char **envp);
-void	cd(t_token **tokens);
-int		executor(t_token **tokens, t_shell *shell);
-void	echo(t_token **tokens);
+int 	executor(t_token **tokens, t_shell *shell);
+bool 	get_env_and_export(char **envp, t_shell *shell);
+int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast);
+
 
 #endif

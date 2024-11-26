@@ -17,4 +17,6 @@ void	ft_print_ast(t_ast *ast);
 void	ft_print_token(t_token **token);
 char	*mini_fill_word(const char *str, int start, int end);
 
+void	free_envp(char **envp);
+
 #endif
