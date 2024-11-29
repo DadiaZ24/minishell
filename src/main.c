@@ -10,9 +10,11 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 	ast = (t_ast **)malloc(sizeof(t_ast));
 	if (!ast)
 		return (0);
-	while (1)
-		minishell_loop(shell, tokens, ast);
-	free_envp(envp);
+	while (minishell_loop(shell, tokens, ast))
+		;
+	free_envp(shell->env);
+	free_envp(shell->export);
+	return (0);
 }
 
 int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast)
@@ -28,10 +30,9 @@ int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast)
 	create_token(mtr, tokens);
 	lexer(tokens);
 	create_ast(tokens, ast);
+	ft_print_ast(*ast);
 	executor(tokens, shell);
-	free_mtr(mtr);
-	free(shell->line);
-	free_token(tokens);
+	free_all(mtr, shell->line, tokens, ast);
 	return (1);
 }
 
@@ -63,9 +64,11 @@ bool get_env_and_export(char **envp, t_shell *shell)
 	i = -1;
 	while (envp[++i])
 		shell->env[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+	shell->env[i] = NULL;
 	write(1, "DEBUG\n", 6);
 	i = -1;
 	while (envp[++i])
 		shell->export[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+	shell->export[i] = NULL;
 	return (true);
 }

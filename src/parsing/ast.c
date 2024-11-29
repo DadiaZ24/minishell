@@ -63,9 +63,9 @@ void	create_ast(t_token **token, t_ast **ast)
 				}
 				(*ast)->left->parent = *ast;
 				(*ast) = (*ast)->left;
-				if (!branch->next)
-					branch = branch->next;
 			}
+			if (!branch->next)
+				branch = branch->next;
 		}
 		else if (ft_pipe_or_redirect(branch->info) > 0)
 		{
@@ -87,11 +87,14 @@ void	create_ast(t_token **token, t_ast **ast)
 					ast_temp->right->parent = ast_temp;
 					ast_temp->parent = NULL;
 				}
-					if (branch->next)
-						ast_temp->parent = init_ast(ast_temp->parent);
-					ast_temp = ast_temp->parent;
-					if (!branch->next)
-						branch = branch->next;
+				if (branch->next)
+				{
+					ast_temp->parent = init_ast(ast_temp->parent);
+					ast_temp->parent->left = ast_temp;
+				}
+				ast_temp = ast_temp->parent;
+				if (!branch->next)
+					branch = branch->next;
 			}
 			else
 			{
@@ -101,7 +104,7 @@ void	create_ast(t_token **token, t_ast **ast)
 				temp = branch;
 				while (branch && branch->next && ft_pipe_or_redirect(branch->info) == 0)
 					branch = branch->next;
-				if (temp)
+				if (ft_strcmp(branch->prev->info, ast_temp->red_target) != 0)
 				{
 					ast_temp->right = init_ast(*ast);
 					if (!branch->next)
@@ -110,12 +113,15 @@ void	create_ast(t_token **token, t_ast **ast)
 						ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
 					ast_temp->right->parent = ast_temp;
 					ast_temp->parent = NULL;
-					if (branch->next)
-						ast_temp->parent = init_ast(ast_temp->parent);
-					ast_temp = ast_temp->parent;
-					if (!branch->next)
-						branch = branch->next;
 				}
+				if (branch->next)
+				{
+					ast_temp->parent = init_ast(ast_temp->parent);
+					ast_temp->parent->left = ast_temp;
+				}
+				ast_temp = ast_temp->parent;
+				if (!branch->next)
+					branch = branch->next;
 			}
 		}
 		else
