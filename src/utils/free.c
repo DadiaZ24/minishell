@@ -31,3 +31,53 @@ void	free_token(t_token **token)
 		*token = temp;
 	}
 }
+
+void	free_all(char **mtr, char *line, t_token **tokens, t_ast **ast)
+{
+	free_mtr(mtr);
+	free(line);
+	free_token(tokens);
+	free_ast(ast);
+}
+
+void	free_ast_utils(t_ast *ast)
+{
+	if (ast->left)
+	{
+		if (ast->left->arg)
+			free_mtr(ast->left->arg);
+		if (ast->left->red_target)
+			free(ast->left->red_target);
+		free(ast->left);
+	}
+	if (ast->right)
+	{
+		if (ast->right->arg)
+			free_mtr(ast->right->arg);
+		if (ast->right->red_target)
+			free(ast->right->red_target);
+		free(ast->right);
+	}
+}
+
+void	free_ast(t_ast **ast)
+{
+	t_ast	*temp;
+
+	temp = *ast;
+	if (temp->parent)
+	{
+		temp = temp->parent;
+		while (temp->parent)
+		{
+			free_ast_utils(temp);
+			temp = temp->parent;
+		}
+	}
+	free_ast_utils(temp);
+	if (temp->arg)
+		free_mtr(temp->arg);
+	if (temp->red_target)
+		free(temp->red_target);
+	free(temp);
+}

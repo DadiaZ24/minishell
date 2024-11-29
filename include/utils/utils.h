@@ -6,6 +6,8 @@
 void	free_mtr(char **mtr);
 void	free_token(t_token **token);
 char	**free_split(char **str, int j);
+void	free_ast(t_ast **ast);
+void	free_all(char **mtr, char *line, t_token **tokens, t_ast **ast);
 
 void	create_token(char **mtr, t_token **token);
 void	create_ast(t_token **token, t_ast **ast);
