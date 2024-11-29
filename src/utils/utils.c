@@ -57,16 +57,3 @@ void	ft_print_ast(t_ast *ast)
 		}
 	}
 }
-
-void	free_envp(char **envp)
-{
-	int i;
-
-	i = 0;
-	while (envp[i])
-	{
-		free(envp[i]);
-		i++;
-	}
-	free(envp);
-}

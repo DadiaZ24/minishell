@@ -12,8 +12,8 @@ int	minishell(t_shell *shell, t_token **tokens, char **envp)
 		return (0);
 	while (minishell_loop(shell, tokens, ast))
 		;
-	free_envp(shell->env);
-	free_envp(shell->export);
+	free_mtr(shell->env);
+	free_mtr(shell->export);
 	return (0);
 }
 
