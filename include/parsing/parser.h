@@ -38,13 +38,23 @@ typedef struct s_ast
 	struct s_ast	*parent;
 }	t_ast;
 
-char	**mini_split(char const *s);
-char	**mini_makesplit(char const *s, char **lst_str);
-int		mini_words(char const *s);
-void	lock_count(char **s, t_words *wc);
-void	unlock_count(char **s, t_words *wc);
-void	lexer(t_token **tokens);
-int		check_redirect_or_pipe(char *s);
-int		check_file_eof(char *s);
+typedef struct s_ast_utils
+{
+	int		i;
+	t_token	*temp;
+	t_token	*branch;
+	t_ast	*ast_temp;
+}	t_ast_utils;
+
+t_ast_utils	*init_au(t_token **token, t_ast **ast);
+
+char		**mini_split(char const *s);
+char		**mini_makesplit(char const *s, char **lst_str);
+int			mini_words(char const *s);
+void		lock_count(char **s, t_words *wc);
+void		unlock_count(char **s, t_words *wc);
+void		lexer(t_token **tokens);
+int			check_redirect_or_pipe(char *s);
+int			check_file_eof(char *s);
 
 #endif

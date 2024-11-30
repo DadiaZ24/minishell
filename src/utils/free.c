@@ -13,6 +13,8 @@ void	free_mtr(char **mtr)
 	int	j;
 
 	j = -1;
+	if (!mtr)
+		return ;
 	while (mtr[++j])
 		free(mtr[j]);
 	free(mtr);
@@ -30,14 +32,6 @@ void	free_token(t_token **token)
 		free(*token);
 		*token = temp;
 	}
-}
-
-void	free_all(char **mtr, char *line, t_token **tokens, t_ast **ast)
-{
-	free_mtr(mtr);
-	free(line);
-	free_token(tokens);
-	free_ast(ast);
 }
 
 void	free_ast_utils(t_ast *ast)
@@ -65,6 +59,8 @@ void	free_ast(t_ast **ast)
 	t_ast	*temp;
 
 	temp = *ast;
+	if (!temp)
+		return ;
 	if (temp->parent)
 	{
 		temp = temp->parent;

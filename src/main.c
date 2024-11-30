@@ -26,6 +26,8 @@ int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast)
 		return (free(tokens), free(ast), printf("exit\n"), 0);
 	if (shell->line)
 		add_history(shell->line);
+	if (!shell->line[0])
+		return (free(shell->line), 1);
 	mtr = mini_split(shell->line);
 	create_token(mtr, tokens);
 	lexer(tokens);

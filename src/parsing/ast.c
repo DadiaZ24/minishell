@@ -1,5 +1,23 @@
 #include "minishell.h"
 
+t_ast_utils	*init_au(t_token **token, t_ast **ast)
+{
+	t_ast_utils	*au;
+
+	au = malloc((1) * sizeof(t_ast_utils));
+	if (!au)
+	{
+		// Need to check error code
+		ft_printf("%s\n", "Error");
+		exit(1);
+	}
+	au->i = 0;
+	au->branch = *token;
+	au->temp = *token;
+	au->ast_temp = *ast;
+	return (au);
+}
+
 t_ast	*ast_node(t_token *start, t_token *end, t_ast *ast)
 {
 	t_token	*temp;
@@ -27,125 +45,24 @@ t_ast	*ast_node(t_token *start, t_token *end, t_ast *ast)
 
 void	create_ast(t_token **token, t_ast **ast)
 {
-	int		i;
-	t_token	*temp;
-	t_token	*branch;
-	t_ast	*ast_temp;
+	t_ast_utils	*au;
 
-	i = 0;
-	branch = *token;
-	temp = branch;
-	ast_temp = *ast;
-	while (branch)
+	au = init_au(token, ast);
+	while (au->branch)
 	{
-		if (ft_pipe_or_redirect(branch->info) > 0 && i++ == 0)
+		if (ft_pipe_or_redirect(au->branch->info) > 0 && au->i++ == 0)
+			ast_utils_red(au, ast);
+		else if (ft_pipe_or_redirect(au->branch->info) > 0)
 		{
-			*ast = init_ast(*ast);
-			if (!(*ast))
-				return ;
-			(*ast)->type = branch->type;
-			(*ast)->red_target = ft_strdup(branch->next->info);
-			branch = branch->next;
-			if (branch->next)
-			{
-				branch = branch->next;
-				temp = branch;
-				while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
-					branch = branch->next;
-				(*ast)->left = init_ast((*ast)->left);
-				if (!branch->next)
-					(*ast)->left = ast_node(temp, branch, (*ast)->left);
-				else
-				{
-					(*ast)->left = ast_node(temp, branch->prev, (*ast)->left);
-					(*ast)->parent = init_ast((*ast)->parent);
-					ast_temp = (*ast)->parent;
-				}
-				(*ast)->left->parent = *ast;
-				(*ast) = (*ast)->left;
-			}
-			if (!branch->next)
-				branch = branch->next;
-		}
-		else if (ft_pipe_or_redirect(branch->info) > 0)
-		{
-			i = 1;
-			if (check_redirect_or_pipe(branch->info) == PIPE)
-			{
-				ast_temp->type = branch->type;
-				branch = branch->next;
-				temp = branch;
-				if (ft_pipe_or_redirect(branch->info) == 0)
-				{
-					while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
-						branch = branch->next;
-					ast_temp->right = init_ast(*ast);
-					if (!branch->next)
-						ast_temp->right = ast_node(temp, branch, ast_temp->right);
-					else
-						ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
-					ast_temp->right->parent = ast_temp;
-					ast_temp->parent = NULL;
-				}
-				if (branch->next)
-				{
-					ast_temp->parent = init_ast(ast_temp->parent);
-					ast_temp->parent->left = ast_temp;
-				}
-				ast_temp = ast_temp->parent;
-				if (!branch->next)
-					branch = branch->next;
-			}
+			au->i = 1;
+			if (check_redirect_or_pipe(au->branch->info) == PIPE)
+				ast_utils_pipe(au, ast);
 			else
-			{
-				ast_temp->type = branch->type;
-				ast_temp->red_target = ft_strdup(branch->next->info);
-				branch = branch->next->next;
-				temp = branch;
-				while (branch && branch->next && ft_pipe_or_redirect(branch->info) == 0)
-					branch = branch->next;
-				if (ft_strcmp(branch->prev->info, ast_temp->red_target) != 0)
-				{
-					ast_temp->right = init_ast(*ast);
-					if (!branch->next)
-						ast_temp->right = ast_node(temp, branch, ast_temp->right);
-					else
-						ast_temp->right = ast_node(temp, branch->prev, ast_temp->right);
-					ast_temp->right->parent = ast_temp;
-					ast_temp->parent = NULL;
-				}
-				if (branch->next)
-				{
-					ast_temp->parent = init_ast(ast_temp->parent);
-					ast_temp->parent->left = ast_temp;
-				}
-				ast_temp = ast_temp->parent;
-				if (!branch->next)
-					branch = branch->next;
-			}
+				ast_utils_other_than_pipe(au, ast);
 		}
 		else
-		{
-			i = 1;
-			while (branch->next && ft_pipe_or_redirect(branch->info) == 0)
-				branch = branch->next;
-			*ast = init_ast(*ast);
-			if (!branch->next)
-				*ast = ast_node(temp, branch, *ast);
-			else
-				*ast = ast_node(temp, branch->prev, *ast);
-			if (branch->next)
-			{
-				(*ast)->parent = init_ast((*ast)->parent);
-				ast_temp = (*ast)->parent;
-				ast_temp->left = *ast;
-			}
-			else
-			{
-				(*ast)->parent = NULL;
-				branch = branch->next;
-			}
-		}
-		temp = branch;
+			ast_utils_else(au, ast);
+		au->temp = au->branch;
 	}
+	free(au);
 }
