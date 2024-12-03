@@ -1,18 +1,13 @@
 #include "minishell.h"
 
-int	pwd(t_token **tokens)
+int	pwd(char **mtr)
 {
 	char	cwd[MAX_PATH_LEN];
 
-	while ((*tokens)->next)
-	{
-		if ((*tokens)->next)
-			(*tokens) = (*tokens)->next;
-		if ((*tokens)->info[0] == '-')
-			return (printf("Invalid option\n"), 0);
-	}
+	if (mtr[1] && mtr[1][0] != '-' && mtr[1][1])
+		return (printf("pwd: too many arguments"), 0);
 	if (getcwd(cwd, sizeof(cwd)))
-		printf("%s\n", cwd);
+			printf("%s\n", cwd);
 	else
 		printf("ERROR READING PWD\n");
 	return (1);

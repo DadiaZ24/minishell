@@ -15,10 +15,10 @@ typedef struct s_shell
 }	t_shell;
 
 
-int		pwd(t_token **tokens);
-void 	cd(t_shell *shell, t_token **tokens);
-bool	echo(t_shell *shell, t_token **tokens);
-bool 	env(t_shell *shell, t_token **tokens);
+int		pwd(char **mtr);
+int 	cd(t_shell *shell, char **mtr);
+bool	echo(char **mtr);
+bool 	env(t_shell *shell, char **mtr);
 
 //Builtins.Utils
 int		is_directory(char *path);

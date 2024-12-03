@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_joinpath.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 17:22:29 by ddias-fe          #+#    #+#             */
-/*   Updated: 2024/11/04 17:22:32 by ddias-fe         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:54:48 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_joinpath(char const *s1, char const *s2)
 		return (NULL);
 	s1_i = ft_strlen(s1);
 	s2_i = ft_strlen(s2);
-	s_s = malloc((s1_i + s2_i + 1) * (sizeof(char)));
+	s_s = malloc((s1_i + s2_i + 2) * (sizeof(char)));
 	if (!s_s)
 		return (NULL);
 	i = 0;
