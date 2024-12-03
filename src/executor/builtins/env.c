@@ -1,13 +1,12 @@
 #include "minishell.h"
 
-bool env(t_shell *shell, t_token **tokens)
+bool env(t_shell *shell, char **mtr)
 {
 	int i;
 
-	(void)tokens;
 	update_env(shell);
 	i = -1;
-	if ((*tokens)->next)
+	if (mtr[1])
 		return (printf("env: can not receive arguments or options (imposed by subject)\n"), false);
 	while (shell->env[++i])
 		printf("%s\n", shell->env[i]);
@@ -27,7 +26,8 @@ void update_env(t_shell *shell)
 		{
 			if (ft_strncmp(shell->env[i], shell->export[j], ft_strclen(shell->export[j], '=') + 1) == 0)
 			{
-				shell->env[i] = shell->export[j];
+				free(shell->env[i]);
+				shell->env[i] = ft_strdup(shell->export[j]);
 				break;
 			}
 		}

@@ -1,22 +1,33 @@
 #include "minishell.h"
 
-bool	echo(t_shell *shell, t_token **tokens)
+bool	echo_utils(char *str)
 {
 	int i;
 
-	i = 0;
-	(void)shell;
-	if (!(*tokens)->next)
-		return (printf("\n"), false);
-	if ((*tokens)->next && (*tokens)->next->info[0] == '-')
+	i = -1;
+	if (str[++i] == '-')
 	{
-		while ((*tokens)->next->info[i] == 'n')
-			i++;
-		if ((*tokens)->next->info[i] != 'n')
-			return (write(1, "\0", 1), true);
+		if (str[++i] == 'n')
+			while (str[i] == 'n')
+				++i;
+		if (!str[i])
+			return (true);
 		else
-			return (write(1, "\n", 1), true);
-	
+			return (false);
+	}
+	return (false);
+}
+
+bool	echo(char **mtr)
+{
+	if (!mtr[1])
+		return (printf("\n"), false);
+	if (mtr[1] && echo_utils(mtr[1]))
+		ft_putmtr(mtr + 2);
+	else if (mtr[1])
+	{
+		ft_putmtr(++mtr);
+		write(1, "\n", 1);
 	}
 	return (true);
 }

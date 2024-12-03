@@ -59,7 +59,7 @@
 
 //Utils
 int		minishell(t_shell *shell, t_token **tokens, char **envp);
-int 	executor(t_token **tokens, t_shell *shell);
+int 	executor(t_ast **ast, t_shell *shell);
 bool 	get_env_and_export(char **envp, t_shell *shell);
 int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast);
 

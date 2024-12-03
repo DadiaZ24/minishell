@@ -32,8 +32,8 @@ int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast)
 	create_token(mtr, tokens);
 	lexer(tokens);
 	create_ast(tokens, ast);
-	ft_print_ast(*ast);
-	executor(tokens, shell);
+	//ft_print_ast(*ast);
+	executor(ast, shell);
 	free_all(mtr, shell->line, tokens, ast);
 	return (1);
 }

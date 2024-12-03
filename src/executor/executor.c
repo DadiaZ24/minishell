@@ -1,22 +1,22 @@
 #include "minishell.h"
 
-int executor(t_token **tokens, t_shell *shell)
+int	executor(t_ast **ast, t_shell *shell)
 {
-	if (!strncmp((*tokens)->info, "cd", ft_strlen((*tokens)->info)))
-		cd(shell, tokens);
-	else if (!strncmp((*tokens)->info, "pwd", ft_strlen((*tokens)->info)))
-		pwd(tokens);
-	else if (!strncmp((*tokens)->info, "echo", ft_strlen((*tokens)->info)))
-		echo(shell, tokens);
+	if (!strncmp((*ast)->arg[0], "cd", ft_strlen((*ast)->arg[0])))
+		cd(shell, (*ast)->arg);
+	else if (!strncmp((*ast)->arg[0], "pwd", ft_strlen((*ast)->arg[0])))
+		pwd((*ast)->arg);
+	else if (!strncmp((*ast)->arg[0], "echo", ft_strlen((*ast)->arg[0])))
+		echo((*ast)->arg);
 	/*else if (!strncmp((*tokens)->info, "export", ft_strlen((*tokens)->info)))
 		//TODO
 		(void);
 	else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
 		//TODO
 		(void);*/
-	else if (!strncmp((*tokens)->info, "env", ft_strlen((*tokens)->info)))
-		env(shell, tokens);
-	else if (!strncmp((*tokens)->info, "exit", ft_strlen((*tokens)->info)))
+	else if (!strncmp((*ast)->arg[0], "env", ft_strlen((*ast)->arg[0])))
+		env(shell, (*ast)->arg);
+	else if (!strncmp((*ast)->arg[0], "exit", ft_strlen((*ast)->arg[0])))
 		exit(shell->status);
 	else
 		return (1);
