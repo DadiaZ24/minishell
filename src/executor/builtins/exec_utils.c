@@ -46,5 +46,19 @@ void	wait_pid(t_executor *exec)
 		exec->shell->status = WEXITSTATUS(j);
 	}
 	free(exec->pid);
+	exec->num_pipe = 0;
 	exec->pid = NULL;
+}
+
+void	exit_exec(t_executor *exec, t_ast *ast)
+{
+	if (errno == EACCES)
+		exec->shell->status = 126;
+	else if (errno == ENOENT)
+	{
+		if (ft_strncmp(ast->arg[0], "/", 1))
+			exec->shell->status = 126;
+		else
+			exec->shell->status = 127;
+	}
 }

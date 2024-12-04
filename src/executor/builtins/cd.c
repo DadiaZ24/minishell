@@ -2,10 +2,13 @@
 
 void	cd_utils(t_shell *shell, char *new_path, char *current_path)
 {
-	if(getcwd(new_path, sizeof(new_path)) == NULL)
+	char	*str;
+
+	str = getcwd(new_path, sizeof(new_path));
+	if (!new_path)
 		printf("Error getting new path\n");
 	else
-		update_pwd_env(shell->export, current_path, new_path);
+		update_pwd_env(shell, current_path, str);
 }
 
 int cd(t_shell *shell, char **mtr, t_executor *exec)
@@ -38,10 +41,10 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		str = ft_joinpath(current_path, mtr[1]);
 		chdir(str);
 		free(str);
+		cd_utils(shell, new_path, current_path);
 	}
 	else
 		printf("Invalid path\n");
-	cd_utils(shell, new_path, current_path);
 	if (exec->is_child)
 	{
 		free_process(exec);
@@ -50,7 +53,7 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	return (1);
 }
 
-void update_pwd_env(char **env, char *oldpwd, char *newpwd)
+void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 {
 	char *oldpwd_line;
 	char *newpwd_line;
@@ -59,17 +62,17 @@ void update_pwd_env(char **env, char *oldpwd, char *newpwd)
 	i = -1;
 	oldpwd_line = ft_strjoin("OLDPWD=", oldpwd);
 	newpwd_line = ft_strjoin("PWD=", newpwd);
-	while (env[++i])
+	while (shell->export[++i])
 	{
-		if (!ft_strncmp(env[i], "OLDPWD=", 7))
+		if (!ft_strncmp(shell->export[i], "OLDPWD=", 7))
 		{
-			free(env[i]);
-			env[i] = oldpwd_line;
+			free(shell->export[i]);
+			shell->export[i] = oldpwd_line;
 		}
-		if (!ft_strncmp(env[i], "PWD=", 4))
+		if (!ft_strncmp(shell->export[i], "PWD=", 4))
 		{
-			free(env[i]);
-			env[i] = newpwd_line;
+			free(shell->export[i]);
+			shell->export[i] = newpwd_line;
 		}
 	}
 }

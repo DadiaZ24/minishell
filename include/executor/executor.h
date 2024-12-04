@@ -14,7 +14,7 @@ void	exit_builtin(int status, t_executor *exec);
 //Builtins.Utils
 int		is_directory(char *path);
 char	*getenvp(char **envp, char *var);
-void 	update_pwd_env(char **envp, char *oldpwd, char *pwd);
+void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd);
 void	update_env(t_shell *shell);
 
 #endif

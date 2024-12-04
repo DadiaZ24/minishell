@@ -6,7 +6,7 @@
 #    By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 16:55:42 by ddias-fe          #+#    #+#              #
-#    Updated: 2024/12/04 16:47:28 by ptorrao-         ###   ########.fr        #
+#    Updated: 2024/12/04 19:44:16 by ptorrao-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ GENERAL			= main.c
 PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c ast.c \
 				ast_utils_1.c ast_utils_2.c
 UTILS			= init.c free.c free_process.c utils.c
-EXECUTOR		= executor.c pwd.c cd.c echo.c env.c exec_utils.c exit.c
+EXECUTOR		= executor.c pwd.c cd.c echo.c env.c exec_utils.c exit.c \
+				redirect.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|

@@ -31,6 +31,7 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	create_ast(tokens, exec->ast);
 	free_token(tokens);
 	executor(exec);
+	dup2(exec->fd_out, STDOUT_FILENO);
 	wait_pid(exec);
 	free_all(exec);
 	return (1);
@@ -65,11 +66,11 @@ bool get_env_and_export(char **envp, t_shell *shell)
 		return (false);
 	i = -1;
 	while (envp[++i])
-		shell->env[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+		shell->env[i] = ft_strdup(envp[i]);
 	shell->env[i] = NULL;
 	i = -1;
 	while (envp[++i])
-		shell->export[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
+		shell->export[i] = ft_strdup(envp[i]);
 	shell->export[i] = NULL;
 	return (true);
 }
