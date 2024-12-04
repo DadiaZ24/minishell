@@ -87,6 +87,7 @@ bool	builtin(t_executor *exec, t_ast **ast)
 	t_ast	*temp_ast;
 
 	temp_ast = *(ast);
+	handle_redirects(exec, temp_ast);
 	if (!strncmp((temp_ast)->arg[0], "cd", ft_strlen((temp_ast)->arg[0])))
 		cd(exec->shell, (temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "pwd", ft_strlen((temp_ast)->arg[0])))
@@ -110,24 +111,32 @@ int	executor(t_executor *exec)
 {
 	char	*str_path;
 	t_ast	*temp_ast;
+	int		r;
 
+	r = 0;
 	str_path = NULL;
 	temp_ast = *(exec->ast);
-	create_pid(exec, &temp_ast);
-	if (exec->num_pipe == 1 && check_builtin(&temp_ast))
+	if (exec->num_pipe == 0 && check_builtin(&temp_ast))
 		if (builtin(exec, &temp_ast))
 			return (1);
+	create_pid(exec, &temp_ast);
 	if (handle_pipe(exec, &temp_ast))
 		return (1);
+	handle_redirects(exec, temp_ast);
 	if (check_builtin(&temp_ast))
 		builtin(exec, &temp_ast);
 	else
 	{
-		str_path = ft_strjoin("/usr/bin/", (temp_ast)->arg[0]);
+		if (!ft_strncmp((temp_ast)->arg[0], "./", 2))
+			str_path = ft_strdup((temp_ast)->arg[0]);
+		else
+			str_path = ft_strjoin("/usr/bin/", (temp_ast)->arg[0]);
 		execve(str_path, (temp_ast)->arg, exec->shell->env);
+		exit_exec(exec, temp_ast);
+		r = exec->shell->status;
 		free(str_path);
 		free_process(exec);
-		exit(1);
+		exit(r);
 	}
 	return (1);
 }

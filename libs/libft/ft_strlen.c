@@ -6,7 +6,7 @@
 /*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 14:13:39 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/04/17 15:22:40 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2024/12/04 22:20:55 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ size_t	ft_strlen(const char *str)
 
 	i = 0;
 	while (str[i])
-		i ++;
+		i++;
 	return (i);
 }

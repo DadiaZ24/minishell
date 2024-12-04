@@ -21,6 +21,7 @@ t_executor	*init_exec(t_executor *exec);
 
 void		ft_print_ast(t_ast *ast);
 void		ft_print_token(t_token **token);
+void		print_error(char *str);
 char		*mini_fill_word(const char *str, int start, int end);
 
 void		ast_utils_else(t_ast_utils *au, t_ast **ast);
@@ -29,4 +30,8 @@ void		ast_utils_pipe(t_ast_utils *au, t_ast **ast);
 void		ast_utils_red(t_ast_utils *au, t_ast **ast);
 
 void		wait_pid(t_executor *exec);
+void		handle_redirects(t_executor *exec, t_ast *ast);
+void		check_permission(t_executor *exec, char *path, int i);
+void		exit_exec(t_executor *exec, t_ast *ast);
+
 #endif
