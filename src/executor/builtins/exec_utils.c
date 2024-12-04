@@ -29,3 +29,22 @@ char	*getenvp(char **envp, char *var)
 	}
 	return (NULL);
 }
+
+void	wait_pid(t_executor *exec)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!exec->pid)
+		return ;
+	while(exec->pid[i] != 0)
+	{
+		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
+		waitpid(exec->pid[i++], &j, 0);
+		exec->shell->status = WEXITSTATUS(j);
+	}
+	free(exec->pid);
+	exec->pid = NULL;
+}

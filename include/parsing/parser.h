@@ -46,6 +46,27 @@ typedef struct s_ast_utils
 	t_ast	*ast_temp;
 }	t_ast_utils;
 
+typedef struct s_shell
+{
+	char	*line;
+	int		status;
+	char	**env;
+	char	**export;
+
+}	t_shell;
+
+typedef struct s_executor
+{
+	t_ast 	**ast;
+	t_shell	*shell;
+	t_token	**token;
+	int		fd_in;
+	int		fd_out;
+	int		*pid;
+	int		num_pipe;
+	bool	is_child;
+} t_executor;
+
 t_ast_utils	*init_au(t_token **token, t_ast **ast);
 
 char		**mini_split(char const *s);

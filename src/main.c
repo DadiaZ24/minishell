@@ -1,54 +1,54 @@
 #include "minishell.h"
 
-int	minishell(t_shell *shell, t_token **tokens, char **envp)
+int	minishell(t_executor *exec, char **envp)
 {
-	t_ast	**ast;
-
-	write(1, "DEBUG\n", 6);
-	if (!get_env_and_export(envp, shell))
+	if (!get_env_and_export(envp, exec->shell))
 		return (0);
-	ast = (t_ast **)malloc(sizeof(t_ast));
-	if (!ast)
+	exec->ast = (t_ast **)malloc(sizeof(t_ast));
+	if (!exec->ast)
 		return (0);
-	while (minishell_loop(shell, tokens, ast))
+	while (minishell_loop(exec, exec->token))
 		;
-	free_mtr(shell->env);
-	free_mtr(shell->export);
+	
 	return (0);
 }
 
-int	minishell_loop(t_shell *shell, t_token **tokens, t_ast **ast)
+int	minishell_loop(t_executor *exec, t_token **tokens)
 {
 	char **mtr;
 
-	shell->line = readline("minishell$ ");
-	if (!shell->line)
-		return (free(tokens), free(ast), printf("exit\n"), 0);
-	if (shell->line)
-		add_history(shell->line);
-	if (!shell->line[0])
-		return (free(shell->line), 1);
-	mtr = mini_split(shell->line);
+	exec->shell->line = readline("minishell$ ");
+	if (!exec->shell->line)
+		return (free_d(exec), printf("exit\n"), 0);
+	if (exec->shell->line)
+		add_history(exec->shell->line);
+	if (!exec->shell->line[0])
+		return (free(exec->shell->line), 1);
+	mtr = mini_split(exec->shell->line);
 	create_token(mtr, tokens);
+	free_mtr(mtr);
 	lexer(tokens);
-	create_ast(tokens, ast);
-	//ft_print_ast(*ast);
-	executor(ast, shell);
-	free_all(mtr, shell->line, tokens, ast);
+	create_ast(tokens, exec->ast);
+	free_token(tokens);
+	executor(exec);
+	wait_pid(exec);
+	free_all(exec);
 	return (1);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_token	**tokens;
-	t_shell	shell;
+	t_executor	*exec;
 
 	(void)argc;
 	(void)argv;
-	tokens = (t_token **)malloc(sizeof(t_token));
-	if (!tokens)
+	exec = (t_executor *)malloc(sizeof(t_executor));
+	if (!exec)
 		return (-1);
-	minishell( &shell, tokens, envp);
+	exec = init_exec(exec);
+	if (!exec)
+		return(-1);
+	minishell(exec, envp);
 	return (0);
 }
 
@@ -67,7 +67,6 @@ bool get_env_and_export(char **envp, t_shell *shell)
 	while (envp[++i])
 		shell->env[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));
 	shell->env[i] = NULL;
-	write(1, "DEBUG\n", 6);
 	i = -1;
 	while (envp[++i])
 		shell->export[i] = ft_substr(envp[i], 0, ft_strlen(envp[i]));

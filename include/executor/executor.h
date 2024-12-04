@@ -5,20 +5,11 @@
 #  define MAX_PATH_LEN 1024
 # endif
 
-typedef struct s_shell
-{
-	char	*line;
-	int		status;
-	char	**env;
-	char	**export;
-
-}	t_shell;
-
-
-int		pwd(char **mtr);
-int 	cd(t_shell *shell, char **mtr);
-bool	echo(char **mtr);
-bool 	env(t_shell *shell, char **mtr);
+int		pwd(char **mtr, t_executor *exec);
+int 	cd(t_shell *shell, char **mtr, t_executor *exec);
+bool	echo(char **mtr, t_executor *exec);
+bool 	env(t_shell *shell, char **mtr, t_executor *exec);
+void	exit_builtin(int status, t_executor *exec);
 
 //Builtins.Utils
 int		is_directory(char *path);

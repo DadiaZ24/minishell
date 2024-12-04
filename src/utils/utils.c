@@ -58,10 +58,3 @@ void	ft_print_ast(t_ast *ast)
 	}
 }
 
-void	free_all(char **mtr, char *line, t_token **tokens, t_ast **ast)
-{
-	free_mtr(mtr);
-	free(line);
-	free_token(tokens);
-	free_ast(ast);
-}

@@ -77,3 +77,23 @@ t_ast	*init_ast(t_ast	*ast)
 	ast->type = 0;
 	return (ast);
 }
+
+t_executor	*init_exec(t_executor *exec)
+{
+	exec->shell = (t_shell *)malloc(sizeof(t_shell));
+	if (!exec->shell)
+		return (free(exec), NULL);
+	exec->token = (t_token **)malloc(sizeof(t_token));
+	if (!exec->token)
+	{
+		free(exec->shell);
+		return (free(exec), NULL);
+	}
+	exec->ast = NULL;
+	exec->fd_in = dup(STDIN_FILENO);
+	exec->fd_out = dup(STDOUT_FILENO);
+	exec->pid = NULL;
+	exec->num_pipe = 0;
+	exec->is_child = false;
+	return (exec);
+}
