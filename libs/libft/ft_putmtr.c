@@ -9,8 +9,8 @@ void	ft_putmtr(char **mtr)
 		return ;
 	while (mtr[++i])
 	{
-		ft_printf("%s", mtr[i]);
+		printf("%s", mtr[i]);
 		if (mtr[i + 1])
-			write(1, " ", 1);
+			printf(" ");
 	}
 }
