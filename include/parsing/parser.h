@@ -70,8 +70,11 @@ typedef struct s_exp
 {
 	int 	start;
 	int		end;
-	int		i;
+	int		str_i;
+	int		mtr_i;
 	char	*str;
+	char	*build;
+	char	*build_sub;
 	char	*substr;
 	char	*joinstr;
 	t_token	*temp;
@@ -87,6 +90,6 @@ void		unlock_count(char **s, t_words *wc);
 void		lexer(t_token **tokens);
 int			check_redirect_or_pipe(char *s);
 int			check_file_eof(char *s);
-void		expander(t_token **token);
+void	expander(t_token **token, t_executor *exec);
 
 #endif
