@@ -4,7 +4,6 @@ bool env(t_shell *shell, char **mtr, t_executor *exec)
 {
 	int i;
 
-	update_env(shell);
 	i = -1;
 	if (mtr[1])
 	{
@@ -17,7 +16,10 @@ bool env(t_shell *shell, char **mtr, t_executor *exec)
 		return (1);
 	}
 	while (shell->env[++i])
-		printf("%s\n", shell->env[i]);
+	{
+		if (ft_strchr(shell->env[i], '='))
+			printf("%s\n", shell->env[i]);
+	}
 	if (exec->is_child)
 	{
 		free_process(exec);
@@ -35,12 +37,12 @@ void update_env(t_shell *shell)
 	while (shell->env[++i])
 	{
 		j = -1;
-		while(shell->export[++j])
+		while(shell->env[++j])
 		{
-			if (ft_strncmp(shell->env[i], shell->export[j], ft_strclen(shell->export[j], '=') + 1) == 0)
+			if (ft_strncmp(shell->env[i], shell->env[j], ft_strclen(shell->env[j], '=') + 1) == 0)
 			{
 				free(shell->env[i]);
-				shell->env[i] = ft_strdup(shell->export[j]);
+				shell->env[i] = ft_strdup(shell->env[j]);
 				break;
 			}
 		}

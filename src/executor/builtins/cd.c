@@ -29,11 +29,11 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		return (1);
 	}
 	if(!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
-		chdir(getenvp(shell->export, "HOME"));
+		chdir(getenvp(shell->env, "HOME"));
 	else if (mtr[2])
 		printf("Too many arguments\n");
 	else if (mtr[1] && !ft_strcmp(mtr[1], "-"))
-		chdir(getenvp(shell->export, "OLDPWD"));
+		chdir(getenvp(shell->env, "OLDPWD"));
 	else if (mtr[1] && !is_directory(mtr[1]))
 		printf("Not a directory\n");
 	else if (mtr[1] && is_directory(mtr[1]))
@@ -62,17 +62,17 @@ void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 	i = -1;
 	oldpwd_line = ft_strjoin("OLDPWD=", oldpwd);
 	newpwd_line = ft_strjoin("PWD=", newpwd);
-	while (shell->export[++i])
+	while (shell->env[++i])
 	{
-		if (!ft_strncmp(shell->export[i], "OLDPWD=", 7))
+		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
 		{
-			free(shell->export[i]);
-			shell->export[i] = oldpwd_line;
+			free(shell->env[i]);
+			shell->env[i] = oldpwd_line;
 		}
-		if (!ft_strncmp(shell->export[i], "PWD=", 4))
+		if (!ft_strncmp(shell->env[i], "PWD=", 4))
 		{
-			free(shell->export[i]);
-			shell->export[i] = newpwd_line;
+			free(shell->env[i]);
+			shell->env[i] = newpwd_line;
 		}
 	}
 }

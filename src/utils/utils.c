@@ -31,6 +31,11 @@ char	*mini_fill_word(const char *str, int start, int end)
 	return (word);
 }
 
+void ft_printing(char *print)
+{
+	write(1, print, ft_strlen(print));
+}
+
 void	ft_print_ast(t_ast *ast)
 {
 	ft_printf("======\n");
@@ -65,4 +70,22 @@ void	print_error(char *str)
 	i = -1;
 	while (str[++i])
 		write(STDERR_FILENO, &str[i], 1);
+}
+
+bool get_env(char **envp, t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	shell->env = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!shell->env)
+		return (false);
+	i = -1;
+	while (envp[++i])
+		shell->env[i] = ft_strdup(envp[i]);
+	shell->env[i] = NULL;
+	i = -1;
+	return (true);
 }

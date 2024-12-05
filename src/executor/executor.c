@@ -69,10 +69,9 @@ bool	check_builtin(t_ast **ast)
 		return (true);
 	else if (!strncmp((temp_ast)->arg[0], "echo", ft_strlen((temp_ast)->arg[0])))
 		return (true);
-	/*else if (!strncmp((*tokens)->info, "export", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);
-	else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
+	else if (!strncmp((temp_ast)->arg[0], "export", ft_strlen((temp_ast)->arg[0])))
+		return (true);
+	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
 		//TODO
 		(void);*/
 	else if (!strncmp((temp_ast)->arg[0], "env", ft_strlen((temp_ast)->arg[0])))
@@ -94,10 +93,9 @@ bool	builtin(t_executor *exec, t_ast **ast)
 		pwd((temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "echo", ft_strlen((temp_ast)->arg[0])))
 		echo((temp_ast)->arg, exec);
-	/*else if (!strncmp((*tokens)->info, "export", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);
-	else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
+	else if (!strncmp((temp_ast)->arg[0], "export", ft_strlen((temp_ast)->arg[0])))
+		export(exec);
+	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
 		//TODO
 		(void);*/
 	else if (!strncmp((temp_ast)->arg[0], "env", ft_strlen((temp_ast)->arg[0])))
@@ -126,18 +124,23 @@ int	executor(t_executor *exec)
 	if (check_builtin(&temp_ast))
 		builtin(exec, &temp_ast);
 	else
-	{
-		if (!ft_strncmp((temp_ast)->arg[0], "./", 2))
-			str_path = ft_strdup((temp_ast)->arg[0]);
-		else
-			str_path = ft_strjoin("/usr/bin/", (temp_ast)->arg[0]);
-		execve(str_path, (temp_ast)->arg, exec->shell->env);
-		exit_exec(exec, temp_ast);
-		r = exec->shell->status;
-		free(str_path);
-		free_process(exec);
-		exit(r);
-	}
+		exec_execve(&r, str_path, exec);
 	return (1);
 }
 
+int exec_execve(int *r, char *str_path, t_executor *exec)
+{
+	t_ast	*temp_ast;
+
+	temp_ast = *(exec->ast);
+	if (!ft_strncmp((temp_ast)->arg[0], "./", 2))
+		str_path = ft_strdup((temp_ast)->arg[0]);
+	else
+		str_path = ft_strjoin("/usr/bin/", (temp_ast)->arg[0]);
+	execve(str_path, (temp_ast)->arg, exec->shell->env);
+	exit_exec(exec, temp_ast);
+	*r = exec->shell->status;
+	free(str_path);
+	free_process(exec);
+	exit(*r);
+}

@@ -3,7 +3,6 @@
 void	free_d(t_executor *exec)
 {
 	free_mtr(exec->shell->env);
-	free_mtr(exec->shell->export);
 	free(exec->shell);
 	free(exec->token);
 	free(exec->ast);
