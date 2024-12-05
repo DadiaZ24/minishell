@@ -28,6 +28,8 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	create_token(mtr, tokens);
 	free_mtr(mtr);
 	lexer(tokens);
+	expander(tokens, exec);
+	ft_print_token(tokens);
 	create_ast(tokens, exec->ast);
 	free_token(tokens);
 	executor(exec);

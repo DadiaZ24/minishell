@@ -18,6 +18,7 @@ t_ast		*init_ast(t_ast	*ast);
 t_split		*init_split_var(void);
 t_words		*init_wc(void);
 t_executor	*init_exec(t_executor *exec);
+t_exp		*init_exp(t_exp	*exp, t_token **token);
 
 void		ft_print_ast(t_ast *ast);
 void		ft_print_token(t_token **token);
