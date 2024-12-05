@@ -51,7 +51,6 @@ typedef struct s_shell
 	char	*line;
 	int		status;
 	char	**env;
-	char	**export;
 
 }	t_shell;
 
