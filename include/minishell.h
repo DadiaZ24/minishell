@@ -61,7 +61,7 @@
 //Utils
 int		minishell(t_executor *exec, char **envp);
 int 	executor(t_executor *exec);
-bool 	get_env_and_export(char **envp, t_shell *shell);
+bool 	get_env(char **envp, t_shell *shell);
 int		minishell_loop(t_executor *exec, t_token **tokens);
 
 

@@ -16,5 +16,10 @@ int		is_directory(char *path);
 char	*getenvp(char **envp, char *var);
 void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd);
 void	update_env(t_shell *shell);
+int 	exec_execve(int *r, char *str_path, t_executor *exec);
+int	export(t_executor *exec);
+char **realloc_env (char **env, int i);
+bool bubblesort(t_executor *exec);
+char	**export_body_update(char *arg, char **env, bool is_new);
 
 #endif

@@ -2,7 +2,7 @@
 
 int	minishell(t_executor *exec, char **envp)
 {
-	if (!get_env_and_export(envp, exec->shell))
+	if (!get_env(envp, exec->shell))
 		return (0);
 	exec->ast = (t_ast **)malloc(sizeof(t_ast));
 	if (!exec->ast)
@@ -53,24 +53,4 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-bool get_env_and_export(char **envp, t_shell *shell)
-{
-	int i;
 
-	i = 0;
-	while (envp[i])
-		i++;
-	shell->env = (char **)malloc(sizeof(char *) * (i + 1));
-	shell->export = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!shell->env || !shell->export)
-		return (false);
-	i = -1;
-	while (envp[++i])
-		shell->env[i] = ft_strdup(envp[i]);
-	shell->env[i] = NULL;
-	i = -1;
-	while (envp[++i])
-		shell->export[i] = ft_strdup(envp[i]);
-	shell->export[i] = NULL;
-	return (true);
-}

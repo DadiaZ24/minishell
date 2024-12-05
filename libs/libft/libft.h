@@ -6,7 +6,7 @@
 /*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 17:43:51 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/11/26 18:28:53 by ddias-fe         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:46:46 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 char	*ft_strdup(const char *s);
+char	*ft_strdup_quotes(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
@@ -79,5 +80,6 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 //Added new functions
 char	*ft_joinpath(char const *s1, char const *s2);
 size_t	ft_strclen(const char *str, const char c);
+char	*ft_strjoin_quotes(char const *s1, char const *s2);
 
 #endif
