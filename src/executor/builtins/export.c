@@ -17,7 +17,7 @@ bool update_entry(char **env_entry, char *entry, bool is_new, int size)
 		if (ft_strncmp(*env_entry, entry, size - 3) == 0)
 		{
 			is_new = false;
-			*env_entry = ft_strjoin(*env_entry, entry + size + 1);
+			*env_entry = ft_strjoin_quotes(*env_entry, entry + size);
 		}
 		else
 		{
