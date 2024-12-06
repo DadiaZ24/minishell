@@ -68,16 +68,14 @@ typedef struct s_executor
 
 typedef struct s_exp
 {
+	bool	bin;
 	int 	start;
-	int		end;
 	int		str_i;
 	int		mtr_i;
-	char	*str;
-	char	*build;
-	char	*build_sub;
-	char	*substr;
-	char	*joinstr;
-	t_token	*temp;
+	int		env_i;
+	char	*temp;
+	char	*swap;
+	t_token	*token;
 } t_exp;
 
 t_ast_utils	*init_au(t_token **token, t_ast **ast);
@@ -90,6 +88,6 @@ void		unlock_count(char **s, t_words *wc);
 void		lexer(t_token **tokens);
 int			check_redirect_or_pipe(char *s);
 int			check_file_eof(char *s);
-void	expander(t_token **token, t_executor *exec);
+void		expander(t_token **token, t_executor *exec);
 
 #endif
