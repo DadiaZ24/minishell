@@ -83,6 +83,7 @@ t_executor	*init_exec(t_executor *exec)
 	exec->shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!exec->shell)
 		return (free(exec), NULL);
+	exec->shell->status = 0;
 	exec->token = (t_token **)malloc(sizeof(t_token));
 	if (!exec->token)
 	{
