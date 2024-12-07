@@ -157,6 +157,11 @@ void	expander(t_token **token, t_executor *exec)
 						exp->start = exp->str_i;
 						if (exp->token->info[exp->str_i + 1] == '?')
 							check_exp_temp_code(exp, exec);
+						else if (exp->token->info[exp->str_i + 1] == '$')
+							/* TO DO */
+							/* TO DO */
+							/* TO DO */
+							/* TO DO */
 						else if ((exp->token->info[exp->str_i + 1] == '"' && !exp->bin) || (exp->token->info[exp->str_i + 1] == '\'' && !exp->bin))
 							exp->start = exp->str_i + 1;
 						else if ((exp->token->info[exp->str_i + 1] == '"' && exp->bin) || !exp->token->info[exp->str_i + 1])
@@ -196,4 +201,3 @@ void	expander(t_token **token, t_executor *exec)
 	}
 	free(exp);
 }
-
