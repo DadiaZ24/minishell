@@ -151,17 +151,17 @@ void	expander(t_token **token, t_executor *exec)
 						exp->start = exp->str_i + 1;
 						exp->bin = false;
 					}
+					else if (exp->token->info[exp->str_i] == '$' && ft_iswhitespc(exp->token->info[exp->str_i + 1]) > 0)
+					{
+						check_exp_temp(exp);
+						exp->start = exp->str_i;
+					}
 					else if (exp->token->info[exp->str_i] == '$')
 					{
 						check_exp_temp(exp);
 						exp->start = exp->str_i;
 						if (exp->token->info[exp->str_i + 1] == '?')
 							check_exp_temp_code(exp, exec);
-						else if (exp->token->info[exp->str_i + 1] == '$')
-							/* TO DO */
-							/* TO DO */
-							/* TO DO */
-							/* TO DO */
 						else if ((exp->token->info[exp->str_i + 1] == '"' && !exp->bin) || (exp->token->info[exp->str_i + 1] == '\'' && !exp->bin))
 							exp->start = exp->str_i + 1;
 						else if ((exp->token->info[exp->str_i + 1] == '"' && exp->bin) || !exp->token->info[exp->str_i + 1])
