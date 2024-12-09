@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	create_pid(t_executor *exec, t_ast **ast)
+int	create_pid(t_executor *exec, t_ast **ast)
 {
 	int		i;
 	t_ast	*temp_ast;
@@ -16,6 +16,7 @@ void	create_pid(t_executor *exec, t_ast **ast)
 	exec->num_pipe = i + 1;
 	exec->pid = (int *)malloc((i + 2) * sizeof(int));
 	exec->pid[i + 1] = 0;
+	return (i);
 }
 
 bool	handle_pipe(t_executor *exec, t_ast **ast)
@@ -37,7 +38,7 @@ bool	handle_pipe(t_executor *exec, t_ast **ast)
 				close(fd[0]);
 				close(fd[1]);
 				if (i == exec->num_pipe)
-					return (dup2(exec->fd_in, STDIN_FILENO), close(fd[1]), true);
+					return (dup2(exec->fd_in, STDIN_FILENO), true);
 			}
 			else
 			{
@@ -55,6 +56,7 @@ bool	handle_pipe(t_executor *exec, t_ast **ast)
 	}
 	dup2(exec->fd_out, STDOUT_FILENO);
 	close(exec->fd_out);
+	close(fd[0]);
 	return (false);
 }
 
@@ -86,7 +88,7 @@ bool	builtin(t_executor *exec, t_ast **ast)
 	t_ast	*temp_ast;
 
 	temp_ast = *(ast);
-	handle_redirects(exec, temp_ast);
+	// handle_redirects(exec, temp_ast);
 	if (!strncmp((temp_ast)->arg[0], "cd", ft_strlen((temp_ast)->arg[0])))
 		cd(exec->shell, (temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "pwd", ft_strlen((temp_ast)->arg[0])))
@@ -114,25 +116,23 @@ int	executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_ast = *(exec->ast);
-	if (exec->num_pipe == 0 && check_builtin(&temp_ast))
-		if (builtin(exec, &temp_ast))
-			return (1);
-	create_pid(exec, &temp_ast);
+	if (create_pid(exec, &temp_ast) == 0 && check_builtin(&temp_ast))
+		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_ast));
 	if (handle_pipe(exec, &temp_ast))
 		return (1);
-	handle_redirects(exec, temp_ast);
+	// handle_redirects(exec, temp_ast);
 	if (check_builtin(&temp_ast))
 		builtin(exec, &temp_ast);
 	else
-		exec_execve(&r, str_path, exec);
+		exec_execve(&r, str_path, exec, temp_ast);
 	return (1);
 }
 
-int exec_execve(int *r, char *str_path, t_executor *exec)
+int exec_execve(int *r, char *str_path, t_executor *exec, t_ast *ast)
 {
 	t_ast	*temp_ast;
 
-	temp_ast = *(exec->ast);
+	temp_ast = ast;
 	if (!ft_strncmp((temp_ast)->arg[0], "./", 2))
 		str_path = ft_strdup((temp_ast)->arg[0]);
 	else

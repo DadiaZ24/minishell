@@ -29,11 +29,10 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	free_mtr(mtr);
 	lexer(tokens);
 	expander(tokens, exec);
-	ft_print_token(tokens);
 	create_ast(tokens, exec->ast);
 	free_token(tokens);
 	executor(exec);
-	dup2(exec->fd_out, STDOUT_FILENO);
+	//dup2(exec->fd_out, STDOUT_FILENO);
 	wait_pid(exec);
 	free_all(exec);
 	return (1);
