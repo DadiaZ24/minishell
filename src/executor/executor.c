@@ -88,7 +88,7 @@ bool	builtin(t_executor *exec, t_ast **ast)
 	t_ast	*temp_ast;
 
 	temp_ast = *(ast);
-	// handle_redirects(exec, temp_ast);
+	handle_redirects(exec, temp_ast);
 	if (!strncmp((temp_ast)->arg[0], "cd", ft_strlen((temp_ast)->arg[0])))
 		cd(exec->shell, (temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "pwd", ft_strlen((temp_ast)->arg[0])))
@@ -120,7 +120,7 @@ int	executor(t_executor *exec)
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_ast));
 	if (handle_pipe(exec, &temp_ast))
 		return (1);
-	// handle_redirects(exec, temp_ast);
+	//handle_redirects(exec, temp_ast);
 	if (check_builtin(&temp_ast))
 		builtin(exec, &temp_ast);
 	else

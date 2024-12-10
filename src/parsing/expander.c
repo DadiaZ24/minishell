@@ -137,7 +137,10 @@ void	expander(t_token **token, t_executor *exec)
 					if (exp->token->info[exp->str_i] == 92)
 					{
 						check_exp_temp(exp);
-						exp->start = ++exp->str_i;
+						if (exp->token->info[exp->str_i + 1])
+							exp->start = ++exp->str_i;
+						else
+							exp->start = exp->str_i + 1;
 					}
 					else if (ft_isquote(exp->token->info[exp->str_i]) == 2 && !exp->bin)
 					{
