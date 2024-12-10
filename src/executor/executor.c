@@ -29,7 +29,7 @@ bool	handle_pipe(t_executor *exec, t_ast **ast)
 	temp = *(exec->ast);
 	while (temp)
 	{
-		if ((*ast)->type == ARG)
+		if (*ast && (*ast)->type == ARG)
 		{
 			pipe(fd);
 			if ((exec->pid[i++] = fork()))
@@ -120,7 +120,7 @@ int	executor(t_executor *exec)
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_ast));
 	if (handle_pipe(exec, &temp_ast))
 		return (1);
-	//handle_redirects(exec, temp_ast);
+	handle_redirects(exec, temp_ast);
 	if (check_builtin(&temp_ast))
 		builtin(exec, &temp_ast);
 	else

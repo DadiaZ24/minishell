@@ -18,7 +18,7 @@ bool	echo_utils(char *str)
 	return (false);
 }
 
-bool	echo(char **mtr, t_executor *exec)
+bool	 echo(char **mtr, t_executor *exec)
 {
 	if (!mtr[1])
 	{
