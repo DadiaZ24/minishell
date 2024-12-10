@@ -6,6 +6,7 @@ void	ast_utils_red_utils(t_ast_utils *au, t_ast **ast)
 	au->temp = au->branch;
 	while (au->branch->next && ft_pipe_or_redirect(au->branch->info) == 0)
 		au->branch = au->branch->next;
+	ft_printf("TEST: %s\n", au->branch->info);
 	(*ast)->left = init_ast((*ast)->left);
 	if (!au->branch->next)
 		(*ast)->left = ast_node(au->temp, au->branch, (*ast)->left);
@@ -81,7 +82,7 @@ void	ast_utils_other_than_pipe(t_ast_utils *au, t_ast **ast)
 		return ;
 	while (au->branch && au->branch->next && ft_pipe_or_redirect(au->branch->info) == 0)
 		au->branch = au->branch->next;
-	if (ft_strcmp(au->branch->prev->info, au->ast_temp->red_target) != 0)
+	if (ft_strcmp(au->branch->info, au->ast_temp->red_target) != 0)
 		ast_utils_other_than_pipe_utils(au, ast);
 	if (au->branch->next)
 	{
