@@ -21,5 +21,7 @@ int		export(t_executor *exec);
 char **realloc_env (char **env, int i);
 bool bubblesort(t_executor *exec);
 char	**export_body_update(char *arg, char **env, bool is_new);
+int	realloc_unset(t_executor *exec);
+int	unset(t_executor *exec);
 
 #endif

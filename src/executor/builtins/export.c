@@ -5,7 +5,7 @@ char **new_entry(char **env, char *entry, int i)
 	while (env[i])
 		i++;
 	env = realloc_env(env, i);
-	env[i] = ft_strdup_quotes(entry);
+	env[i] = ft_strdup(entry);
 	env[i + 1] = NULL;
 	return (env);
 }
@@ -18,7 +18,7 @@ bool update_entry(char **env_entry, char *entry, bool is_new, int size)
 		if (ft_strncmp(*env_entry, entry, size - 3) == 0)
 		{
 			is_new = false;
-			*env_entry = ft_strjoin_quotes(*env_entry, entry + size);
+			*env_entry = ft_strjoin(*env_entry, entry + size);
 		}
 		else
 		{
@@ -46,12 +46,27 @@ bool update_entry(char **env_entry, char *entry, bool is_new, int size)
 
 int	print_export(t_executor *exec, char **env)
 {
-	int i;
+	int 	i;
+	int		size;
+	char	**key;
 
+	i = -1;
+	size = 0;
 	bubblesort(exec);
+	while (env[++i])
+		size++;
+	key = malloc(sizeof(char *) * (size + 1));
+	if (!key)
+		return (0);
 	i = -1;
 	while (env[++i])
-		printf("declare -x %s\n", env[i]);
+	{
+		key[0] = ft_strndup(env[i], ft_strclen(env[i], '='));
+		key[1] = ft_strchr(env[i], '=') + 1;
+		printf("declare -x %s=", key[0]);
+		printf("\"%s\"\n", key[1]);
+		free(key[0]);
+	}
 	return (1);
 }
 
@@ -105,7 +120,7 @@ char	**handle_entry(char *arg, char **env, bool is_new, char delimiter)
 	i = -1;
 	while (env[++i])
 	{
-		if (delimiter == '+')
+		if (delimiter == '+' && ft_strncmp(env[i], arg, ft_strclen(arg, delimiter)) == 0)
 		{
 			if (update_entry(&env[i], arg, is_new, ft_strclen(arg, delimiter) + 2))
 			{

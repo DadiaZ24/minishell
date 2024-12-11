@@ -73,9 +73,8 @@ bool	check_builtin(t_ast **ast)
 		return (true);
 	else if (!strncmp((temp_ast)->arg[0], "export", ft_strlen((temp_ast)->arg[0])))
 		return (true);
-	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);*/
+	else if (!strncmp((temp_ast)->arg[0], "unset", ft_strlen((temp_ast)->arg[0])))
+		return (true);
 	else if (!strncmp((temp_ast)->arg[0], "env", ft_strlen((temp_ast)->arg[0])))
 		return (true);
 	else if (!strncmp((temp_ast)->arg[0], "exit", ft_strlen((temp_ast)->arg[0])))
@@ -97,9 +96,8 @@ bool	builtin(t_executor *exec, t_ast **ast)
 		echo((temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "export", ft_strlen((temp_ast)->arg[0])))
 		export(exec);
-	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);*/
+	else if (!strncmp((temp_ast)->arg[0], "unset", ft_strlen((temp_ast)->arg[0])))
+		unset(exec);
 	else if (!strncmp((temp_ast)->arg[0], "env", ft_strlen((temp_ast)->arg[0])))
 		env(exec->shell, (temp_ast)->arg, exec);
 	else if (!strncmp((temp_ast)->arg[0], "exit", ft_strlen((temp_ast)->arg[0])))
