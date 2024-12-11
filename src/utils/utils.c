@@ -87,5 +87,6 @@ bool get_env(char **envp, t_shell *shell)
 		shell->env[i] = ft_strdup(envp[i]);
 	shell->env[i] = NULL;
 	i = -1;
+	printf("GET ENV ==== env pointer: %p\n", shell);
 	return (true);
 }

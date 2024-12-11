@@ -2,19 +2,15 @@
 
 void	cd_utils(t_shell *shell, char *new_path, char *current_path)
 {
-	char	*str;
-
-	str = getcwd(new_path, sizeof(new_path));
 	if (!new_path)
 		printf("Error getting new path\n");
 	else
-		update_pwd_env(shell, current_path, str);
+		update_pwd_env(shell, current_path, new_path);
 }
 
 int cd(t_shell *shell, char **mtr, t_executor *exec)
 {
 	char current_path[MAX_PATH_LEN];
-	char new_path[MAX_PATH_LEN];
 	char *str;
 
 	str = NULL;
@@ -40,8 +36,8 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	{
 		str = ft_joinpath(current_path, mtr[1]);
 		chdir(str);
+		cd_utils(shell, str, current_path);
 		free(str);
-		cd_utils(shell, new_path, current_path);
 	}
 	else
 		printf("Invalid path\n");

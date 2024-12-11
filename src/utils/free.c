@@ -12,6 +12,7 @@ void	free_mtr(char **mtr)
 {
 	int	j;
 
+	printf("FREE ==== env pointer: %p\n", mtr);
 	j = -1;
 	if (!mtr)
 		return ;

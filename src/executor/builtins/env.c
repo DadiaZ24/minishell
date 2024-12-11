@@ -27,24 +27,3 @@ bool env(t_shell *shell, char **mtr, t_executor *exec)
 	}
 	return (true);
 }
-
-void update_env(t_shell *shell)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (shell->env[++i])
-	{
-		j = -1;
-		while(shell->env[++j])
-		{
-			if (ft_strncmp(shell->env[i], shell->env[j], ft_strclen(shell->env[j], '=') + 1) == 0)
-			{
-				free(shell->env[i]);
-				shell->env[i] = ft_strdup(shell->env[j]);
-				break;
-			}
-		}
-	}
-}

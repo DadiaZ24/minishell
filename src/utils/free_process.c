@@ -2,6 +2,8 @@
 
 void	free_d(t_executor *exec)
 {
+	printf("BEFORE FREE ==== env pointer: %p\n", exec->shell);
+	printf("BEFORE FREE MTR==== env pointer: %p\n", exec->shell->env);
 	free_mtr(exec->shell->env);
 	free(exec->shell);
 	free(exec->token);

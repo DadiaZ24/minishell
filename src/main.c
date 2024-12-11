@@ -4,6 +4,7 @@ int	minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
+	printf("AFTER GET ENV ==== env pointer: %p\n", exec->shell);
 	exec->ast = (t_ast **)malloc(sizeof(t_ast));
 	if (!exec->ast)
 		return (0);

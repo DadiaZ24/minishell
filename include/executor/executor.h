@@ -20,8 +20,13 @@ int 	exec_execve(int *r, char *str_path, t_executor *exec, t_ast *ast);
 int		export(t_executor *exec);
 char **realloc_env (char **env, int i);
 bool bubblesort(t_executor *exec);
-char	**export_body_update(char *arg, char **env, bool is_new);
+char	**export_body_update(char *arg, t_executor *exec, bool is_new);
 int	realloc_unset(t_executor *exec);
 int	unset(t_executor *exec);
+int	print_export(t_executor *exec, char **env);
+bool	has_append_operator(char *arg);
+char	**handle_entry(char *arg, char **env, bool is_new, char delimiter);
+char **new_entry(char **env, char *entry, int i);
+bool update_entry(char **env_entry, char *entry, bool is_new, int size);
 
 #endif
