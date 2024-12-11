@@ -10,7 +10,7 @@ void	ft_putmtr(char **mtr)
 	while (mtr[++i])
 	{
 		ft_printf("%s", mtr[i]);
-		if (mtr[i + 1])
+		if (mtr[i][0] && mtr[i + 1] && mtr[i + 1][0])
 			ft_printf(" ");
 	}
 }

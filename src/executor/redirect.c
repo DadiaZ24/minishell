@@ -17,25 +17,25 @@ void	check_permission(t_executor *exec, char *path, int i)
 {
 	if (access(path, F_OK))
 	{
-		print_error("Permission Denied");
+		print_error(" Permission denied");
 		free_process(exec);
 		exit(1);
 	}
 	if (i == 1 && access(path, R_OK))
 	{
-		print_error("Permission Denied");
+		print_error(" Permission denied");
 		free_process(exec);
 		exit(1);
 	}
 	if (i == 2 && access(path, W_OK))
 	{
-		print_error("Permission Denied");
+		print_error(" Permission denied");
 		free_process(exec);
 		exit(1);
 	}
 	if (i == 3 && access(path, X_OK))
 	{
-		print_error("Permission Denied");
+		print_error(" Permission denied");
 		free_process(exec);
 		exit(1);
 	}
@@ -51,6 +51,7 @@ void	handle_redirects(t_executor *exec, t_ast *ast)
 	fd_in = STDIN_FILENO;
 	fd_out = STDOUT_FILENO;
 	ast_temp = ast;
+	
 	while (ast_temp->parent && ast_temp->parent->type != PIPE)
 	{
 		ast_temp = ast_temp->parent;

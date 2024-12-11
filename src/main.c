@@ -9,7 +9,6 @@ int	minishell(t_executor *exec, char **envp)
 		return (0);
 	while (minishell_loop(exec, exec->token))
 		;
-	
 	return (0);
 }
 
@@ -28,6 +27,7 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	create_token(mtr, tokens);
 	free_mtr(mtr);
 	lexer(tokens);
+	expander(tokens, exec);
 	create_ast(tokens, exec->ast);
 	free_token(tokens);
 	executor(exec);

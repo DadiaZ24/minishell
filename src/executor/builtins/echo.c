@@ -18,7 +18,7 @@ bool	echo_utils(char *str)
 	return (false);
 }
 
-bool	echo(char **mtr, t_executor *exec)
+bool	 echo(char **mtr, t_executor *exec)
 {
 	if (!mtr[1])
 	{
@@ -30,9 +30,7 @@ bool	echo(char **mtr, t_executor *exec)
 		}
 		return (1);
 	}
-	if (!ft_strcmp(mtr[1], "$?"))
-		printf("%d\n", exec->shell->status);
-	else if (mtr[1] && echo_utils(mtr[1]))
+	if (mtr[1] && echo_utils(mtr[1]))
 		ft_putmtr(mtr + 2);
 	else if (mtr[1])
 	{

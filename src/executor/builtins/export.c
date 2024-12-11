@@ -12,6 +12,7 @@ char **new_entry(char **env, char *entry, int i)
 
 bool update_entry(char **env_entry, char *entry, bool is_new, int size)
 {
+	(void)is_new;
 	if (ft_strchr(entry, '+'))
 	{
 		if (ft_strncmp(*env_entry, entry, size - 3) == 0)
