@@ -55,7 +55,7 @@ int	print_export(t_executor *exec, char **env)
 	bubblesort(exec);
 	while (env[++i])
 		size++;
-	key = malloc(sizeof(char *) * (size + 1));
+	key = malloc(sizeof(char *) * (2));
 	if (!key)
 		return (0);
 	i = -1;
@@ -67,6 +67,7 @@ int	print_export(t_executor *exec, char **env)
 		printf("\"%s\"\n", key[1]);
 		free(key[0]);
 	}
+	free(key);
 	return (1);
 }
 
