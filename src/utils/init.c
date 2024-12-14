@@ -90,7 +90,7 @@ t_executor	*init_exec(t_executor *exec)
 		free(exec->shell);
 		return (free(exec), NULL);
 	}
-	exec->ast = NULL;
+	exec->cmds = NULL;
 	exec->fd_in = dup(STDIN_FILENO);
 	exec->fd_out = dup(STDOUT_FILENO);
 	exec->pid = NULL;
