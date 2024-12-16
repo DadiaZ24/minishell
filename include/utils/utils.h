@@ -34,6 +34,6 @@ void		ast_utils_red(t_ast_utils *au, t_ast **ast);
 void		wait_pid(t_executor *exec);
 void		handle_redirects(t_executor *exec, t_ast *ast);
 void		check_permission(t_executor *exec, char *path, int i);
-void		exit_exec(t_executor *exec, t_ast *ast);
+void		exit_exec(t_executor *exec, t_cmds *cmds);
 
 #endif

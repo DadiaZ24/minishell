@@ -4,6 +4,9 @@ int	minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
+	exec->cmds = (t_cmds **)malloc(sizeof(t_cmds));
+    if (!exec->cmds)
+		return (0);
 	while (minishell_loop(exec, exec->token))
 		;
 	return (0);
@@ -27,10 +30,9 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	expander(tokens, exec);
 	ft_cmd_div(*tokens, exec);
 	free_token(*tokens);
-	//create_ast(tokens, exec->ast);
-	//executor(exec);
-	//dup2(exec->fd_out, STDOUT_FILENO);
-	//wait_pid(exec);
+	executor(exec);
+	dup2(exec->fd_out, STDOUT_FILENO);
+	wait_pid(exec);
 	free_all(exec);
 	return (1);
 }

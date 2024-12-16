@@ -50,13 +50,13 @@ void	wait_pid(t_executor *exec)
 	exec->pid = NULL;
 }
 
-void	exit_exec(t_executor *exec, t_ast *ast)
+void	exit_exec(t_executor *exec, t_cmds *cmds)
 {
 	if (errno == EACCES)
 		exec->shell->status = 126;
 	else if (errno == ENOENT)
 	{
-		if (ft_strncmp(ast->arg[0], "/", 1))
+		if (ft_strncmp(cmds->cmd, "/", 1))
 			exec->shell->status = 126;
 		else
 			exec->shell->status = 127;

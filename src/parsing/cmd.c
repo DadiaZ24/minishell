@@ -6,7 +6,6 @@ char **get_token(t_token *token, t_cmds *cmd)
     char **args = NULL;
     t_token *temp = token;
 	(void)cmd;
-    // Calculate the size of the args array
     while (token)
     {
         if (token->type == RED_IN || token->type == HERE_DOC ||
@@ -128,12 +127,9 @@ void ft_div(t_cmds **cmds, t_token *token)
 
 t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 {
-	t_cmds	*test;
-	t_token	*re_test;
-	int		i;
-    exec->cmds = (t_cmds **)malloc(sizeof(t_cmds));
-    if (!exec->cmds)
-        return NULL;
+	//t_cmds	*test;
+	//t_token	*re_test;
+	//int		i;
     if (!token)
         return NULL;
 
@@ -157,7 +153,7 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
     }
 
 	/*#############################*/
-	test = *exec->cmds;
+	/* test = *exec->cmds;
 	while (test)
 	{
 		i = 0;
@@ -175,7 +171,7 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 		}
 		printf("=====================================================\n");
 		test = test->next;
-	}
+	} */
 	/*#############################*/
     return (exec->cmds);
 }
