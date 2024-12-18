@@ -95,41 +95,63 @@ void add_redirection(t_cmds *cmd, t_token *token)
         temp->next = redir;
     }
     else
-        cmd->redir = redir;
+    {
+        cmd->redir->info = ft_strdup(redir->info);
+        cmd->redir->type = redir->type;
+        free(redir);
+    }
 }
 
 void ft_div(t_cmds **cmds, t_token *token)
 {
+    t_token *temp;
+    t_token *begin;
+    t_cmds *cmd;
+    
     if (!cmds || !*cmds || !token)
         return;
-
-    t_cmds *cmd = *cmds;
+    cmd = *cmds;
+    begin = NULL;
+    temp = NULL;
     cmd->args = get_token(token, cmd);
-
     if (cmd->args && cmd->args[0] && !cmd->cmd)
         cmd->cmd = ft_strdup(cmd->args[0]);
-
     while (token && token->type != PIPE)
     {
         if (token->type == RED_IN || token->type == RED_OUT ||
             token->type == APPEND || token->type == HERE_DOC)
         {
-            add_redirection(cmd, token);
-            token = token->next ? token->next->next : NULL;
-        }
-        else if (token->type == ARG)
-        {
-            while (token && token->type == ARG)
+            if (!temp)
+            {
+                begin = (t_token *)malloc(sizeof(t_token));
+                begin->type = token->type;
+                begin->info = ft_strdup(token->next->info);
                 token = token->next;
+                begin->next = NULL;
+                cmd->redir = begin;
+                temp = begin;
+            }
+            else
+            {
+                temp->next = (t_token *)malloc(sizeof(t_token));
+                temp = temp->next;
+                temp->type = token->type;
+                temp->info = ft_strdup(token->next->info);
+                token = token->next;
+                temp->next = NULL;
+            }
         }
+        else
+            token = token->next;
     }
+    cmd->redir = (*cmds)->redir;
 }
 
 t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 {
-	//t_cmds	*test;
-	//t_token	*re_test;
-	//int		i;
+	/* t_cmds	*test;
+	t_token	*re_test;
+	int		i; */
     if (!token)
         return NULL;
 

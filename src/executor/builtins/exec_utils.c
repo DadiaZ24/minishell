@@ -41,12 +41,11 @@ void	wait_pid(t_executor *exec)
 		return ;
 	while(exec->pid[i] != 0)
 	{
-		// printf("wait pid -----> [%d]\n", menu->pid_arr[i]);
 		waitpid(exec->pid[i++], &j, 0);
 		exec->shell->status = WEXITSTATUS(j);
 	}
 	free(exec->pid);
-	exec->num_pipe = 0;
+	exec->n_process = 0;
 	exec->pid = NULL;
 }
 

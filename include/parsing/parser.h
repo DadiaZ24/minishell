@@ -70,7 +70,7 @@ typedef struct s_executor
 	int		fd_in;
 	int		fd_out;
 	int		*pid;
-	int		num_pipe;
+	int		n_process;
 	bool	is_child;
 } t_executor;
 
