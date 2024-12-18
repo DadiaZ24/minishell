@@ -41,46 +41,46 @@ void	check_permission(t_executor *exec, char *path, int i)
 	}
 }
 
-void	handle_redirects(t_executor *exec, t_ast *ast)
+void	handle_redirects(t_executor *exec, t_cmds *cmds)
 {
 	int	fd_in;
 	int	fd_out;
-	t_ast	*ast_temp;
+	t_token	*temp;
 
 	(void)exec;
 	fd_in = STDIN_FILENO;
 	fd_out = STDOUT_FILENO;
-	ast_temp = ast;
+	temp = cmds->redir;
 	
-	while (ast_temp->parent && ast_temp->parent->type != PIPE)
+	while (temp)
 	{
-		ast_temp = ast_temp->parent;
-		if (ast_temp->type == RED_OUT)
+		if (temp->type == RED_OUT)
 		{
-			fd_out = open(ast_temp->red_target, O_CREAT | O_RDWR, 0777);
-			check_permission(exec, ast_temp->red_target, 2);
+			fd_out = open(temp->info, O_CREAT | O_RDWR, 0777);
+			check_permission(exec, temp->info, 2);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
-		else if (ast_temp->type == RED_IN)
+		else if (temp->type == RED_IN)
 		{
-			fd_in = open(ast_temp->red_target, O_RDWR, 0777);
-			check_permission(exec, ast_temp->red_target, 1);
+			fd_in = open(temp->info, O_RDWR, 0777);
+			check_permission(exec, temp->info, 1);
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
 		}
-		else if (ast_temp->type == APPEND)
+		else if (temp->type == APPEND)
 		{
-			fd_out = open(ast_temp->red_target, O_APPEND | O_CREAT | O_RDWR, 0777);
-			check_permission(exec, ast_temp->red_target, 2);
+			fd_out = open(temp->info, O_APPEND | O_CREAT | O_RDWR, 0777);
+			check_permission(exec, temp->info, 2);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
 		}
-		if (check_is_dir(ast_temp->red_target) != 2)
+		if (check_is_dir(temp->info) != 2)
 		{
 			print_error("Path is a directory");
 			free_process(exec);
 			exit(2);
 		}
+		temp = temp->next;
 	}
 }

@@ -90,8 +90,8 @@ void    ft_free_cmds(t_cmds *cmds)
         if (cmds->args)
             free_mtr(cmds->args);
        if (cmds->redir)
-	   		free(cmds->redir);
-        free(cmds);
+	   		free_token(cmds->redir);
+		free(cmds);
 		cmds = temp;
     }
 }

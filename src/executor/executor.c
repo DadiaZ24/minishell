@@ -12,7 +12,7 @@ int	create_pid(t_executor *exec, t_cmds **cmds)
 		++i;
 		temp_cmds = temp_cmds->next;
 	}
-	exec->num_pipe = i;
+	exec->n_process = i;
 	if (i == 0)
 		return (i);
 	exec->pid = (int *)malloc((i + 1) * sizeof(int));
@@ -20,15 +20,13 @@ int	create_pid(t_executor *exec, t_cmds **cmds)
 	return (i);
 }
 
-bool	handle_pipe(t_executor *exec)
+bool	handle_pipe(t_executor *exec, t_cmds **temp)
 {
 	int	fd[2];
 	int	i;
-	t_cmds *temp;
 
 	i = 0;
-	temp = *(exec->cmds);
-	while (temp)
+	while (*temp)
 	{
 		pipe(fd);
 		if ((exec->pid[i++] = fork()))
@@ -36,26 +34,27 @@ bool	handle_pipe(t_executor *exec)
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
 			close(fd[1]);
-			if (i == exec->num_pipe)
+			if (!(*temp)->next)
 				return (dup2(exec->fd_in, STDIN_FILENO), true);
+			*temp = (*temp)->next;
 		}
 		else
 		{
 			exec->is_child = true;
-			if (i == exec->num_pipe)
-				break;
+			if (!(*temp)->next)
+				break ;
 			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
 			close(fd[0]);
+			close(fd[1]);
 			return (false);
 		}
-		temp = temp->next;
 	}
 	dup2(exec->fd_out, STDOUT_FILENO);
 	close(exec->fd_out);
 	close(fd[0]);
 	return (false);
 }
+
 
 bool	check_builtin(t_cmds **cmds)
 {
@@ -85,7 +84,7 @@ bool	builtin(t_executor *exec, t_cmds **cmds)
 	t_cmds	*temp_cmds;
 
 	temp_cmds = *(cmds);
-	//handle_redirects(exec, temp_cmds);
+	handle_redirects(exec, temp_cmds);
 	if (!strncmp((temp_cmds)->cmd, "cd", ft_strlen((temp_cmds)->cmd)))
 		cd(exec->shell, (temp_cmds)->args, exec);
 	else if (!strncmp((temp_cmds)->cmd, "pwd", ft_strlen((temp_cmds)->cmd)))
@@ -113,11 +112,11 @@ int	executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
-	if (create_pid(exec, &temp_cmds) == 0 && check_builtin(&temp_cmds))
+	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_cmds));
-	if (handle_pipe(exec))
+	if (handle_pipe(exec, &temp_cmds))
 		return (1);
-	//handle_redirects(exec, temp_cmds);
+	handle_redirects(exec, temp_cmds);
 	if (check_builtin(&temp_cmds))
 		builtin(exec, &temp_cmds);
 	else
