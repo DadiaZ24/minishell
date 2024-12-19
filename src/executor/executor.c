@@ -99,7 +99,7 @@ bool	builtin(t_executor *exec, t_cmds **cmds)
 	else if (!strncmp((temp_cmds)->cmd, "env", ft_strlen((temp_cmds)->cmd)))
 		env(exec->shell, (temp_cmds)->args, exec);
 	else if (!strncmp((temp_cmds)->cmd, "exit", ft_strlen((temp_cmds)->cmd)))
-		exit_builtin(exec->shell->status, exec);
+		exit_builtin(exec->shell->status, exec, (temp_cmds)->args);
 	return (true);
 }
 
