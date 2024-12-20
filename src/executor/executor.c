@@ -69,9 +69,8 @@ bool	check_builtin(t_cmds **cmds)
 		return (true);
 	else if (!strncmp((temp_cmds)->cmd, "export", ft_strlen((temp_cmds)->cmd)))
 		return (true);
-	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);*/
+	else if (!strncmp((temp_cmds)->cmd, "unset", ft_strlen((temp_cmds)->cmd)))
+		return (true);
 	else if (!strncmp((temp_cmds)->cmd, "env", ft_strlen((temp_cmds)->cmd)))
 		return (true);
 	else if (!strncmp((temp_cmds)->cmd, "exit", ft_strlen((temp_cmds)->cmd)))
@@ -93,9 +92,8 @@ bool	builtin(t_executor *exec, t_cmds **cmds)
 		echo((temp_cmds)->args, exec);
 	else if (!strncmp((temp_cmds)->cmd, "export", ft_strlen((temp_cmds)->cmd)))
 		export(exec);
-	/*else if (!strncmp((*tokens)->info, "unset", ft_strlen((*tokens)->info)))
-		//TODO
-		(void);*/
+	else if (!strncmp((temp_cmds)->cmd, "unset", ft_strlen((temp_cmds)->cmd)))
+		unset((temp_cmds)->args, exec);
 	else if (!strncmp((temp_cmds)->cmd, "env", ft_strlen((temp_cmds)->cmd)))
 		env(exec->shell, (temp_cmds)->args, exec);
 	else if (!strncmp((temp_cmds)->cmd, "exit", ft_strlen((temp_cmds)->cmd)))

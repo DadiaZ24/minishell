@@ -12,7 +12,6 @@ void	free_d(t_executor *exec)
 void	free_all(t_executor *exec)
 {
 	free(exec->shell->line);
-	/* free_ast(exec->ast); */
 	ft_free_cmds(*exec->cmds);
 	if (exec->pid)
 		free(exec->pid);

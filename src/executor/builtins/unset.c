@@ -1,31 +1,5 @@
 #include <minishell.h>
 
-int	unset(t_executor *exec)
-{
-	t_ast	*temp_ast;
-	int		i;
-	int		j;
-
-	temp_ast = *(exec->ast);
-	i = -1;
-	while(temp_ast->arg[++i])
-	{
-		j = -1;
-		while (exec->shell->env[++j])
-		{
-			if (ft_strncmp(exec->shell->env[j], temp_ast->arg[i], ft_strlen(temp_ast->arg[i])) == 0)
-			{
-				free(exec->shell->env[j]);
-				exec->shell->env[j] = NULL;
-				if (!realloc_unset(exec))
-					return (0);
-				break;
-			}
-		}
-	}
-	return (1);
-}
-
 int	realloc_unset(t_executor *exec)
 {
 	int		i;
@@ -52,5 +26,29 @@ int	realloc_unset(t_executor *exec)
 	new_env[j] = NULL;
 	free(exec->shell->env);
 	exec->shell->env = new_env;
+	return (1);
+}
+
+int	unset(char **mtr, t_executor *exec)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while(mtr[++i])
+	{
+		j = -1;
+		while (exec->shell->env[++j])
+		{
+			if (ft_strncmp(exec->shell->env[j], mtr[i], ft_strlen(mtr[i])) == 0)
+			{
+				free(exec->shell->env[j]);
+				exec->shell->env[j] = NULL;
+				if (!realloc_unset(exec))
+					return (0);
+				break;
+			}
+		}
+	}
 	return (1);
 }
