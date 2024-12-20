@@ -31,11 +31,6 @@ char	*mini_fill_word(const char *str, int start, int end)
 	return (word);
 }
 
-void ft_printing(char *print)
-{
-	write(1, print, ft_strlen(print));
-}
-
 void	ft_print_ast(t_ast *ast)
 {
 	ft_printf("======\n");

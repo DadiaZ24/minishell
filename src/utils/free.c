@@ -20,17 +20,17 @@ void	free_mtr(char **mtr)
 	free(mtr);
 }
 
-void	free_token(t_token **token)
+void	free_token(t_token *token)
 {
 	t_token	*temp;
 
-	temp = *token;
+	temp = token;
 	while (temp)
 	{
-		temp = (*token)->next;
-		free((*token)->info);
-		free(*token);
-		*token = temp;
+		temp = token->next;
+		free(token->info);
+		free(token);
+		token = temp;
 	}
 }
 
@@ -54,7 +54,7 @@ void	free_ast_utils(t_ast *ast)
 	}
 }
 
-void	free_ast(t_ast **ast)
+/* void	free_ast(t_ast **ast)
 {
 	t_ast	*temp;
 
@@ -76,4 +76,22 @@ void	free_ast(t_ast **ast)
 	if (temp->red_target)
 		free(temp->red_target);
 	free(temp);
+} */
+
+void    ft_free_cmds(t_cmds *cmds)
+{
+    t_cmds *temp;
+
+	while (cmds)
+    {
+        temp = cmds->next;
+        if (cmds->cmd)
+            free(cmds->cmd);
+        if (cmds->args)
+            free_mtr(cmds->args);
+       if (cmds->redir)
+	   		free_token(cmds->redir);
+		free(cmds);
+		cmds = temp;
+    }
 }

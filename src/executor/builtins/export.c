@@ -57,23 +57,24 @@ int	print_export(t_executor *exec, char **env)
 
 int	export(t_executor *exec)
 {
-	t_ast	*temp_ast;
+	t_cmds	*temp_ast;
 	int		i;
 	bool	is_new;
 
-	temp_ast = *(exec->ast);
+	temp_ast = *(exec->cmds);
 	i = -1;
 	is_new = true;
-	if (temp_ast->arg[0] && !temp_ast->arg[1])
+	if (temp_ast->args[0] && !temp_ast->args[1])
 	{
 		print_export(exec, exec->shell->env);
 		return (1);
 	}
-	else if (temp_ast->arg[1])
+	else if (temp_ast->args[1])
 	{
 		i = 0;
-		while (temp_ast->arg[++i])
-			exec->shell->env = export_body_update(temp_ast->arg[i], exec->shell->env, is_new);
+		while (temp_ast->args[++i])
+			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new);
+		return (1);
 	}
 	return (1);
 }

@@ -3,16 +3,17 @@
 void	free_d(t_executor *exec)
 {
 	free_mtr(exec->shell->env);
+	free(exec->cmds);
 	free(exec->shell);
 	free(exec->token);
-	free(exec->ast);
 	free(exec);
 }
 
 void	free_all(t_executor *exec)
 {
 	free(exec->shell->line);
-	free_ast(exec->ast);
+	/* free_ast(exec->ast); */
+	ft_free_cmds(*exec->cmds);
 	if (exec->pid)
 		free(exec->pid);
 	exec->pid = NULL;

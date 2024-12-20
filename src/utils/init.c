@@ -90,11 +90,11 @@ t_executor	*init_exec(t_executor *exec)
 		free(exec->shell);
 		return (free(exec), NULL);
 	}
-	exec->ast = NULL;
+	exec->cmds = NULL;
 	exec->fd_in = dup(STDIN_FILENO);
 	exec->fd_out = dup(STDOUT_FILENO);
 	exec->pid = NULL;
-	exec->num_pipe = 0;
+	exec->n_process = 0;
 	exec->is_child = false;
 	return (exec);
 }

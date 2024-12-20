@@ -26,7 +26,7 @@ bool	 echo(char **mtr, t_executor *exec)
 		if (exec->is_child)
 		{
 			free_process(exec);
-			exit(1);
+			exit(0);
 		}
 		return (1);
 	}
@@ -40,7 +40,7 @@ bool	 echo(char **mtr, t_executor *exec)
 	if (exec->is_child)
 	{
 		free_process(exec);
-		exit(1);
+		exit(0);
 	}
 	return (1);
 }

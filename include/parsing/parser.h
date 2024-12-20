@@ -54,15 +54,23 @@ typedef struct s_shell
 
 }	t_shell;
 
+typedef struct s_cmds
+{
+	char			*cmd;
+	char			**args;
+	t_token			*redir;
+	struct s_cmds	*next;
+} t_cmds;
+
 typedef struct s_executor
 {
-	t_ast 	**ast;
+	t_cmds 	**cmds;
 	t_shell	*shell;
 	t_token	**token;
 	int		fd_in;
 	int		fd_out;
 	int		*pid;
-	int		num_pipe;
+	int		n_process;
 	bool	is_child;
 } t_executor;
 
@@ -89,5 +97,6 @@ void		lexer(t_token **tokens);
 int			check_redirect_or_pipe(char *s);
 int			check_file_eof(char *s);
 void		expander(t_token **token, t_executor *exec);
+t_cmds 		**ft_cmd_div(t_token *token, t_executor *exec);
 
 #endif
