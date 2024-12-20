@@ -74,6 +74,7 @@ int	export(t_executor *exec)
 		i = 0;
 		while (temp_ast->args[++i])
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new);
+		return (1);
 	}
 	return (1);
 }
