@@ -31,11 +31,17 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	if(!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
 		chdir(getenvp(shell->env, "HOME"));
 	else if (mtr[2])
-		printf("Too many arguments\n");
+	{
+		exec->shell->status = 1;
+		w_error(" too many arguments\n");
+	}
 	else if (mtr[1] && !ft_strcmp(mtr[1], "-"))
 		chdir(getenvp(shell->env, "OLDPWD"));
 	else if (mtr[1] && !is_directory(mtr[1]))
-		printf("Not a directory\n");
+	{
+		exec->shell->status = 1;
+		w_error(" No such file or directory\n");
+	}
 	else if (mtr[1] && is_directory(mtr[1]))
 	{
 		str = ft_joinpath(current_path, mtr[1]);

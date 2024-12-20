@@ -56,7 +56,7 @@ void	exit_exec(t_executor *exec, t_cmds *cmds)
 	else if (errno == ENOENT)
 	{
 		if (ft_strncmp(cmds->cmd, "/", 1))
-			exec->shell->status = 126;
+			exec->shell->status = 127;
 		else
 			exec->shell->status = 127;
 	}

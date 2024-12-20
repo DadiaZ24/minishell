@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void	w_error(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i++])
+		write(STDERR_FILENO, &str[i], 1);
+}
+
 void	exit_builtin(int status, t_executor *exec, char **mtr)
 {
 	if (mtr[1])
