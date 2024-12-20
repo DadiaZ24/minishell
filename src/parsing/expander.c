@@ -172,8 +172,8 @@ void	expander(t_token **token, t_executor *exec)
 						else
 						{
 							exp->start = ++exp->str_i;
-							while (ft_isalnum(exp->token->info[++exp->str_i]))
-								;
+							while (ft_isalnum(exp->token->info[exp->str_i]) || exp->token->info[exp->str_i] == '_')
+								++exp->str_i;
 							exp->env_i = get_env_var(exp, exec);
 							expand(exp, exec);
 						}
