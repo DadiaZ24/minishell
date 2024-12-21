@@ -60,4 +60,6 @@ void	exit_exec(t_executor *exec, t_cmds *cmds)
 		else
 			exec->shell->status = 127;
 	}
+	else
+		exec->shell->status = 1;
 }

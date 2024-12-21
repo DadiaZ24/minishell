@@ -21,6 +21,6 @@ int 	exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds);
 int		export(t_executor *exec);
 char **realloc_env (char **env, int i);
 bool bubblesort(t_executor *exec);
-char	**export_body_update(char *arg, char **env, bool is_new);
+char	**export_body_update(char *arg, char **env, bool is_new, t_executor *exec);
 
 #endif
