@@ -73,7 +73,7 @@ int	export(t_executor *exec)
 	{
 		i = 0;
 		while (temp_ast->args[++i])
-			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new);
+			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
 		return (1);
 	}
 	return (1);
@@ -141,16 +141,47 @@ bool	has_append_operator(char *arg)
 	return (false);
 }
 
-char	**export_body_update(char *arg, char **env, bool is_new)
+bool	has_minus_operator(char *arg)
+{
+	if (!arg)
+		return (false);
+	while (*arg)
+	{
+		if (*arg == '-' && *(arg + 1) == '=')
+			return (true);
+		arg++;
+	}
+	return (false);
+}
+
+char	**export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 {
 	if (has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '+'));
+	else if (has_minus_operator(arg))
+	{
+		exec->shell->status = 1;
+		return (env);
+	}
+	else if (ft_strchr(arg, '-') && !ft_strchr(arg, '='))
+	{
+		exec->shell->status = 1;
+		return (env);
+	}
+	else if (ft_strchr(arg, '=') && ft_strlen(arg) == 1)
+	{
+		exec->shell->status = 1;
+		return (env);
+	}
+	else if (ft_isdigit(arg[0]))
+	{
+		exec->shell->status = 1;
+		return (env);
+	}
 	else if (ft_strchr(arg, '=') && !has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '='));
 	return (handle_entry(arg, env, is_new, '='));
 }
-
-
 
 char **realloc_env (char **env, int i)
 {
