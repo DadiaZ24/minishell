@@ -32,32 +32,20 @@ char	*ft_strdup(const char *s)
 	return (new_s);
 }
 
-char	*ft_strdup_quotes(const char *s)
+char	*ft_strndup(const char *s, size_t n)
 {
 	size_t	i;
-	size_t	s_i;
-	size_t	j;
 	char	*new_s;
 
 	i = 0;
-	j = 0;
-	s_i = ft_strlen(s);
-	new_s = (char *)malloc(sizeof(char) * (s_i + 3));
+	new_s = (char *)malloc(sizeof(char) * (n + 1));
 	if (!new_s)
 		return (NULL);
-	while (s[i])
+	while (s[i] && i < n)
 	{
-		if (s[i - 1] == '=')
-		{
-			new_s[j] = '"';
-			j++;
-		}
-		new_s[j] = s[i];
-		write(1, &new_s[j], 1);
+		new_s[i] = s[i];
 		i++;
-		j++;
 	}
-	new_s[i] = '"';
-	new_s[i + 1] = '\0';
+	new_s[i] = '\0';
 	return (new_s);
 }
