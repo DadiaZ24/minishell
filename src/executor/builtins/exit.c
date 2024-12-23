@@ -4,8 +4,8 @@ void	w_error(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i++])
+	i = -1;
+	while (str[++i])
 		write(STDERR_FILENO, &str[i], 1);
 }
 
