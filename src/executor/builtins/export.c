@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int	export(t_executor *exec)
+int export(t_executor *exec)
 {
-	t_cmds	*temp_ast;
-	int		i;
-	bool	is_new;
+	t_cmds *temp_ast;
+	int i;
+	bool is_new;
 
 	temp_ast = *(exec->cmds);
 	i = -1;
@@ -12,6 +12,8 @@ int	export(t_executor *exec)
 	if (temp_ast->args[0] && !temp_ast->args[1])
 	{
 		print_export(exec, exec->shell->env);
+		if (exec->is_child)
+			exit(1);
 		return (1);
 	}
 	else if (temp_ast->args[1])
@@ -19,12 +21,14 @@ int	export(t_executor *exec)
 		i = 0;
 		while (temp_ast->args[++i])
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
+		if (exec->is_child)
+			exit(1);
 		return (1);
 	}
 	return (1);
 }
 
-int	print_export(t_executor *exec, char **env)
+int print_export(t_executor *exec, char **env)
 {
 	int i;
 	char **key;
@@ -40,7 +44,7 @@ int	print_export(t_executor *exec, char **env)
 		if (ft_strchr(env[i], '='))
 			key[1] = ft_strchr(env[i], '=') + 1;
 		printf("declare -x %s", key[0]);
-		if(key[1])
+		if (key[1])
 			printf("=\"%s\"\n", key[1]);
 		else
 			printf("\n");
@@ -51,7 +55,7 @@ int	print_export(t_executor *exec, char **env)
 	return (1);
 }
 
-char	**export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
+char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 {
 	if (has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '+'));
@@ -80,7 +84,7 @@ char	**export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 	return (handle_entry(arg, env, is_new, '='));
 }
 
-char	**handle_entry(char *arg, char **env, bool is_new, char delimiter)
+char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 {
 	int i;
 
@@ -124,7 +128,6 @@ bool update_entry(char **env_entry, char *entry, bool is_new, int size)
 			is_new = true;
 			return (false);
 		}
-
 	}
 	else
 	{
@@ -153,10 +156,10 @@ char **new_entry(char **env, char *entry, int i)
 	return (env);
 }
 
-char	**export_put_values(char **env, char *arg, int i)
+char **export_put_values(char **env, char *arg, int i)
 {
-	char	*temp;
-	int		j;
+	char *temp;
+	int j;
 
 	j = -1;
 	while (env[++j])
@@ -173,7 +176,7 @@ char	**export_put_values(char **env, char *arg, int i)
 	return (env);
 }
 
-bool	has_append_operator(char *arg)
+bool has_append_operator(char *arg)
 {
 	if (!arg)
 		return (false);
@@ -186,7 +189,7 @@ bool	has_append_operator(char *arg)
 	return (false);
 }
 
-bool	has_operator_before_equal(char *arg)
+bool has_operator_before_equal(char *arg)
 {
 	if (!arg)
 		return (false);
@@ -213,7 +216,7 @@ bool	has_operator_before_equal(char *arg)
 	return (false);
 }
 
-char **realloc_env (char **env, int i)
+char **realloc_env(char **env, int i)
 {
 	char **new_env;
 	int j;
