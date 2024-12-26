@@ -13,7 +13,7 @@ char **get_token(t_token *token, t_cmds *cmd)
             token = token->next->next;
         else if (token->type == PIPE)
             break;
-        if (token && token->type == ARG)
+        if (token && token->type == ARG && token->info[0] != '\0')
             size++;
         if (token)
             token = token->next;
@@ -36,7 +36,7 @@ char **get_token(t_token *token, t_cmds *cmd)
         if (temp->type == RED_IN || temp->type == HERE_DOC ||
             temp->type == APPEND || temp->type == RED_OUT)
             temp = temp->next;
-        else if (temp->type == ARG && (!temp->prev || (temp->prev->type != RED_IN &&
+        else if (temp->type == ARG && temp->info[0] != '\0' && (!temp->prev || (temp->prev->type != RED_IN &&
                                                       temp->prev->type != RED_OUT &&
                                                       temp->prev->type != APPEND &&
                                                       temp->prev->type != HERE_DOC)))
@@ -162,7 +162,6 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
     while (token)
     {
         ft_div(&current_cmd, token);
-
         while (token && token->type != PIPE)
             token = token->next;
 

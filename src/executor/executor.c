@@ -109,6 +109,8 @@ int executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
+	if (ft_strlen(temp_cmds->cmd) == 0)
+		return (1);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_cmds));
 	if (handle_pipe(exec, &temp_cmds))
