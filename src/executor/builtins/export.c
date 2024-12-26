@@ -13,8 +13,8 @@ int export(t_executor *exec)
 	{
 		print_export(exec, exec->shell->env);
 		if (exec->is_child)
-			exit(1);
-		return (1);
+			exit(0);
+		return (set_exit_status(exec->shell, 0), 1);
 	}
 	else if (temp_ast->args[1])
 	{
@@ -22,10 +22,10 @@ int export(t_executor *exec)
 		while (temp_ast->args[++i])
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
 		if (exec->is_child)
-			exit(1);
-		return (1);
+			exit(0);
+		return (set_exit_status(exec->shell, 0), 1);
 	}
-	return (1);
+	return (set_exit_status(exec->shell, 0), 1);
 }
 
 int print_export(t_executor *exec, char **env)

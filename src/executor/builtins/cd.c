@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	cd_utils(t_shell *shell, char *new_path, char *current_path)
+void cd_utils(t_shell *shell, char *new_path, char *current_path)
 {
-	char	*str;
+	char *str;
 
 	str = getcwd(new_path, sizeof(new_path));
 	if (!new_path)
@@ -18,17 +18,19 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	char *str;
 
 	str = NULL;
-	if(getcwd(current_path, sizeof(current_path)) == NULL)
+	if (getcwd(current_path, sizeof(current_path)) == NULL)
 	{
 		printf("Error getting current path\n");
+		exec->shell->status = 1;
 		if (exec->is_child)
 		{
 			free_process(exec);
 			exit(1);
 		}
+
 		return (1);
 	}
-	if(!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
+	if (!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
 		chdir(getenvp(shell->env, "HOME"));
 	else if (mtr[2])
 	{
@@ -50,16 +52,21 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		cd_utils(shell, new_path, current_path);
 	}
 	else
+	{
 		printf("Invalid path\n");
+		exec->shell->status = 1;
+	}
 	if (exec->is_child)
 	{
 		free_process(exec);
+		exec->shell->status = 0;
 		exit(1);
 	}
+	exec->shell->status = 0;
 	return (1);
 }
 
-void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
+void update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 {
 	char *oldpwd_line;
 	char *newpwd_line;

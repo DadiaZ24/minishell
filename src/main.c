@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-int	minishell(t_executor *exec, char **envp)
+int minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
 	exec->cmds = (t_cmds **)malloc(sizeof(t_cmds));
-    if (!exec->cmds)
+	if (!exec->cmds)
 		return (0);
 	while (minishell_loop(exec, exec->token))
 		;
 	return (0);
 }
 
-int	minishell_loop(t_executor *exec, t_token **tokens)
+int minishell_loop(t_executor *exec, t_token **tokens)
 {
 	char **mtr;
 
@@ -28,8 +28,10 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	free_mtr(mtr);
 	lexer(tokens);
 	expander(tokens, exec);
-	//ft_print_token(tokens);
+	// ft_print_token(tokens);
 	ft_cmd_div(*tokens, exec);
+	if (!syntax_checker(tokens))
+		return (free_token(*tokens), 1);
 	free_token(*tokens);
 	executor(exec);
 	dup2(exec->fd_out, STDOUT_FILENO);
@@ -38,9 +40,9 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_executor	*exec;
+	t_executor *exec;
 
 	(void)argc;
 	(void)argv;
@@ -49,9 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	exec = init_exec(exec);
 	if (!exec)
-		return(-1);
+		return (-1);
 	minishell(exec, envp);
 	return (0);
 }
-
-

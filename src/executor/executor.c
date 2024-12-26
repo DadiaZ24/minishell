@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-int	create_pid(t_executor *exec, t_cmds **cmds)
+int create_pid(t_executor *exec, t_cmds **cmds)
 {
-	int		i;
-	t_cmds	*temp_cmds;
+	int i;
+	t_cmds *temp_cmds;
 
 	i = 0;
 	temp_cmds = *cmds;
@@ -20,10 +20,10 @@ int	create_pid(t_executor *exec, t_cmds **cmds)
 	return (i);
 }
 
-bool	handle_pipe(t_executor *exec, t_cmds **temp)
+bool handle_pipe(t_executor *exec, t_cmds **temp)
 {
-	int	fd[2];
-	int	i;
+	int fd[2];
+	int i;
 
 	i = 0;
 	while (*temp)
@@ -42,7 +42,7 @@ bool	handle_pipe(t_executor *exec, t_cmds **temp)
 		{
 			exec->is_child = true;
 			if (!(*temp)->next)
-				break ;
+				break;
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[0]);
 			close(fd[1]);
@@ -55,10 +55,9 @@ bool	handle_pipe(t_executor *exec, t_cmds **temp)
 	return (false);
 }
 
-
-bool	check_builtin(t_cmds **cmds)
+bool check_builtin(t_cmds **cmds)
 {
-	t_cmds	*temp_cmds;
+	t_cmds *temp_cmds;
 
 	temp_cmds = *(cmds);
 	if (!strncmp((temp_cmds)->cmd, "cd", ft_strlen((temp_cmds)->cmd)))
@@ -78,9 +77,9 @@ bool	check_builtin(t_cmds **cmds)
 	return (false);
 }
 
-bool	builtin(t_executor *exec, t_cmds **cmds)
+bool builtin(t_executor *exec, t_cmds **cmds)
 {
-	t_cmds	*temp_cmds;
+	t_cmds *temp_cmds;
 
 	temp_cmds = *(cmds);
 	handle_redirects(exec, temp_cmds);
@@ -101,11 +100,11 @@ bool	builtin(t_executor *exec, t_cmds **cmds)
 	return (true);
 }
 
-int	executor(t_executor *exec)
+int executor(t_executor *exec)
 {
-	char	*str_path;
-	t_cmds	*temp_cmds;
-	int		r;
+	char *str_path;
+	t_cmds *temp_cmds;
+	int r;
 
 	r = 0;
 	str_path = NULL;
@@ -124,14 +123,20 @@ int	executor(t_executor *exec)
 
 int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 {
-	t_cmds	*temp_cmds;
+	t_cmds *temp_cmds;
 
 	temp_cmds = cmds;
 	if (!ft_strncmp((temp_cmds)->cmd, "./", 2))
 		str_path = ft_strdup((temp_cmds)->cmd);
 	else
 		str_path = ft_strjoin("/usr/bin/", (temp_cmds)->cmd);
-	execve(str_path, (temp_cmds)->args, exec->shell->env);
+	if (execve(str_path, (temp_cmds)->args, exec->shell->env) == -1)
+	{
+		if (exec->is_child)
+			exit(127);
+		printf("minishell: %s: command not found\n", (temp_cmds)->cmd);
+		set_exit_status(exec->shell, 127);
+	}
 	exit_exec(exec, temp_cmds);
 	*r = exec->shell->status;
 	free(str_path);

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-bool	echo_utils(char *str)
+bool echo_utils(char *str)
 {
 	int i;
 
@@ -18,7 +18,7 @@ bool	echo_utils(char *str)
 	return (false);
 }
 
-bool	 echo(char **mtr, t_executor *exec)
+bool echo(char **mtr, t_executor *exec)
 {
 	if (!mtr[1])
 	{
@@ -26,9 +26,10 @@ bool	 echo(char **mtr, t_executor *exec)
 		if (exec->is_child)
 		{
 			free_process(exec);
+			exec->shell->status = 0;
 			exit(0);
 		}
-		return (1);
+		return (set_exit_status(exec->shell, 0), 1);
 	}
 	if (mtr[1] && echo_utils(mtr[1]))
 		ft_putmtr(mtr + 2);
@@ -40,7 +41,8 @@ bool	 echo(char **mtr, t_executor *exec)
 	if (exec->is_child)
 	{
 		free_process(exec);
+		set_exit_status(exec->shell, 0);
 		exit(0);
 	}
-	return (1);
+	return (set_exit_status(exec->shell, 0), 1);
 }

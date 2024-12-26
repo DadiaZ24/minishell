@@ -8,6 +8,7 @@ bool env(t_shell *shell, char **mtr, t_executor *exec)
 	if (mtr[1])
 	{
 		printf("env: can not receive arguments or options (imposed by subject)\n");
+		set_exit_status(exec->shell, 1);
 		if (exec->is_child)
 		{
 			free_process(exec);
@@ -23,28 +24,7 @@ bool env(t_shell *shell, char **mtr, t_executor *exec)
 	if (exec->is_child)
 	{
 		free_process(exec);
-		exit(1);
+		exit(0);
 	}
-	return (true);
-}
-
-void update_env(t_shell *shell)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (shell->env[++i])
-	{
-		j = -1;
-		while(shell->env[++j])
-		{
-			if (ft_strncmp(shell->env[i], shell->env[j], ft_strclen(shell->env[j], '=') + 1) == 0)
-			{
-				free(shell->env[i]);
-				shell->env[i] = ft_strdup(shell->env[j]);
-				break;
-			}
-		}
-	}
+	return (set_exit_status(exec->shell, 0), true);
 }

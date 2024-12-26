@@ -1,21 +1,23 @@
 #include "minishell.h"
 
-void	ft_print_token(t_token **token)
+void ft_print_token(t_token **token)
 {
-	t_token	*temp;
+	t_token *temp;
 
 	temp = *token;
+	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
 	while (temp)
 	{
-		ft_printf("Info->[%s]\nType->[%d]\n", temp->info, temp->type);
+		printf("Info->[%s] || \tType->[%d]\n", temp->info, temp->type);
 		temp = temp->next;
 	}
+	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
 }
 
-char	*mini_fill_word(const char *str, int start, int end)
+char *mini_fill_word(const char *str, int start, int end)
 {
-	char	*word;
-	int		i;
+	char *word;
+	int i;
 
 	i = 0;
 	word = malloc((end - start + 1) * sizeof(char));
@@ -31,7 +33,7 @@ char	*mini_fill_word(const char *str, int start, int end)
 	return (word);
 }
 
-void	ft_print_ast(t_ast *ast)
+void ft_print_ast(t_ast *ast)
 {
 	ft_printf("======\n");
 	ft_printf("Type->[%d]\nArg->[", ast->type);
@@ -58,9 +60,9 @@ void	ft_print_ast(t_ast *ast)
 	}
 }
 
-void	print_error(char *str)
+void print_error(char *str)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	while (str[++i])
