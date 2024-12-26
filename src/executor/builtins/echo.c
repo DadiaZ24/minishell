@@ -22,7 +22,7 @@ bool echo(char **mtr, t_executor *exec)
 {
 	if (!mtr[1])
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		if (exec->is_child)
 		{
 			free_process(exec);
@@ -36,7 +36,7 @@ bool echo(char **mtr, t_executor *exec)
 	else if (mtr[1])
 	{
 		ft_putmtr(++mtr);
-		printf("\n");
+		write(1, "\n", 1);
 	}
 	if (exec->is_child)
 	{
