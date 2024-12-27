@@ -9,27 +9,25 @@ void	w_error(char *str)
 		write(STDERR_FILENO, &str[i], 1);
 }
 
-void	exit_builtin(int status, t_executor *exec, char **mtr)
+int	exit_builtin(int status, t_executor *exec, char **mtr)
 {
+	int i;
+
+	i = -1;
 	if (mtr[1])
 	{
 		if (mtr[2])
+			return (set_exit_status(exec->shell, 1), w_error("exit\nminishell: exit: too many arguments\n"), 1);
+		while(mtr[1][++i])
 		{
-			set_exit_status(exec->shell, 1);
-			w_error("exit\nminishell: exit: too many arguments\n");
-			return ;
-		}
-		while(*mtr[1])
-		{
-			if (!ft_isdigit(*mtr[1]))
+			if (!ft_isdigit(mtr[1][i]))
 			{
 				set_exit_status(exec->shell, 255);
 				w_error("exit\nminishell: exit: ");
 				w_error(mtr[1]);
 				w_error(": numeric argument required\n");
-				return ;
+				return (1);
 			}
-			mtr[1]++;
 		}
 		status = ft_atoi(mtr[1]);
 	}
