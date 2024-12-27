@@ -22,10 +22,11 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 		{
 			if (!ft_isdigit(mtr[1][i]) && mtr[1][i] != '-' && mtr[1][i] != '+')
 			{
-				set_exit_status(exec->shell, 255);
+				set_exit_status(exec->shell, 2);
 				w_error("exit\nminishell: exit: ");
 				w_error(mtr[1]);
 				w_error(": numeric argument required\n");
+				status = 2;
 				return (1);
 			}
 		}
