@@ -7,10 +7,10 @@ int syntax_checker(t_token **tokens)
 	token = *tokens;
 	if (!token || token->info[0] == '\0')
 		return (printf("\n"), 0);
-	/*if (!check_quotes(tokens))
-		return (0);*/
 	while (token)
 	{
+		if (!check_quotes(token))
+			return (0);
 		if (!syntax_pipe(token) || !syntax_red_out_in(token) || !syntax_append_heredoc(token))
 			return (0);
 		token = token->next;

@@ -1,24 +1,23 @@
 #include "minishell.h"
 
-int check_quotes(t_token **tokens, char quote)
+int check_quotes(t_token *token)
 {
 	int i;
-	bool has_open_quote;
-	t_token *token;
+	char quote;
 
 	i = -1;
-	has_open_quote = false;
-	token = (*tokens)->next;
-	while (token)
+	quote = '\0';
+	while (token->info[++i])
 	{
-		while (token->info[++i])
+		if (quote == '\0')
 		{
-			if (token->info[i] == quote)
-				has_open_quote = !has_open_quote;
+			if (token->info[i] == '\'' || token->info[i] == '\"')
+				quote = token->info[i];
 		}
-		token = token->next;
+		else if (quote == token->info[i])
+			quote = '\0';
 	}
-	if (has_open_quote)
+	if (quote != '\0')
 		return (printf("minishell: syntax error: unclosed quotes are not available due to subject rules\n"), 0);
 	return (1);
 }
