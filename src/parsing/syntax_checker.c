@@ -20,7 +20,7 @@ int syntax_checker(t_token **tokens)
 	return (1);
 }
 
-int check_quotes(t_token **token)
+int check_quotes(t_token **tokens)
 {
 	int i;
 	bool has_open_quote;
