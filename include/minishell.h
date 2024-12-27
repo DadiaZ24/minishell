@@ -66,5 +66,6 @@ int syntax_append_heredoc(t_token *token);
 int syntax_red_out_in(t_token *token);
 int syntax_pipe(t_token *token);
 int syntax_checker(t_token **tokens);
+int check_quotes(t_token **token);
 
 #endif
