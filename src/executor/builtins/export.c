@@ -23,7 +23,7 @@ int export(t_executor *exec)
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
 		if (exec->is_child)
 			exit(0);
-		return (set_exit_status(exec->shell, 0), 1);
+		return (1);
 	}
 	return (set_exit_status(exec->shell, 0), 1);
 }
@@ -62,7 +62,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 	else if (has_operator_before_equal(arg))
 	{
 		exec->shell->status = 1;
-		return (w_error("minishell: not a valid identifier\n"), env);
+		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
 	}
 	else if (ft_strchr(arg, '-') && !ft_strchr(arg, '='))
 	{

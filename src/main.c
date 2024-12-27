@@ -26,12 +26,12 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	mtr = mini_split(exec->shell->line);
 	create_token(mtr, tokens);
 	free_mtr(mtr);
+	if (!syntax_checker(tokens))
+		return (free_token(*tokens), 1);
 	lexer(tokens);
 	expander(tokens, exec);
 	// ft_print_token(tokens);
 	ft_cmd_div(*tokens, exec);
-	/* if (!syntax_checker(tokens))
-		return (free_token(*tokens), 1); */
 	free_token(*tokens);
 	executor(exec);
 	dup2(exec->fd_out, STDOUT_FILENO);
