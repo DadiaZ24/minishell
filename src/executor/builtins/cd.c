@@ -41,8 +41,7 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		chdir(getenvp(shell->env, "OLDPWD"));
 	else if (mtr[1] && !is_directory(mtr[1]))
 	{
-		exec->shell->status = 1;
-		w_error(" No such file or directory\n");
+		return (set_exit_status(shell, 1), w_error(" No such file or directory\n"), 1);
 	}
 	else if (mtr[1] && is_directory(mtr[1]))
 	{
@@ -62,7 +61,6 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		exec->shell->status = 0;
 		exit(1);
 	}
-	exec->shell->status = 0;
 	return (1);
 }
 
