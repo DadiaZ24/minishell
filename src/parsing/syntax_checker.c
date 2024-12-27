@@ -27,7 +27,7 @@ int check_quotes(t_token **tokens)
 
 	i = -1;
 	has_open_quote = false;
-	has_open_quote = false;
+	has_open_double_quote = false;
 	token = (*tokens)->next;
 	while (token)
 	{
