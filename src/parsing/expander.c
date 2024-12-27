@@ -118,7 +118,7 @@ void	expander(t_token **token, t_executor *exec)
 	exp = init_exp(exp, token);
 	while (exp->token)
 	{
-		if(exp->token->type == ARG)
+		if(exp->token->type == ARG || exp->token->type == MINI_FILE)
 		{
 			while (exp->token->info[++exp->str_i])
 			{
@@ -183,7 +183,7 @@ void	expander(t_token **token, t_executor *exec)
 			if (exp->start != exp->str_i)
 				check_exp_temp(exp);
 		}
-		if (exp->token->type == ARG)
+		if (exp->token->type == ARG || exp->token->type == MINI_FILE)
 		{
 			free(exp->token->info);
 			exp->token->info = ft_strdup(exp->temp);

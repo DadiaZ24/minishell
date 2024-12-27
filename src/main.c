@@ -28,6 +28,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	free_mtr(mtr);
 	lexer(tokens);
 	expander(tokens, exec);
+	//ft_print_token(tokens);
 	// ft_print_token(tokens);
 	ft_cmd_div(*tokens, exec);
 	/* if (!syntax_checker(tokens))
