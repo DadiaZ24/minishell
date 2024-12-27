@@ -42,7 +42,7 @@ void	wait_pid(t_executor *exec)
 	while(exec->pid[i] != 0)
 	{
 		waitpid(exec->pid[i++], &j, 0);
-		exec->shell->status = WEXITSTATUS(j);
+		//exec->shell->status = WEXITSTATUS(j);
 	}
 	free(exec->pid);
 	exec->n_process = 0;
