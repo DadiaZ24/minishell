@@ -21,6 +21,27 @@ int syntax_checker(t_token **tokens)
 	return (1);
 }
 
+int check_quotes(t_token *token)
+{
+	int i;
+	bool has_open_quote;
+	bool has_open_double_quote;
+
+	i = -1;
+	has_open_quote = false;
+	has_open_quote = false;
+	while (token->info[++i])
+	{
+		if (token->info[i] == '\"' && !j)
+			has_open_quote = !has_open_quote;
+		if (token->info[i] == '\'' && !j)
+			has_open_double_quote = !has_open_double_quote;
+	}
+	if (has_open_quote || has_open_double_quote)
+		return (printf("minishell: syntax error: unclosed quotes are not available due to subject rules\n"), 0);
+	return (1);
+}
+
 int syntax_pipe(t_token *token)
 {
 	if (token->type == PIPE && !token->next)
