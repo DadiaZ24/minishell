@@ -23,7 +23,7 @@ int export(t_executor *exec)
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
 		if (exec->is_child)
 			exit(0);
-		return (set_exit_status(exec->shell, 0), 1);
+		return (1);
 	}
 	return (set_exit_status(exec->shell, 0), 1);
 }
@@ -62,7 +62,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 	else if (has_operator_before_equal(arg))
 	{
 		exec->shell->status = 1;
-		return (w_error("minishell: not a valid identifier\n"), env);
+		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
 	}
 	else if (ft_strchr(arg, '-') && !ft_strchr(arg, '='))
 	{
@@ -75,10 +75,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 		return (env);
 	}
 	else if (ft_isdigit(arg[0]))
-	{
-		exec->shell->status = 1;
-		return (env);
-	}
+		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
 	else if (ft_strchr(arg, '=') && !has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '='));
 	return (handle_entry(arg, env, is_new, '='));
@@ -200,6 +197,8 @@ bool has_operator_before_equal(char *arg)
 			if (*(arg + 1) == '=' && ft_isalnum(*arg))
 				break;
 			if ((!ft_isalnum(*arg) && *arg != '_') && *arg != '=')
+				return (true);
+			if (*arg == '=' && !(*(arg + 1)))
 				return (true);
 			arg++;
 		}

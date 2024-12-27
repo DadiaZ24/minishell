@@ -2,18 +2,15 @@
 
 int syntax_checker(t_token **tokens)
 {
-	int i;
 	t_token *token;
 
-	i = -1;
 	token = *tokens;
 	if (!token || token->info[0] == '\0')
 		return (printf("\n"), 0);
 	while (token)
 	{
-		while (token->info[++i])
-			if (token->info[i] == '\"' || token->info[i] == '\'')
-				return (printf("minishell: syntax error near unexpected token `%c'\n", token->info[i]), 0);
+		if (!check_quotes(token))
+			return (0);
 		if (!syntax_pipe(token) || !syntax_red_out_in(token) || !syntax_append_heredoc(token))
 			return (0);
 		token = token->next;
