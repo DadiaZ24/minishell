@@ -9,11 +9,10 @@ int syntax_checker(t_token **tokens)
 	token = *tokens;
 	if (!token || token->info[0] == '\0')
 		return (printf("\n"), 0);
+	if (!check_quotes(tokens))
+		return (0);
 	while (token)
 	{
-		while (token->info[++i])
-			if (token->info[i] == '\"' || token->info[i] == '\'')
-				return (printf("minishell: syntax error near unexpected token `%c'\n", token->info[i]), 0);
 		if (!syntax_pipe(token) || !syntax_red_out_in(token) || !syntax_append_heredoc(token))
 			return (0);
 		token = token->next;
@@ -21,21 +20,27 @@ int syntax_checker(t_token **tokens)
 	return (1);
 }
 
-int check_quotes(t_token *token)
+int check_quotes(t_token **token)
 {
 	int i;
 	bool has_open_quote;
 	bool has_open_double_quote;
+	t_token *token;
 
 	i = -1;
 	has_open_quote = false;
 	has_open_quote = false;
-	while (token->info[++i])
+	token = *tokens->next;
+	while (token)
 	{
-		if (token->info[i] == '\"')
-			has_open_quote = !has_open_quote;
-		if (token->info[i] == '\'')
-			has_open_double_quote = !has_open_double_quote;
+		while (token->info[++i])
+		{
+			if (token->info[i] == '\"')
+				has_open_quote = !has_open_quote;
+			if (token->info[i] == '\'')
+				has_open_double_quote = !has_open_double_quote;
+		}
+		token = token->next;
 	}
 	if (has_open_quote || has_open_double_quote)
 		return (printf("minishell: syntax error: unclosed quotes are not available due to subject rules\n"), 0);
