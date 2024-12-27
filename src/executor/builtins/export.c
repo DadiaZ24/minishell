@@ -201,6 +201,8 @@ bool has_operator_before_equal(char *arg)
 				break;
 			if ((!ft_isalnum(*arg) && *arg != '_') && *arg != '=')
 				return (true);
+			if (*arg == '=' && !(*(arg + 1)))
+				return (true);
 			arg++;
 		}
 	}
