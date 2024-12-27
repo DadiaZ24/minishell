@@ -20,7 +20,7 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 			return (set_exit_status(exec->shell, 1), w_error("exit\nminishell: exit: too many arguments\n"), 1);
 		while(mtr[1][++i])
 		{
-			if (!ft_isdigit(mtr[1][i]))
+			if (!ft_isdigit(mtr[1][i]) && mtr[1][i] != '-' && mtr[1][i] != '+')
 			{
 				set_exit_status(exec->shell, 255);
 				w_error("exit\nminishell: exit: ");
