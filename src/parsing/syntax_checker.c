@@ -32,9 +32,9 @@ int check_quotes(t_token *token)
 	has_open_quote = false;
 	while (token->info[++i])
 	{
-		if (token->info[i] == '\"' && !j)
+		if (token->info[i] == '\"')
 			has_open_quote = !has_open_quote;
-		if (token->info[i] == '\'' && !j)
+		if (token->info[i] == '\'')
 			has_open_double_quote = !has_open_double_quote;
 	}
 	if (has_open_quote || has_open_double_quote)
