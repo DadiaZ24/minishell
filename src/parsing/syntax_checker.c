@@ -2,10 +2,8 @@
 
 int syntax_checker(t_token **tokens)
 {
-	int i;
 	t_token *token;
 
-	i = -1;
 	token = *tokens;
 	if (!token || token->info[0] == '\0')
 		return (printf("\n"), 0);
@@ -28,7 +26,6 @@ int check_quotes(t_token **tokens)
 	t_token *token;
 
 	i = -1;
-	(void)i;
 	has_open_quote = false;
 	has_open_quote = false;
 	token = (*tokens)->next;
