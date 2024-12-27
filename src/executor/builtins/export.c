@@ -75,10 +75,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 		return (env);
 	}
 	else if (ft_isdigit(arg[0]))
-	{
-		exec->shell->status = 1;
-		return (env);
-	}
+		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
 	else if (ft_strchr(arg, '=') && !has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '='));
 	return (handle_entry(arg, env, is_new, '='));
