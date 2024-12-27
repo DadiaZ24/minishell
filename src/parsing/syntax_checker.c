@@ -28,6 +28,7 @@ int check_quotes(t_token **tokens)
 	t_token *token;
 
 	i = -1;
+	(void)i;
 	has_open_quote = false;
 	has_open_quote = false;
 	token = (*tokens)->next;
