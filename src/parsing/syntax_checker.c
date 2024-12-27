@@ -30,7 +30,7 @@ int check_quotes(t_token **tokens)
 	i = -1;
 	has_open_quote = false;
 	has_open_quote = false;
-	token = *tokens->next;
+	token = (*tokens)->next;
 	while (token)
 	{
 		while (token->info[++i])
