@@ -63,9 +63,10 @@ bool get_env(char **envp, t_shell *shell);
 int minishell_loop(t_executor *exec, t_token **tokens);
 void set_exit_status(t_shell *shell, int status);
 int syntax_append_heredoc(t_token *token);
-int syntax_red_out_in(t_token *token);
+int syntax_red_out(t_token *token);
+int syntax_red_in(t_token *token);
 int syntax_pipe(t_token *token);
-int syntax_checker(t_token **tokens);
+int syntax_checker(t_token **tokens, t_executor *exec);
 int check_quotes(t_token *token);
 
 #endif
