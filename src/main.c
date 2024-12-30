@@ -7,7 +7,6 @@ int minishell(t_executor *exec, char **envp)
 	exec->cmds = (t_cmds **)malloc(sizeof(t_cmds));
 	if (!exec->cmds)
 		return (0);
-	signals();
 	while (minishell_loop(exec, exec->token))
 		;
 	return (0);
@@ -17,6 +16,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 {
 	char **mtr;
 
+	signals();
 	exec->shell->line = readline("minishell$ ");
 	if (!exec->shell->line)
 		return (free_d(exec), write(1, "exit\n", 5), exit(0), 0);
