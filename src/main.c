@@ -19,7 +19,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 
 	exec->shell->line = readline("minishell$ ");
 	if (!exec->shell->line)
-		return (free_d(exec), write(1, "exit\n", 5), exit(0));
+		return (free_d(exec), write(1, "exit\n", 5), exit(0), 0);
 	if (exec->shell->line)
 		add_history(exec->shell->line);
 	if (!exec->shell->line[0])
