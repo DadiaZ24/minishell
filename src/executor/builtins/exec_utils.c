@@ -12,7 +12,7 @@ int is_directory(char *path)
 	return (0);
 }
 
-char	*getenvp(char **envp, char *var)
+char *getenvp(char **envp, char *var)
 {
 	int i;
 	int j;
@@ -30,18 +30,17 @@ char	*getenvp(char **envp, char *var)
 	return (NULL);
 }
 
-void	wait_pid(t_executor *exec)
+void wait_pid(t_executor *exec)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
 	if (!exec->pid)
-		return ;
-	while(exec->pid[i] != 0)
+		return;
+	while (exec->pid[i] != 0)
 	{
-		printf("Waiting for PID: %d\n", exec->pid[i]);
 		waitpid(exec->pid[i++], &j, 0);
 		exec->shell->status = WEXITSTATUS(j);
 	}
@@ -50,7 +49,7 @@ void	wait_pid(t_executor *exec)
 	exec->pid = NULL;
 }
 
-void	exit_exec(t_executor *exec, t_cmds *cmds)
+void exit_exec(t_executor *exec, t_cmds *cmds)
 {
 	if (errno == EACCES)
 		exec->shell->status = 126;
