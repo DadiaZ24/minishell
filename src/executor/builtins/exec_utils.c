@@ -41,6 +41,7 @@ void	wait_pid(t_executor *exec)
 		return ;
 	while(exec->pid[i] != 0)
 	{
+		printf("Waiting for PID: %d\n", exec->pid[i]);
 		waitpid(exec->pid[i++], &j, 0);
 		exec->shell->status = WEXITSTATUS(j);
 	}
