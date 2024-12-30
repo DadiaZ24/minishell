@@ -7,6 +7,7 @@ int minishell(t_executor *exec, char **envp)
 	exec->cmds = (t_cmds **)malloc(sizeof(t_cmds));
 	if (!exec->cmds)
 		return (0);
+	signals();
 	while (minishell_loop(exec, exec->token))
 		;
 	return (0);
@@ -18,7 +19,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 
 	exec->shell->line = readline("minishell$ ");
 	if (!exec->shell->line)
-		return (free_d(exec), printf("exit\n"), 0);
+		return (free_d(exec), write(1, "exit\n", 5), exit(0));
 	if (exec->shell->line)
 		add_history(exec->shell->line);
 	if (!exec->shell->line[0])
@@ -30,7 +31,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	if (!syntax_checker(tokens, exec))
 		return (free_token(*tokens), 1);
 	expander(tokens, exec);
-	//ft_print_token(tokens);
+	// ft_print_token(tokens);
 	ft_cmd_div(*tokens, exec);
 	free_token(*tokens);
 	executor(exec);
