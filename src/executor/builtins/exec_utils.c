@@ -44,6 +44,8 @@ void wait_pid(t_executor *exec)
 		waitpid(exec->pid[i++], &j, 0);
 		exec->shell->status = WEXITSTATUS(j);
 	}
+	if (exec->shell->status == 127)
+		w_error("minishell: command not found\n");
 	free(exec->pid);
 	exec->n_process = 0;
 	exec->pid = NULL;
