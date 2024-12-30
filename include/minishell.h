@@ -69,4 +69,8 @@ int syntax_pipe(t_token *token);
 int syntax_checker(t_token **tokens, t_executor *exec);
 int check_quotes(t_token *token);
 
+void handle_sigint(int sig);
+void handle_sigquit(int sig);
+void signals(void);
+
 #endif
