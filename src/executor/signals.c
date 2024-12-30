@@ -2,9 +2,14 @@
 
 void handle_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	write(1, "minishell$ ", 11);
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		signal(SIGINT, handle_sigint);
+	}
 }
 
 void handle_sigquit(int sig)
@@ -12,14 +17,15 @@ void handle_sigquit(int sig)
 	(void)sig;
 }
 
+void handle_eof(t_executor *exec)
+{
+	free_process(exec);
+	write(1, "exit\n", 5);
+	exit(0);
+}
+
 void signals(void)
 {
-	struct sigaction sa;
-
-	sa.sa_handler = handle_sigint;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-
-	sa.sa_handler = handle_sigquit;
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
