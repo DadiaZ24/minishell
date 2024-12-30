@@ -2,9 +2,9 @@
 
 bool bubblesort(t_executor *exec)
 {
-	int		i;
-	int		j;
-	char	*temp;
+	int i;
+	int j;
+	char *temp;
 
 	i = 0;
 	while (exec->shell->env[i])
@@ -12,7 +12,7 @@ bool bubblesort(t_executor *exec)
 		j = i + 1;
 		while (exec->shell->env[j])
 		{
-			if (exec->shell->env[i][0] > exec->shell->env[j][0])
+			if (ft_strncmp(exec->shell->env[i], exec->shell->env[j], ft_strlen(exec->shell->env[i]) + 1) > 0)
 			{
 				temp = exec->shell->env[i];
 				exec->shell->env[i] = exec->shell->env[j];

@@ -9,18 +9,26 @@ void	w_error(char *str)
 		write(STDERR_FILENO, &str[i], 1);
 }
 
-void	exit_builtin(int status, t_executor *exec, char **mtr)
+int	exit_builtin(int status, t_executor *exec, char **mtr)
 {
+	int i;
+
+	i = -1;
 	if (mtr[1])
 	{
 		if (mtr[2])
+			return (set_exit_status(exec->shell, 1), w_error(" too many arguments\n"), 1);
+		while(mtr[1][++i])
 		{
-			exec->shell->status = 1;
-			return ;
+			if (!ft_isdigit(mtr[1][i]) && mtr[1][i] != '-' && mtr[1][i] != '+')
+			{
+				set_exit_status(exec->shell, 2);
+				w_error(" numeric argument required\n");
+				status = 2;
+				return (1);
+			}
 		}
 		status = ft_atoi(mtr[1]);
-		if (!ft_isdigit(mtr[1][0]) && mtr[1][0] != '-' && mtr[1][0] != '+')
-			status = 2;
 	}
 	free_process(exec);
 	exit(status);
