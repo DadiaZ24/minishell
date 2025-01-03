@@ -29,6 +29,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <limits.h>
 #include "parsing/parser.h"
 #include "utils/utils.h"
 #include "executor/executor.h"

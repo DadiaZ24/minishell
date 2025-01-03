@@ -14,7 +14,7 @@ LIB_SRCS		= ft_isalpha.c ft_isdigit.c ft_isascii.c ft_isalnum.c ft_strrchr.c \
 				  ft_printf/ft_uputnbr.c get_next_line/get_next_line_utils_bonus.c \
 				  get_next_line/get_next_line_bonus.c ft_atol.c ft_iswhitespc.c \
 				  ft_isquote.c ft_pipe_or_redirect.c ft_putmtr.c ft_putstr.c ft_putchar.c \
-				  ft_joinpath.c ft_strcmp.c ft_strclen.c
+				  ft_joinpath.c ft_strcmp.c ft_strclen.c ft_atoll.c ft_lltoa.c
 
 LIB_OBJS 		= $(LIB_SRCS:.c=.o)
 
