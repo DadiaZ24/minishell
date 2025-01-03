@@ -22,6 +22,7 @@ typedef struct s_words
 
 typedef struct s_token
 {
+	bool			d_quotes;
 	int				type;
 	char			*info;
 	struct s_token	*next;
@@ -60,6 +61,7 @@ typedef struct s_cmds
 	char			**args;
 	t_token			*redir;
 	struct s_cmds	*next;
+	bool			d_quotes;
 } t_cmds;
 
 typedef struct s_executor

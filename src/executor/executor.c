@@ -60,19 +60,19 @@ bool check_builtin(t_cmds **cmds)
 	t_cmds *temp_cmds;
 
 	temp_cmds = *(cmds);
-	if (!strncmp((temp_cmds)->cmd, "cd", ft_strlen((temp_cmds)->cmd)))
+	if (!strcmp((temp_cmds)->cmd, "cd"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "pwd", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "pwd"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "echo", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "echo"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "export", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "export"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "unset", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "unset"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "env", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "env"))
 		return (true);
-	else if (!strncmp((temp_cmds)->cmd, "exit", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "exit"))
 		return (true);
 	return (false);
 }
@@ -82,20 +82,21 @@ bool builtin(t_executor *exec, t_cmds **cmds)
 	t_cmds *temp_cmds;
 
 	temp_cmds = *(cmds);
-	handle_redirects(exec, temp_cmds);
-	if (!strncmp((temp_cmds)->cmd, "cd", ft_strlen((temp_cmds)->cmd)))
+	if (!handle_redirects(exec, temp_cmds))
+		return (false);
+	if (!strcmp((temp_cmds)->cmd, "cd"))
 		cd(exec->shell, (temp_cmds)->args, exec);
-	else if (!strncmp((temp_cmds)->cmd, "pwd", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "pwd"))
 		pwd((temp_cmds)->args, exec);
-	else if (!strncmp((temp_cmds)->cmd, "echo", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "echo"))
 		echo((temp_cmds)->args, exec);
-	else if (!strncmp((temp_cmds)->cmd, "export", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "export"))
 		export(exec);
-	else if (!strncmp((temp_cmds)->cmd, "unset", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "unset"))
 		unset((temp_cmds)->args, exec);
-	else if (!strncmp((temp_cmds)->cmd, "env", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "env"))
 		env(exec->shell, (temp_cmds)->args, exec);
-	else if (!strncmp((temp_cmds)->cmd, "exit", ft_strlen((temp_cmds)->cmd)))
+	else if (!strcmp((temp_cmds)->cmd, "exit"))
 		exit_builtin(exec->shell->status, exec, (temp_cmds)->args);
 	return (true);
 }
@@ -109,13 +110,14 @@ int executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
-	if (ft_strlen(temp_cmds->cmd) == 0)
+	if (ft_strlen(temp_cmds->cmd) == 0 && !temp_cmds->d_quotes)
 		return (1);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_cmds));
 	if (handle_pipe(exec, &temp_cmds))
 		return (1);
-	handle_redirects(exec, temp_cmds);
+	if (!handle_redirects(exec, temp_cmds))
+		return (1);
 	if (check_builtin(&temp_cmds))
 		builtin(exec, &temp_cmds);
 	else

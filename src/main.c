@@ -35,6 +35,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	free_token(*tokens);
 	executor(exec);
 	dup2(exec->fd_out, STDOUT_FILENO);
+	dup2(exec->fd_in, STDIN_FILENO);
 	wait_pid(exec);
 	free_all(exec);
 	return (1);
