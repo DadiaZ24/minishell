@@ -13,7 +13,7 @@ char **get_token(t_token *token, t_cmds *cmd)
             token = token->next->next;
         else if (token->type == PIPE)
             break;
-        if (token && token->type == ARG && token->info[0] != '\0')
+        if (token && token->type == ARG && (token->info[0] != '\0' || token->d_quotes))
             size++;
         if (token)
             token = token->next;
@@ -36,7 +36,7 @@ char **get_token(t_token *token, t_cmds *cmd)
         if (temp->type == RED_IN || temp->type == HERE_DOC ||
             temp->type == APPEND || temp->type == RED_OUT)
             temp = temp->next;
-        else if (temp->type == ARG && temp->info[0] != '\0' && (!temp->prev || (temp->prev->type != RED_IN &&
+        else if (temp->type == ARG && (temp->info[0] != '\0' || temp->d_quotes) && (!temp->prev || (temp->prev->type != RED_IN &&
                                                       temp->prev->type != RED_OUT &&
                                                       temp->prev->type != APPEND &&
                                                       temp->prev->type != HERE_DOC)))
@@ -77,6 +77,7 @@ void init_cmds(t_cmds **cmds)
         (*cmds)->args = NULL;
         (*cmds)->redir = NULL;
         (*cmds)->next = NULL;
+        (*cmds)->d_quotes = false;
     }
 }
 
@@ -113,6 +114,8 @@ void ft_div(t_cmds **cmds, t_token *token)
     cmd = *cmds;
     begin = NULL;
     temp = NULL;
+    if (token->d_quotes)
+        cmd->d_quotes = true;
     cmd->args = get_token(token, cmd);
     if (cmd->args && cmd->args[0] && !cmd->cmd)
         cmd->cmd = ft_strdup(cmd->args[0]);

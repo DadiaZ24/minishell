@@ -13,6 +13,7 @@ void	create_token(char **mtr, t_token **token)
 		return ;
 	(*token)->info = ft_strdup(mtr[i]);
 	(*token)->type = -1;
+	(*token)->d_quotes = false;
 	(*token)->prev = NULL;
 	(*token)->next = NULL;
 	temp = *token;
@@ -24,6 +25,7 @@ void	create_token(char **mtr, t_token **token)
 		temp->next->prev = temp;
 		temp = temp->next;
 		temp->info = ft_strdup(mtr[i]);
+		temp->type = false;
 		temp->type = -1;
 		temp->next = NULL;
 	}

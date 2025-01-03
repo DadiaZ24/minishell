@@ -53,6 +53,8 @@ void	lexer(t_token **tokens)
 		temp->type = check_redirect_or_pipe(temp->info);
 	else
 		temp->type = ARG;
+	if (!ft_strcmp(temp->info, "\"\"") && ft_strlen(temp->info) == 2)
+		temp->d_quotes = true;
 	temp = temp->next;
 	while (temp)
 	{
@@ -63,6 +65,8 @@ void	lexer(t_token **tokens)
 			temp->type = check_redirect_or_pipe(temp->info);
 		else
 			temp->type = ARG;
+		if (!ft_strcmp(temp->info, "\"\"") && ft_strlen(temp->info) == 2)
+			temp->d_quotes = true;
 		temp = temp->next;
 	}
 }

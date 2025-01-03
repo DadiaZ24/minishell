@@ -51,6 +51,7 @@ void wait_pid(t_executor *exec)
 
 void exit_exec(t_executor *exec, t_cmds *cmds)
 {
+	write(1, "OKOK\n", 5);
 	if (errno == EACCES)
 		exec->shell->status = 126;
 	else if (errno == ENOENT)
