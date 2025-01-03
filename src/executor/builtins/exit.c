@@ -18,13 +18,10 @@ bool	check_max_min(char *str)
 	i = 0;
 	n = 0;
 	i = ft_strlen(str);
-	n = atoll(str);
+	n = ft_atoll(str);
 	str_n = ft_lltoa(n);
 	if (str[0] == '+')
 		i--;
-	ft_printf("str_n = %s\n", str_n);
-	ft_printf("str_n = %d\n", ft_strlen(str_n));
-	ft_printf("i = %d\n", i);
 	if (ft_strlen(str_n) != i)
 	{
 		free(str_n);
@@ -51,14 +48,14 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 		if (!check_max_min(mtr[1]))
 		{
 			set_exit_status(exec->shell, 2);
-			w_error(" AAAAAAA numeric argument required\n");
+			w_error(" numeric argument required\n");
 			status = 2;
 			return (1);
 		}
 		if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '+' && mtr[1][1] == '+')
 		{
 			set_exit_status(exec->shell, 2);
-			w_error(" BBBBBB numeric argument required\n");
+			w_error(" numeric argument required\n");
 			status = 2;
 			return (1);
 		}
@@ -69,7 +66,7 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 			if (!ft_isdigit(mtr[1][i]))
 			{
 				set_exit_status(exec->shell, 2);
-				w_error(" CCCCCC numeric argument required\n");
+				w_error(" numeric argument required\n");
 				status = 2;
 				return (1);
 			}
