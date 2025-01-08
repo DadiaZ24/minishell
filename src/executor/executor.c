@@ -60,6 +60,8 @@ bool check_builtin(t_cmds **cmds)
 	t_cmds *temp_cmds;
 
 	temp_cmds = *(cmds);
+	if (!temp_cmds->cmd)
+		return (false);
 	if (!strcmp((temp_cmds)->cmd, "cd"))
 		return (true);
 	else if (!strcmp((temp_cmds)->cmd, "pwd"))
@@ -110,6 +112,11 @@ int executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
+	if (ft_strlen(temp_cmds->cmd) == 0 && (temp_cmds->redir && temp_cmds->redir->type != HERE_DOC) && !temp_cmds->d_quotes)
+		return (1);
+	if (temp_cmds->redir && temp_cmds->redir->type == HERE_DOC)
+		if (!handle_heredoc(temp_cmds))
+			return (1);
 	if (ft_strlen(temp_cmds->cmd) == 0 && !temp_cmds->d_quotes)
 		return (1);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
@@ -130,6 +137,8 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 	t_cmds *temp_cmds;
 
 	temp_cmds = cmds;
+	if (!temp_cmds->cmd)
+		return (1);
 	if (!ft_strncmp((temp_cmds)->cmd, "./", 2))
 		str_path = ft_strdup((temp_cmds)->cmd);
 	else

@@ -31,7 +31,6 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	if (!syntax_checker(tokens, exec))
 		return (free_token(*tokens), 1);
 	expander(tokens, exec);
-	// ft_print_token(tokens);
 	ft_cmd_div(*tokens, exec);
 	free_token(*tokens);
 	executor(exec);
