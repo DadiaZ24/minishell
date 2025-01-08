@@ -77,8 +77,6 @@ int syntax_append_heredoc(t_token *token)
 		return (w_error(" syntax error near unexpected token `>>'\n"), 0);
 	if (token->type == HERE_DOC && !token->next)
 		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
-	if (token->type == HERE_DOC && !token->prev)
-		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
 	if (token->type == HERE_DOC && (token->next->type == HERE_DOC || token->next->type == RED_OUT || token->next->type == APPEND || token->next->type == PIPE || token->next->type == RED_IN))
 		return (w_error(" syntax error near unexpected token `<<'\n"), 0);
 	return (1);

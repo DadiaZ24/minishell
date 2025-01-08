@@ -31,7 +31,8 @@ PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c \
 				syntax_checker.c
 UTILS			= init.c init2.c free.c free_process.c utils.c utils2.c
 EXECUTOR		= pwd.c cd.c echo.c env.c exec_utils.c exit.c \
-				export.c export_utils.c executor.c redirect.c unset.c signals.c
+				export.c export_utils.c executor.c redirect.c unset.c signals.c \
+				heredoc.c
 
 # _______________________________________________________________
 #|___________________________[SRC FILES]_________________________|
