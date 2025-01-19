@@ -11,6 +11,17 @@ bool	echo(char **mtr, t_executor *exec);
 bool	env(t_shell *shell, char **mtr, t_executor *exec);
 int		exit_builtin(int status, t_executor *exec, char **mtr);
 int		unset(char **mtr, t_executor *exec);
+int		create_pid(t_executor *exec, t_cmds **cmds);
+bool	handle_pipe(t_executor *exec, t_cmds **temp);
+bool	check_builtin(t_cmds **cmds);
+bool	builtin(t_executor *exec, t_cmds **cmds);
+int		executor(t_executor *exec);
+bool	handle_redirects(t_executor *exec, t_cmds *cmds);
+bool	handle_heredoc(t_cmds *cmds);
+bool	check_permission(t_executor *exec, char *path, int i);
+void	exit_exec(t_executor *exec, t_cmds *cmds);
+void	w_error(char *str);
+
 
 // Builtins.Utils
 int		is_directory(char *path);
