@@ -2,7 +2,7 @@
 
 int	check_is_dir(char *path)
 {
-	struct stat	buffer;
+	struct stat buffer;
 
 	if (stat(path, &buffer) == -1)
 		perror("stat");
@@ -13,35 +13,52 @@ int	check_is_dir(char *path)
 	return (0);
 }
 
-static bool	handle_permission_error(t_executor *exec)
-{
-	print_error(" Permission denied");
-	if (!exec->is_child)
-	{
-		exec->shell->status = 1;
-		return (false);
-	}
-	free_process(exec);
-	exit(1);
-}
-
-static bool	check_specific_permission(t_executor *exec, char *path, int i)
-{
-	if (access(path, i))
-		return (handle_permission_error(exec));
-	return (true);
-}
-
 bool	check_permission(t_executor *exec, char *path, int i)
 {
-	if (!check_specific_permission(exec, path, i))
-		return (false);
-	if (i == 1 && !check_specific_permission(exec, path, R_OK))
-		return (false);
-	if (i == 2 && !check_specific_permission(exec, path, W_OK))
-		return (false);
-	if (i == 3 && !check_specific_permission(exec, path, X_OK))
-		return (false);
+	if (access(path, F_OK))
+	{
+		print_error(" Permission denied");
+		if (!exec->is_child)
+		{
+			exec->shell->status = 1;
+			return (false);
+		}
+		free_process(exec);
+		exit(1);
+	}
+	if (i == 1 && access(path, R_OK))
+	{
+		print_error(" Permission denied");
+		if (!exec->is_child)
+		{
+			exec->shell->status = 1;
+			return (false);
+		}
+		free_process(exec);
+		exit(1);
+	}
+	if (i == 2 && access(path, W_OK))
+	{
+		print_error(" Permission denied");
+		if (!exec->is_child)
+		{
+			exec->shell->status = 1;
+			return (false);
+		}
+		free_process(exec);
+		exit(1);
+	}
+	if (i == 3 && access(path, X_OK))
+	{
+		print_error(" Permission denied");
+		if (!exec->is_child)
+		{
+			exec->shell->status = 1;
+			return (false);
+		}
+		free_process(exec);
+		exit(1);
+	}
 	return (true);
 }
 
