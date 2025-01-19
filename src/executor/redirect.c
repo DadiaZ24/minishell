@@ -13,52 +13,28 @@ int	check_is_dir(char *path)
 	return (0);
 }
 
+static bool handle_permission_error(t_executor *exec)
+{
+	print_error(" Permission denied");
+	if (!exec->is_child)
+	{
+		exec->shell->status = 1;
+		return (false);
+	}
+	free_process(exec);
+	exit(1);
+}
+
 bool	check_permission(t_executor *exec, char *path, int i)
 {
 	if (access(path, F_OK))
-	{
-		print_error(" Permission denied");
-		if (!exec->is_child)
-		{
-			exec->shell->status = 1;
-			return (false);
-		}
-		free_process(exec);
-		exit(1);
-	}
+		handle_permission_error(exec);
 	if (i == 1 && access(path, R_OK))
-	{
-		print_error(" Permission denied");
-		if (!exec->is_child)
-		{
-			exec->shell->status = 1;
-			return (false);
-		}
-		free_process(exec);
-		exit(1);
-	}
+		handle_permission_error(exec);
 	if (i == 2 && access(path, W_OK))
-	{
-		print_error(" Permission denied");
-		if (!exec->is_child)
-		{
-			exec->shell->status = 1;
-			return (false);
-		}
-		free_process(exec);
-		exit(1);
-	}
+		handle_permission_error(exec);
 	if (i == 3 && access(path, X_OK))
-	{
-		print_error(" Permission denied");
-		if (!exec->is_child)
-		{
-			exec->shell->status = 1;
-			return (false);
-		}
-		free_process(exec);
-		exit(1);
-	}
+		handle_permission_error(exec);
 	return (true);
 }
 
