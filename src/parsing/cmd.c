@@ -180,7 +180,7 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
         test = *exec->cmds;
         while (test)
         {
-            i = 0;
+            //i = 0;
             re_test = test->redir;
             //printf("=====================================================\n");
             //printf("process cmd: %s\n", test->cmd);
