@@ -62,11 +62,11 @@ typedef struct s_cmds
 	t_token			*redir;
 	struct s_cmds	*next;
 	bool			d_quotes;
-} t_cmds;
+}	t_cmds;
 
 typedef struct s_executor
 {
-	t_cmds 	**cmds;
+	t_cmds	**cmds;
 	t_shell	*shell;
 	t_token	**token;
 	int		fd_in;
@@ -74,19 +74,19 @@ typedef struct s_executor
 	int		*pid;
 	int		n_process;
 	bool	is_child;
-} t_executor;
+}	t_executor;
 
 typedef struct s_exp
 {
 	bool	bin;
-	int 	start;
+	int		start;
 	int		str_i;
 	int		mtr_i;
 	int		env_i;
 	char	*temp;
 	char	*swap;
 	t_token	*token;
-} t_exp;
+}	t_exp;
 
 t_ast_utils	*init_au(t_token **token, t_ast **ast);
 
@@ -99,6 +99,6 @@ void		lexer(t_token **tokens);
 int			check_redirect_or_pipe(char *s);
 int			check_file_eof(char *s);
 void		expander(t_token **token, t_executor *exec);
-t_cmds 		**ft_cmd_div(t_token *token, t_executor *exec);
+t_cmds		**ft_cmd_div(t_token *token, t_executor *exec);
 
 #endif

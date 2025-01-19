@@ -10,7 +10,7 @@ char		**free_split(char **str, int j);
 void		free_d(t_executor *exec);
 void		free_all(t_executor	*exec);
 void		free_process(t_executor *exec);
-void    	ft_free_cmds(t_cmds *cmds);
+void		ft_free_cmds(t_cmds *cmds);
 
 void		create_token(char **mtr, t_token **token);
 t_split		*init_split_var(void);

@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-char	*enum_heredoc()
+char	*enum_heredoc(void)
 {
 	static int	i = -1;
-	char 		*num;
+	char		*num;
 	char		*file;
 
 	num = ft_itoa(++i);

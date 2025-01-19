@@ -64,6 +64,7 @@
     "history.h": "c",
     "parser.h": "c",
     "stdbool.h": "c",
-    "ft_printf.h": "c"
+    "ft_printf.h": "c",
+    "get_next_line_bonus.h": "c"
   }
 }
