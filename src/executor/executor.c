@@ -143,7 +143,7 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 	if (execve(str_path, (temp_cmds)->args, exec->shell->env) == -1)
 	{
 		set_exit_status(exec->shell, 127);
-		printf("minishell: %s: command not found\n", (temp_cmds)->cmd);
+		print_error(" command not found\n");
 		if (exec->is_child)
 		{
 			free_process(exec);
