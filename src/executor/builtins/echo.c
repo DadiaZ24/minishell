@@ -40,8 +40,7 @@ bool echo(char **mtr, t_executor *exec)
 	}
 	if (exec->is_child)
 	{
-		free_process(exec);
-		set_exit_status(exec->shell, 0);
+		free_process(exec);	
 		exit(0);
 	}
 	return (set_exit_status(exec->shell, 0), 1);

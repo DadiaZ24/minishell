@@ -33,6 +33,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	expander(tokens, exec);
 	ft_cmd_div(*tokens, exec);
 	free_token(*tokens);
+	find_heredoc(exec->cmds);
 	executor(exec);
 	dup2(exec->fd_out, STDOUT_FILENO);
 	dup2(exec->fd_in, STDIN_FILENO);

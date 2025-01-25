@@ -59,8 +59,9 @@ typedef struct s_cmds
 {
 	char			*cmd;
 	char			**args;
-	t_token			*redir;
+	int				fd_hd;
 	struct s_cmds	*next;
+	t_token			*redir;
 	bool			d_quotes;
 } t_cmds;
 

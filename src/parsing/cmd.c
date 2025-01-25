@@ -78,6 +78,7 @@ void init_cmds(t_cmds **cmds)
         (*cmds)->redir = NULL;
         (*cmds)->next = NULL;
         (*cmds)->d_quotes = false;
+        (*cmds)->fd_hd = -1;
     }
 }
 
@@ -157,7 +158,6 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 	int		i;
     if (!token)
         return NULL;
-
     *exec->cmds = NULL;
     init_cmds(exec->cmds);
     t_cmds *current_cmd = *exec->cmds;
