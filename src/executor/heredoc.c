@@ -58,3 +58,23 @@ void	find_heredoc(t_cmds **cmds)
 		temp = temp->next;
 	}
 }
+
+void	remove_file(void)
+{
+	static int	j = -1;
+	char 		*num;
+	char		*file;
+
+	num = ft_itoa(++j);
+	file = ft_strjoin(".746D70", num);
+	while (unlink(file) != -1)
+	{
+		free(num);
+		free(file);
+		num = ft_itoa(++j);
+		file = ft_strjoin(".746D70", num);
+	}
+	j--;
+	free(num);
+	free(file);
+}

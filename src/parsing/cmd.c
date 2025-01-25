@@ -51,18 +51,15 @@ char **get_token(t_token *token, t_cmds *cmd)
 
 t_token *get_redir(t_token *token)
 {
-    if (!token)
-        return NULL;
-
     t_token *redir = (t_token *)malloc(sizeof(t_token));
+
+    redir = (t_token *)malloc(sizeof(t_token));
     if (!redir)
         return NULL;
-
     redir->type = token->type;
-    redir->info = token->next ? token->next->info : NULL;
+    redir->info = token->next->info;
     redir->next = NULL;
-
-    return redir;
+    return (redir);
 }
 
 void init_cmds(t_cmds **cmds)
@@ -86,9 +83,9 @@ void add_redirection(t_cmds *cmd, t_token *token)
 {
     t_token *redir = get_redir(token);
 
+    redir = get_redir(token);
     if (!redir)
         return;
-
     if (cmd->redir)
     {
         t_token *temp = cmd->redir;
@@ -153,9 +150,9 @@ void ft_div(t_cmds **cmds, t_token *token)
 
 t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 {
-	t_cmds	*test;
+	/* t_cmds	*test;
 	t_token	*re_test;
-	int		i;
+	int		i; */
     if (!token)
         return NULL;
     *exec->cmds = NULL;
@@ -177,7 +174,7 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
     }
 
 	/*#############################*/
-        test = *exec->cmds;
+/*         test = *exec->cmds;
         while (test)
         {
             i = 0;
@@ -195,7 +192,7 @@ t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
             }
             printf("=====================================================\n");
             test = test->next;
-        }
+        } */
 	/*#############################*/
     return (exec->cmds);
 }

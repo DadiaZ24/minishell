@@ -39,6 +39,7 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	dup2(exec->fd_in, STDIN_FILENO);
 	wait_pid(exec);
 	free_all(exec);
+	remove_file();
 	return (1);
 }
 
