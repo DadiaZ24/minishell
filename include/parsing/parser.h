@@ -102,4 +102,6 @@ int			check_file_eof(char *s);
 void		expander(t_token **token, t_executor *exec);
 t_cmds 		**ft_cmd_div(t_token *token, t_executor *exec);
 
+void	remove_file(void);
+
 #endif
