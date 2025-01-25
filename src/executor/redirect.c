@@ -104,7 +104,6 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 			fd_in = open(temp->info, O_RDONLY, 0777);
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
-			return (true);
 		}
 		if (check_is_dir(temp->info) != 2)
 		{

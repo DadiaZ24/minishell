@@ -24,6 +24,7 @@ bool	handle_heredoc(t_cmds *cmds)
 	fd = open(cmds->redir->info, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd < 0)
 		return (false);
+	cmds->fd_hd = fd;
 	line = readline("> ");
 	while (line && ft_strcmp(line, eof))
 	{
@@ -33,6 +34,27 @@ bool	handle_heredoc(t_cmds *cmds)
 		line = readline("> ");
 	}
 	free(eof);
-	close(fd);
 	return (true);
+}
+
+void	find_heredoc(t_cmds **cmds)
+{
+	t_cmds	*temp;
+	t_token *original;
+
+	temp = *cmds;
+	original = NULL;
+	while (temp)
+	{
+		original = temp->redir;
+		while (temp->redir)
+		{
+				if (temp->redir->type)
+					if (temp->redir->type == HERE_DOC)
+						handle_heredoc(temp);
+			temp->redir = temp->redir->next;
+		}
+		temp->redir = original;
+		temp = temp->next;
+	}
 }

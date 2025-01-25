@@ -114,9 +114,6 @@ int executor(t_executor *exec)
 	temp_cmds = *(exec->cmds);
 	if (ft_strlen(temp_cmds->cmd) == 0 && (temp_cmds->redir && temp_cmds->redir->type != HERE_DOC) && !temp_cmds->d_quotes)
 		return (1);
-	if (temp_cmds->redir && temp_cmds->redir->type == HERE_DOC)
-		if (!handle_heredoc(temp_cmds))
-			return (1);
 	if (ft_strlen(temp_cmds->cmd) == 0 && !temp_cmds->d_quotes)
 		return (1);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
@@ -145,10 +142,14 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 		str_path = ft_strjoin("/usr/bin/", (temp_cmds)->cmd);
 	if (execve(str_path, (temp_cmds)->args, exec->shell->env) == -1)
 	{
-		if (exec->is_child)
-			exit(127);
-		printf("minishell: %s: command not found\n", (temp_cmds)->cmd);
 		set_exit_status(exec->shell, 127);
+		printf("minishell: %s: command not found\n", (temp_cmds)->cmd);
+		if (exec->is_child)
+		{
+			free_process(exec);
+			free(str_path);
+			exit(127);
+		}
 	}
 	exit_exec(exec, temp_cmds);
 	*r = exec->shell->status;
