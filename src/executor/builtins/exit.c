@@ -38,37 +38,37 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 	i = -1;
 	if (mtr[1])
 	{
-		if (mtr[2])
-			return (set_exit_status(exec->shell, 1), w_error(" too many arguments\n"), 1);
 		if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '-' && mtr[1][1] == '-')
 		{
 			free_process(exec);
 			exit (0);
 		}
-		if (!check_max_min(mtr[1]))
+		else if (!check_max_min(mtr[1]))
 		{
 			set_exit_status(exec->shell, 2);
 			w_error(" numeric argument required\n");
-			status = 2;
-			return (1);
+			free_process(exec);
+			exit(2);
 		}
-		if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '+' && mtr[1][1] == '+')
+		else if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '+' && mtr[1][1] == '+')
 		{
 			set_exit_status(exec->shell, 2);
 			w_error(" numeric argument required\n");
-			status = 2;
-			return (1);
+			free_process(exec);
+			exit(2);
 		}
-		if (mtr[1][0] == '-' || mtr[1][0] == '+')
+		else if (mtr[1][0] == '-' || mtr[1][0] == '+')
 			++i;
+		else if (mtr[2])
+			return (set_exit_status(exec->shell, 1), w_error(" too many arguments\n"), 1);
 		while(mtr[1][++i])
 		{
 			if (!ft_isdigit(mtr[1][i]))
 			{
 				set_exit_status(exec->shell, 2);
 				w_error(" numeric argument required\n");
-				status = 2;
-				return (1);
+				free_process(exec);
+				exit(2);
 			}
 		}
 		status = ft_atoll(mtr[1]);

@@ -59,7 +59,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 {
 	if (has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '+'));
-	else if (has_operator_before_equal(arg))
+	else if (has_operator_before_equal(arg) || (arg[0] && arg[0] == '='))
 	{
 		exec->shell->status = 1;
 		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
@@ -90,7 +90,7 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 	{
 		if (delimiter == '+')
 		{
-			if (update_entry(&env[i], arg, is_new, ft_strclen(arg, delimiter)))
+			if (update_entry(&env[i], arg, ft_strclen(arg, delimiter)))
 			{
 				is_new = false;
 				break;
@@ -98,7 +98,7 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 		}
 		else
 		{
-			if (update_entry(&env[i], arg, is_new, ft_strclen(arg, delimiter) + 1))
+			if (update_entry(&env[i], arg, ft_strclen(arg, delimiter) + 1))
 			{
 				is_new = false;
 				break;
@@ -110,35 +110,24 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 	return (env);
 }
 
-bool update_entry(char **env_entry, char *entry, bool is_new, int size)
+bool update_entry(char **env_entry, char *entry, int size)
 {
-	(void)is_new;
 	if (ft_strchr(entry, '+'))
 	{
 		if (ft_strncmp(*env_entry, entry, size) == 0)
-		{
-			is_new = false;
 			*env_entry = ft_strjoin(*env_entry, entry + size + 2);
-		}
 		else
-		{
-			is_new = true;
 			return (false);
-		}
 	}
 	else
 	{
-		if (ft_strncmp(*env_entry, entry, size == 0))
+		if (ft_strncmp(*env_entry, entry, size) == 0)
 		{
-			is_new = false;
 			free(*env_entry);
 			*env_entry = ft_strdup(entry);
 		}
 		else
-		{
-			is_new = true;
 			return (false);
-		}
 	}
 	return (true);
 }

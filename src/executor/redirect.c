@@ -5,7 +5,7 @@ int	check_is_dir(char *path)
 	struct stat buffer;
 
 	if (stat(path, &buffer) == -1)
-		perror("stat");
+		return (0);
 	else if (S_ISDIR(buffer.st_mode))
 		return (1);
 	else if (S_ISREG(buffer.st_mode))
@@ -17,7 +17,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 {
 	if (access(path, F_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" No such file or directory");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -77,7 +77,7 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 	{
 		if (temp->type == RED_OUT)
 		{
-			fd_out = open(temp->info, O_CREAT | O_RDWR, 0777);
+			fd_out = open(temp->info, O_CREAT | O_RDWR | O_TRUNC, 0777);
 			if  (!check_permission(exec, temp->info, 2))
 				return (false);
 			dup2(fd_out, STDOUT_FILENO);

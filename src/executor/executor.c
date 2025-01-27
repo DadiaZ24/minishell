@@ -22,10 +22,12 @@ int create_pid(t_executor *exec, t_cmds **cmds)
 
 bool handle_pipe(t_executor *exec, t_cmds **temp)
 {
-	int fd[2];
-	int i;
+	int 	fd[2];
+	int 	i;
+	t_token	*start;
 
 	i = 0;
+	start = NULL;
 	while (*temp)
 	{
 		pipe(fd);
@@ -44,8 +46,19 @@ bool handle_pipe(t_executor *exec, t_cmds **temp)
 			if (!(*temp)->next)
 				break;
 			dup2(fd[1], STDOUT_FILENO);
-			close(fd[0]);
 			close(fd[1]);
+			if ((*temp)->next && (*temp)->next->redir)
+				start = (*temp)->next->redir;
+			while ((*temp)->next && (*temp)->next->redir)
+			{
+				if ((*temp)->next->redir->type == RED_IN 
+					|| (*temp)->next->redir->type == HERE_DOC)
+					return ((*temp)->next->redir = start, false);
+				(*temp)->next->redir = (*temp)->next->redir->next;
+			}
+			if (start)
+				(*temp)->next->redir = start;
+			close(fd[0]);
 			return (false);
 		}
 	}
@@ -136,22 +149,13 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 	temp_cmds = cmds;
 	if (!temp_cmds->cmd)
 		return (1);
-	if (!ft_strncmp((temp_cmds)->cmd, "./", 2))
+	if (ft_strchr((temp_cmds)->cmd, '/') || !ft_strncmp((temp_cmds)->cmd, "./", 2))
 		str_path = ft_strdup((temp_cmds)->cmd);
 	else
-		str_path = ft_strjoin("/usr/bin/", (temp_cmds)->cmd);
+		str_path = cmd_path(exec, temp_cmds->cmd);
 	if (execve(str_path, (temp_cmds)->args, exec->shell->env) == -1)
-	{
-		set_exit_status(exec->shell, 127);
-		print_error(" command not found\n");
-		if (exec->is_child)
-		{
-			free_process(exec);
-			free(str_path);
-			exit(127);
-		}
-	}
-	exit_exec(exec, temp_cmds);
+		exec->shell->status = 127;
+	error_check(exec, temp_cmds);
 	*r = exec->shell->status;
 	free(str_path);
 	free_process(exec);

@@ -1,20 +1,16 @@
 #include "minishell.h"
 
-void cd_utils(t_shell *shell, char *new_path, char *current_path)
+void cd_utils(t_shell *shell, char *current_path)
 {
-	char *str;
+	char new_path[MAX_PATH_LEN];
 
-	str = getcwd(new_path, sizeof(new_path));
-	if (!new_path)
-		printf("Error getting new path\n");
-	else
-		update_pwd_env(shell, current_path, str);
+	getcwd(new_path, sizeof(new_path));
+	update_pwd_env(shell, current_path, new_path);
 }
 
 int cd(t_shell *shell, char **mtr, t_executor *exec)
 {
 	char current_path[MAX_PATH_LEN];
-	char new_path[MAX_PATH_LEN];
 	char *str;
 
 	str = NULL;
@@ -48,7 +44,7 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		str = ft_joinpath(current_path, mtr[1]);
 		chdir(str);
 		free(str);
-		cd_utils(shell, new_path, current_path);
+		cd_utils(shell, current_path);
 	}
 	else
 	{
@@ -58,7 +54,6 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	if (exec->is_child)
 	{
 		free_process(exec);
-		exec->shell->status = 0;
 		exit(1);
 	}
 	return (1);
@@ -73,6 +68,7 @@ void update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 	i = -1;
 	oldpwd_line = ft_strjoin("OLDPWD=", oldpwd);
 	newpwd_line = ft_strjoin("PWD=", newpwd);
+	(void)newpwd_line;
 	while (shell->env[++i])
 	{
 		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
@@ -80,6 +76,10 @@ void update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 			free(shell->env[i]);
 			shell->env[i] = oldpwd_line;
 		}
+	}
+	i = -1;
+	while (shell->env[++i])
+	{
 		if (!ft_strncmp(shell->env[i], "PWD=", 4))
 		{
 			free(shell->env[i]);
