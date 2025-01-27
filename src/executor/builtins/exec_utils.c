@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int is_directory(char *path)
+int	is_directory(char *path)
 {
 	struct stat path_stat;
 
@@ -12,7 +12,7 @@ int is_directory(char *path)
 	return (0);
 }
 
-char *getenvp(char **envp, char *var)
+char	*getenvp(char **envp, char *var)
 {
 	int i;
 	int j;
@@ -51,16 +51,56 @@ void wait_pid(t_executor *exec)
 
 void exit_exec(t_executor *exec, t_cmds *cmds)
 {
-	write(1, "OKOK\n", 5);
-	if (errno == EACCES)
-		exec->shell->status = 126;
-	else if (errno == ENOENT)
+	if (ft_strchr(cmds->cmd, '/') || !ft_strncmp(cmds->cmd, "./", 2))
 	{
-		if (ft_strncmp(cmds->cmd, "/", 1))
-			exec->shell->status = 127;
+		if (check_is_dir(cmds->cmd) == 1)
+		{
+			print_error(cmds->cmd);
+			print_error(": Is a directory\n");
+			exec->shell->status = 126;
+		}
 		else
-			exec->shell->status = 127;
+		{
+			print_error(cmds->cmd);
+			print_error(": Permission denied\n");
+			exec->shell->status = 126;
+		}
 	}
 	else
-		exec->shell->status = 1;
+	{
+		print_error(cmds->cmd);
+		print_error(": command not found\n");
+	}
+}
+
+void exit_exec2(t_executor *exec, t_cmds *cmds)
+{
+	if (ft_strchr(cmds->cmd, '/') || !ft_strncmp(cmds->cmd, "./", 2))
+	{
+		if (check_is_dir(cmds->cmd) == 1)
+		{
+			print_error(cmds->cmd);
+			print_error(": Is a directory\n");
+			exec->shell->status = 126;
+		}
+		else
+		{
+			print_error(cmds->cmd);
+			print_error(": No such file or directory\n");
+			exec->shell->status = 127;
+		}
+	}
+	else
+	{
+		print_error(cmds->cmd);
+		print_error(": command not found\n");
+	}
+}
+
+void	error_check(t_executor *exec, t_cmds *cmds)
+{
+	if (errno == EACCES)
+		exit_exec(exec, cmds);
+	else if (errno == ENOENT)
+		exit_exec2(exec, cmds);
 }
