@@ -26,6 +26,8 @@ int syntax_pipe(t_token *token)
 		return (w_error(" syntax error near unexpected token `|'\n"), 0);
 	if (token->type == PIPE && token->next->type == PIPE)
 		return (w_error(" syntax error near unexpected token `|'\n"), 0);
+	if (token->type == D_PIPE)
+		return (w_error(" syntax error near unexpected token `||'\n"), 0);
 	return (1);
 }
 

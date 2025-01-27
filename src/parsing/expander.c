@@ -165,6 +165,8 @@ void	expander(t_token **token, t_executor *exec)
 						exp->start = exp->str_i;
 						if (exp->token->info[exp->str_i + 1] == '?')
 							check_exp_temp_code(exp, exec);
+						else if (ft_isdigit(exp->token->info[exp->str_i + 1]))
+							exp->start = exp->str_i + 2;
 						else if ((exp->token->info[exp->str_i + 1] == '"' && !exp->bin) || (exp->token->info[exp->str_i + 1] == '\'' && !exp->bin))
 							exp->start = exp->str_i + 1;
 						else if ((exp->token->info[exp->str_i + 1] == '"' && exp->bin) || !exp->token->info[exp->str_i + 1])

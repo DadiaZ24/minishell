@@ -150,7 +150,7 @@ void ft_div(t_cmds **cmds, t_token *token)
 
 t_cmds **ft_cmd_div(t_token *token, t_executor *exec)
 {
-	/* t_cmds	*test;
+/* 	t_cmds	*test;
 	t_token	*re_test;
 	int		i; */
     if (!token)
