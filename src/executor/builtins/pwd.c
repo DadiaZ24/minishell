@@ -23,7 +23,6 @@ int pwd(char **mtr, t_executor *exec)
 	if (exec->is_child)
 	{
 		free_process(exec);
-		set_exit_status(exec->shell, 0);
 		exit(0);
 	}
 	else
