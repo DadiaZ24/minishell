@@ -31,5 +31,7 @@ char **export_put_values(char **env, char *arg, int i);
 bool has_append_operator(char *arg);
 bool has_operator_before_equal(char *arg);
 char **realloc_env(char **env, int i);
+bool	check_if_exists(char *arg, char **env);
+char	*join_entry(char *env_entry, char *entry, int size);
 
 #endif
