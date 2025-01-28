@@ -121,7 +121,10 @@ bool update_entry(char **env_entry, char *entry, int size)
 	if (ft_strchr(entry, '+'))
 	{
 		if (ft_strncmp(*env_entry, entry, size) == 0)
-			*env_entry = ft_strjoin(*env_entry, entry + size + 2);
+			if (!ft_strchr(*env_entry, '='))
+				*env_entry = join_entry(*env_entry, entry, size + 1);
+			else
+				*env_entry = join_entry(*env_entry, entry, size + 2);
 		else
 			return (false);
 	}
@@ -140,6 +143,8 @@ bool update_entry(char **env_entry, char *entry, int size)
 
 char **new_entry(char **env, char *entry, int i)
 {
+	if (check_if_exists(entry, env))
+		return (env);
 	while (env[i])
 		i++;
 	env = realloc_env(env, i);
@@ -228,4 +233,26 @@ char **realloc_env(char **env, int i)
 	free(env[j]);
 	free(env);
 	return (new_env);
+}
+
+bool	check_if_exists(char *arg, char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strncmp(arg, env[i], ft_strclen(env[i], '=')))
+			return (true);
+	}
+	return (false);
+}
+
+char	*join_entry(char *env_entry, char *entry, int size)
+{
+	void	*new_entry;
+
+	new_entry = ft_strjoin(env_entry, entry + size);
+	free(env_entry);
+	return (new_entry);
 }
