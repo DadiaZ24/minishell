@@ -35,8 +35,6 @@ int syntax_red_out(t_token *token)
 {
 	if (token->type == RED_OUT && !token->next)
 		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
-	if (token->type == RED_OUT && !token->prev)
-		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
 	if (token->type == RED_OUT && token->next->type == RED_OUT)
 		return (w_error(" syntax error near unexpected token `>'\n"), 0);
 	if (token->type == RED_OUT && token->next->type == RED_IN)
@@ -54,8 +52,6 @@ int syntax_red_in(t_token *token)
 {
 	if (token->type == RED_IN && !token->next)
 		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
-	if (token->type == RED_IN && !token->prev)
-		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
 	if (token->type == RED_IN && token->next->type == RED_OUT)
 		return (w_error(" syntax error near unexpected token `>'\n"), 0);
 	if (token->type == RED_IN && token->next->type == RED_IN)
@@ -72,8 +68,6 @@ int syntax_red_in(t_token *token)
 int syntax_append_heredoc(t_token *token)
 {
 	if (token->type == APPEND && !token->next)
-		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
-	if (token->type == APPEND && !token->prev)
 		return (w_error(" syntax error near unexpected token `newline'\n"), 0);
 	if (token->type == APPEND && (token->next->type == APPEND || token->next->type == RED_OUT || token->next->type == HERE_DOC || token->next->type == PIPE || token->next->type == RED_IN))
 		return (w_error(" syntax error near unexpected token `>>'\n"), 0);
