@@ -44,5 +44,7 @@ bool has_operator_before_equal(char *arg);
 char **realloc_env(char **env, int i);
 bool	check_if_exists(char *arg, char **env);
 char	*join_entry(char *env_entry, char *entry, int size);
+void	find_heredoc(t_cmds **cmds);
+void	remove_file(void);
 
 #endif

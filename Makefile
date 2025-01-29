@@ -27,8 +27,8 @@ RLFLAG			= -L$(READLINE_PATH)/lib -lreadline
 
 GENERAL			= main.c
 PARSING			= parser.c mini_split.c mini_split_wc.c lexer.c \
-				expander.c cmd.c syntax_checker_utils.c \
-				syntax_checker.c
+				expander.c cmd.c syntax_checker_utils.c expander_utils.c\
+				syntax_checker.c expander_utils_2.c
 UTILS			= init.c init2.c free.c free_process.c utils.c utils2.c
 EXECUTOR		= pwd.c cd.c echo.c env.c exec_utils.c exit.c \
 				export.c export_utils.c executor.c redirect.c unset.c signals.c \

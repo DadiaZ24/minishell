@@ -74,4 +74,6 @@ void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 void	signals(void);
 
+void	create_token_loop(char **mtr, t_token *temp, int i);
+
 #endif

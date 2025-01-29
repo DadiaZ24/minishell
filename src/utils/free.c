@@ -78,20 +78,20 @@ void	free_ast_utils(t_ast *ast)
 	free(temp);
 } */
 
-void    ft_free_cmds(t_cmds *cmds)
+void	ft_free_cmds(t_cmds *cmds)
 {
-    t_cmds *temp;
+	t_cmds	*temp;
 
 	while (cmds)
-    {
-        temp = cmds->next;
-        if (cmds->cmd)
-            free(cmds->cmd);
-        if (cmds->args)
-            free_mtr(cmds->args);
-       if (cmds->redir)
-	   		free_token(cmds->redir);
+	{
+		temp = cmds->next;
+		if (cmds->cmd)
+			free(cmds->cmd);
+		if (cmds->args)
+			free_mtr(cmds->args);
+		if (cmds->redir)
+			free_token(cmds->redir);
 		free(cmds);
 		cmds = temp;
-    }
+	}
 }

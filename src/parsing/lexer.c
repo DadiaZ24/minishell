@@ -58,7 +58,7 @@ void	lexer(t_token **tokens)
 	temp = temp->next;
 	while (temp)
 	{
-		if (check_file_eof(temp->prev->info) > 0 
+		if (check_file_eof(temp->prev->info) > 0
 			&& check_redirect_or_pipe(temp->info) < 0)
 			temp->type = check_file_eof(temp->prev->info);
 		else if (check_redirect_or_pipe(temp->info) > 0)

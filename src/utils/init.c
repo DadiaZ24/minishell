@@ -18,18 +18,7 @@ void	create_token(char **mtr, t_token **token)
 	(*token)->next = NULL;
 	temp = *token;
 	while (mtr[++i])
-	{
-		temp->next = (t_token *)malloc(sizeof(t_token));
-		if (!(temp->next))
-			return ;
-		temp->next->prev = temp;
-		temp = temp->next;
-		temp->info = ft_strdup(mtr[i]);
-		temp->type = false;
-		temp->type = -1;
-		temp->d_quotes = false;
-		temp->next = NULL;
-	}
+		create_token_loop(mtr, temp, i);
 }
 
 t_split	*init_split_var(void)
@@ -39,7 +28,6 @@ t_split	*init_split_var(void)
 	split = malloc((1) * sizeof(t_split));
 	if (!split)
 	{
-		// Need to check error code
 		ft_printf("%s\n", "Error");
 		exit(1);
 	}
@@ -58,7 +46,6 @@ t_words	*init_wc(void)
 	wc = malloc((1) * sizeof(t_split));
 	if (!wc)
 	{
-		// Need to check error code
 		ft_printf("%s\n", "Error");
 		exit(1);
 	}

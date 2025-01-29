@@ -24,6 +24,20 @@ int	minishell(t_executor *exec, char **envp)
 	return (0);
 }
 
+static void	minishell_loop_exec(t_executor *exec, t_token **tokens)
+{
+	expander(tokens, exec);
+	ft_cmd_div(*tokens, exec);
+	free_token(*tokens);
+	find_heredoc(exec->cmds);
+	executor(exec);
+	dup2(exec->fd_out, STDOUT_FILENO);
+	dup2(exec->fd_in, STDIN_FILENO);
+	wait_pid(exec);
+	free_all(exec);
+	remove_file();
+}
+
 int	minishell_loop(t_executor *exec, t_token **tokens)
 {
 	char	**mtr;
@@ -42,16 +56,7 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	lexer(tokens);
 	if (!syntax_checker(tokens, exec))
 		return (free_token(*tokens), 1);
-	expander(tokens, exec);
-	ft_cmd_div(*tokens, exec);
-	free_token(*tokens);
-	find_heredoc(exec->cmds);
-	executor(exec);
-	dup2(exec->fd_out, STDOUT_FILENO);
-	dup2(exec->fd_in, STDIN_FILENO);
-	wait_pid(exec);
-	free_all(exec);
-	remove_file();
+	minishell_loop_exec(exec, tokens);
 	return (1);
 }
 
