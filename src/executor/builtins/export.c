@@ -13,7 +13,10 @@ int export(t_executor *exec)
 	{
 		print_export(exec, exec->shell->env);
 		if (exec->is_child)
+		{
+			free_process(exec);
 			exit(0);
+		}
 		return (set_exit_status(exec->shell, 0), 1);
 	}
 	else if (temp_ast->args[1])
@@ -22,7 +25,10 @@ int export(t_executor *exec)
 		while (temp_ast->args[++i])
 			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
 		if (exec->is_child)
+		{
+			free_process(exec);
 			exit(0);
+		}
 		return (1);
 	}
 	return (set_exit_status(exec->shell, 0), 1);
@@ -59,7 +65,7 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 {
 	if (has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '+'));
-	else if (has_operator_before_equal(arg))
+	else if (has_operator_before_equal(arg) || (arg[0] && arg[0] == '='))
 	{
 		exec->shell->status = 1;
 		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
@@ -90,7 +96,7 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 	{
 		if (delimiter == '+')
 		{
-			if (update_entry(&env[i], arg, is_new, ft_strclen(arg, delimiter)))
+			if (update_entry(&env[i], arg, ft_strclen(arg, delimiter)))
 			{
 				is_new = false;
 				break;
@@ -98,7 +104,7 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 		}
 		else
 		{
-			if (update_entry(&env[i], arg, is_new, ft_strclen(arg, delimiter) + 1))
+			if (update_entry(&env[i], arg, ft_strclen(arg, delimiter) + 1))
 			{
 				is_new = false;
 				break;
@@ -110,41 +116,35 @@ char **handle_entry(char *arg, char **env, bool is_new, char delimiter)
 	return (env);
 }
 
-bool update_entry(char **env_entry, char *entry, bool is_new, int size)
+bool update_entry(char **env_entry, char *entry, int size)
 {
-	(void)is_new;
 	if (ft_strchr(entry, '+'))
 	{
 		if (ft_strncmp(*env_entry, entry, size) == 0)
-		{
-			is_new = false;
-			*env_entry = ft_strjoin(*env_entry, entry + size + 2);
-		}
+			if (!ft_strchr(*env_entry, '='))
+				*env_entry = join_entry(*env_entry, entry, size + 1);
+			else
+				*env_entry = join_entry(*env_entry, entry, size + 2);
 		else
-		{
-			is_new = true;
 			return (false);
-		}
 	}
 	else
 	{
-		if (ft_strncmp(*env_entry, entry, size == 0))
+		if (ft_strncmp(*env_entry, entry, size) == 0)
 		{
-			is_new = false;
 			free(*env_entry);
 			*env_entry = ft_strdup(entry);
 		}
 		else
-		{
-			is_new = true;
 			return (false);
-		}
 	}
 	return (true);
 }
 
 char **new_entry(char **env, char *entry, int i)
 {
+	if (check_if_exists(entry, env))
+		return (env);
 	while (env[i])
 		i++;
 	env = realloc_env(env, i);
@@ -233,4 +233,26 @@ char **realloc_env(char **env, int i)
 	free(env[j]);
 	free(env);
 	return (new_env);
+}
+
+bool	check_if_exists(char *arg, char **env)
+{
+	int	i;
+
+	i = -1;
+	while (env[++i])
+	{
+		if (!ft_strncmp(arg, env[i], ft_strclen(env[i], '=')))
+			return (true);
+	}
+	return (false);
+}
+
+char	*join_entry(char *env_entry, char *entry, int size)
+{
+	void	*new_entry;
+
+	new_entry = ft_strjoin(env_entry, entry + size);
+	free(env_entry);
+	return (new_entry);
 }

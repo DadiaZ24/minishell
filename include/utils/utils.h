@@ -6,7 +6,6 @@
 void		free_mtr(char **mtr);
 void		free_token(t_token *token);
 char		**free_split(char **str, int j);
-/* void		free_ast(t_ast **ast); */
 void		free_d(t_executor *exec);
 void		free_all(t_executor	*exec);
 void		free_process(t_executor *exec);
@@ -30,12 +29,17 @@ void		ast_utils_else(t_ast_utils *au, t_ast **ast);
 void		ast_utils_other_than_pipe(t_ast_utils *au, t_ast **ast);
 void		ast_utils_pipe(t_ast_utils *au, t_ast **ast);
 void		ast_utils_red(t_ast_utils *au, t_ast **ast);
+char		*cmd_path(t_executor *exec, char *cmd);
 
 void		wait_pid(t_executor *exec);
 bool		handle_redirects(t_executor *exec, t_cmds *cmds);
 bool		handle_heredoc(t_cmds *cmds);
+void		find_heredoc(t_cmds **cmds);
+
 bool		check_permission(t_executor *exec, char *path, int i);
 void		exit_exec(t_executor *exec, t_cmds *cmds);
+void		exit_exec2(t_executor *exec, t_cmds *cmds);
+void		error_check(t_executor *exec, t_cmds *cmds);
 void		w_error(char *str);
 
 #endif

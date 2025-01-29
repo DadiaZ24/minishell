@@ -27,6 +27,7 @@ void	create_token(char **mtr, t_token **token)
 		temp->info = ft_strdup(mtr[i]);
 		temp->type = false;
 		temp->type = -1;
+		temp->d_quotes = false;
 		temp->next = NULL;
 	}
 }

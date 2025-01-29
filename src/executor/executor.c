@@ -48,6 +48,7 @@ bool	handle_pipe(t_executor *exec, t_cmds **temp)
 	int	i;
 
 	i = 0;
+	start = NULL;
 	while (*temp)
 	{
 		pipe(fd);

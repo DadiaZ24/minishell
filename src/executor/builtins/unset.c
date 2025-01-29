@@ -1,6 +1,6 @@
 #include <minishell.h>
 
-int realloc_unset(t_executor *exec)
+int realloc_unset(t_executor *exec, int x)
 {
 	int i;
 	int j;
@@ -9,10 +9,7 @@ int realloc_unset(t_executor *exec)
 	i = -1;
 	j = 0;
 	while (exec->shell->env[++i])
-	{
-		if (exec->shell->env[i])
-			j++;
-	}
+		j++;
 	new_env = malloc(sizeof(char *) * (j + 1));
 	if (!new_env)
 		return (0);
@@ -20,11 +17,15 @@ int realloc_unset(t_executor *exec)
 	j = -1;
 	while (exec->shell->env[++i])
 	{
+		if (i == x)
+			++i;
 		if (exec->shell->env[i])
 			new_env[++j] = ft_strdup(exec->shell->env[i]);
+		if (!exec->shell->env[i])
+			break ;
 	}
-	new_env[j] = NULL;
-	free(exec->shell->env);
+	new_env[++j] = NULL;
+	free_mtr(exec->shell->env);
 	exec->shell->env = new_env;
 	return (1);
 }
@@ -42,9 +43,7 @@ int unset(char **mtr, t_executor *exec)
 		{
 			if (ft_strncmp(exec->shell->env[j], mtr[i], ft_strlen(mtr[i])) == 0)
 			{
-				free(exec->shell->env[j]);
-				exec->shell->env[j] = NULL;
-				if (!realloc_unset(exec))
+				if (!realloc_unset(exec, j))
 					return (set_exit_status(exec->shell, 1), 0);
 				break;
 			}

@@ -59,8 +59,9 @@ typedef struct s_cmds
 {
 	char			*cmd;
 	char			**args;
-	t_token			*redir;
+	int				fd_hd;
 	struct s_cmds	*next;
+	t_token			*redir;
 	bool			d_quotes;
 }	t_cmds;
 
@@ -100,5 +101,7 @@ int			check_redirect_or_pipe(char *s);
 int			check_file_eof(char *s);
 void		expander(t_token **token, t_executor *exec);
 t_cmds		**ft_cmd_div(t_token *token, t_executor *exec);
+
+void	remove_file(void);
 
 #endif
