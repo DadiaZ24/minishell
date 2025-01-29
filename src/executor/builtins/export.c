@@ -65,6 +65,8 @@ char **export_body_update(char *arg, char **env, bool is_new, t_executor *exec)
 {
 	if (has_append_operator(arg))
 		return (handle_entry(arg, env, is_new, '+'));
+	else if (arg[0] && arg[0] == '+')
+		return (set_exit_status(exec->shell, 1), w_error("minishell: not a valid identifier\n"), env);
 	else if (has_operator_before_equal(arg) || (arg[0] && arg[0] == '='))
 	{
 		exec->shell->status = 1;
@@ -130,13 +132,16 @@ bool update_entry(char **env_entry, char *entry, int size)
 	}
 	else
 	{
-		if (ft_strncmp(*env_entry, entry, size) == 0)
+		if (!ft_strncmp(*env_entry, entry, size) == 0)
 		{
 			free(*env_entry);
 			*env_entry = ft_strdup(entry);
 		}
 		else
+		{
+			*env_entry = join_entry(*env_entry, entry, size - 1);
 			return (false);
+		}
 	}
 	return (true);
 }
@@ -176,6 +181,8 @@ char **export_put_values(char **env, char *arg, int i)
 bool has_append_operator(char *arg)
 {
 	if (!arg)
+		return (false);
+	if (arg[0] && arg[0] == '+')
 		return (false);
 	while (*arg)
 	{
@@ -243,6 +250,12 @@ bool	check_if_exists(char *arg, char **env)
 	while (env[++i])
 	{
 		if (!ft_strncmp(arg, env[i], ft_strclen(env[i], '=')))
+			return (true);
+	}
+	i = -1;
+	while (arg[++i])
+	{
+		if (arg[i] == '+' && (arg[i + 1] && arg[i + 1] == '=') && (arg[i - 1] && arg[i - 1] != '='))
 			return (true);
 	}
 	return (false);
