@@ -159,7 +159,7 @@ char **new_entry(char **env, char *entry, int i)
 		i++;
 	while (entry[++j])
 	{
-		if (entry[j] == '+' && (entry[j + 1] && entry[j + 1] == '='))
+		if ((entry[j] == '+' && (entry[j + 1] && entry[j + 1] == '=') && !check_if_exists(entry, env)))
 		{
 			check = true;
 			break ;
