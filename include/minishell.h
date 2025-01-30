@@ -73,5 +73,6 @@ int check_quotes(t_token *token);
 void handle_sigint(int sig);
 void handle_sigquit(int sig);
 void signals(void);
+void	handle_sighd(int sig);
 
 #endif

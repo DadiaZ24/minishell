@@ -148,14 +148,45 @@ bool update_entry(char **env_entry, char *entry, int size)
 
 char **new_entry(char **env, char *entry, int i)
 {
+	int		j;
+	bool	check;
+
+	j = -1;
+	check = false;
 	if (check_if_exists(entry, env))
 		return (env);
 	while (env[i])
 		i++;
+	while (entry[++j])
+	{
+		if (entry[j] == '+' && (entry[j + 1] && entry[j + 1] == '='))
+		{
+			check = true;
+			break ;
+		}
+	}
 	env = realloc_env(env, i);
-	env[i] = ft_strdup(entry);
+	if (check)
+		env[i] = swap_export(entry, j);
+	else
+		env[i] = ft_strdup(entry);
 	env[i + 1] = NULL;
 	return (env);
+}
+
+char	*swap_export(char *entry, int j)
+{
+	char	*temp;
+	char	*temp_join;
+
+	temp_join = NULL;
+	temp = NULL;
+	temp = ft_substr(entry, 0, j);
+	temp_join = ft_substr(entry, j + 1, ft_strlen(entry));
+	entry = ft_strjoin(temp, temp_join);
+	free(temp);
+	free(temp_join);
+	return (entry);
 }
 
 char **export_put_values(char **env, char *arg, int i)
@@ -188,6 +219,8 @@ bool has_append_operator(char *arg)
 	{
 		if (*arg == '+' && *(arg + 1) == '=')
 			return (true);
+		if (*arg == '+' && *(arg + 1) == '+')
+			return (false);
 		arg++;
 	}
 	return (false);
@@ -253,11 +286,11 @@ bool	check_if_exists(char *arg, char **env)
 			return (true);
 	}
 	i = -1;
-	while (arg[++i])
+	/* while (arg[++i])
 	{
 		if (arg[i] == '+' && (arg[i + 1] && arg[i + 1] == '=') && (arg[i - 1] && arg[i - 1] != '='))
 			return (true);
-	}
+	} */
 	return (false);
 }
 

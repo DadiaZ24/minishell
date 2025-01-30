@@ -29,3 +29,13 @@ void signals(void)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	handle_sighd(int sig)
+{
+	if (sig == SIGINT)
+	{
+		close(STDIN_FILENO);
+		write(STDERR_FILENO, "\n", 1);
+		check_signal(1);
+	}
+}
