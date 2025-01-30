@@ -12,6 +12,15 @@ char	*enum_heredoc()
 	return (file);
 }
 
+bool	check_signal(int i)
+{
+	static int	j = 0;
+
+	if (i == 1)
+		j = 1;
+	return (j);
+}
+
 bool	handle_heredoc(t_cmds *cmds)
 {
 	char	*line;
@@ -25,19 +34,24 @@ bool	handle_heredoc(t_cmds *cmds)
 	if (fd < 0)
 		return (false);
 	cmds->fd_hd = fd;
+	signal(SIGINT, handle_sighd);
 	line = readline("> ");
+	if (check_signal(0))
+		return (free(eof), false);
 	while (line && ft_strcmp(line, eof))
 	{
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
 		line = readline("> ");
+		if (check_signal(0))
+			return (free(eof), false);
 	}
 	free(eof);
 	return (true);
 }
 
-void	find_heredoc(t_cmds **cmds)
+bool	find_heredoc(t_cmds **cmds)
 {
 	t_cmds	*temp;
 	t_token *original;
@@ -51,12 +65,14 @@ void	find_heredoc(t_cmds **cmds)
 		{
 				if (temp->redir->type)
 					if (temp->redir->type == HERE_DOC)
-						handle_heredoc(temp);
+						if (!handle_heredoc(temp))
+							return (false);
 			temp->redir = temp->redir->next;
 		}
 		temp->redir = original;
 		temp = temp->next;
 	}
+	return (true);
 }
 
 void	remove_file(void)

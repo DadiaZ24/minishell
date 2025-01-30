@@ -125,10 +125,6 @@ int executor(t_executor *exec)
 	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
-	if (ft_strlen(temp_cmds->cmd) == 0 && (temp_cmds->redir && temp_cmds->redir->type != HERE_DOC) && !temp_cmds->d_quotes)
-		return (1);
-	if (ft_strlen(temp_cmds->cmd) == 0 && !temp_cmds->d_quotes)
-		return (1);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
 		return (free(exec->pid), exec->pid = NULL, builtin(exec, &temp_cmds));
 	if (handle_pipe(exec, &temp_cmds))
@@ -147,8 +143,11 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 	t_cmds *temp_cmds;
 
 	temp_cmds = cmds;
-	if (!temp_cmds->cmd)
-		return (1);
+	if (!temp_cmds->cmd && exec->is_child)
+	{
+		free_process(exec);
+		exit(0);
+	}
 	if (ft_strchr((temp_cmds)->cmd, '/') || !ft_strncmp((temp_cmds)->cmd, "./", 2))
 		str_path = ft_strdup((temp_cmds)->cmd);
 	else

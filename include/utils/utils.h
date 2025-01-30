@@ -34,7 +34,8 @@ char		*cmd_path(t_executor *exec, char *cmd);
 void		wait_pid(t_executor *exec);
 bool		handle_redirects(t_executor *exec, t_cmds *cmds);
 bool		handle_heredoc(t_cmds *cmds);
-void		find_heredoc(t_cmds **cmds);
+bool		find_heredoc(t_cmds **cmds);
+bool		check_signal(int i);
 
 bool		check_permission(t_executor *exec, char *path, int i);
 void		exit_exec(t_executor *exec, t_cmds *cmds);
