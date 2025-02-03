@@ -2,14 +2,15 @@
 
 int export(t_executor *exec)
 {
-	t_cmds *temp_ast;
+	t_cmds *cmd;
+	t_export *export;
 	int i;
 	bool is_new;
 
-	temp_ast = *(exec->cmds);
+	cmd = *(exec->cmds);
 	i = -1;
-	is_new = true;
-	if (temp_ast->args[0] && !temp_ast->args[1])
+	export = init_export(export, exec);
+	if (cmd->args[0] && !cmd->args[1])
 	{
 		print_export(exec, exec->shell->env);
 		if (exec->is_child)
@@ -17,13 +18,13 @@ int export(t_executor *exec)
 			free_process(exec);
 			exit(0);
 		}
-		return (set_exit_status(exec->shell, 0), 1);
+		return (set_exit_status(exec->shell, 0), free_export(export), 1);
 	}
-	else if (temp_ast->args[1])
+	else if (cmd->args[1])
 	{
 		i = 0;
-		while (temp_ast->args[++i])
-			exec->shell->env = export_body_update(temp_ast->args[i], exec->shell->env, is_new, exec);
+		while (cmd->args[++i])
+			exec->shell->env = export_body_update(cmd->args[i], exec->shell->env, is_new, exec);
 		if (exec->is_child)
 		{
 			free_process(exec);
@@ -34,30 +35,20 @@ int export(t_executor *exec)
 	return (set_exit_status(exec->shell, 0), 1);
 }
 
-int print_export(t_executor *exec, char **env)
+int print_export(t_export *export)
 {
 	int i;
-	char **key;
 
-	key = malloc(sizeof(char *) * 2);
-	if (!key)
-		return (0);
 	bubblesort(exec);
 	i = -1;
-	while (env[++i])
+	while (export->key_left[++i])
 	{
-		key[0] = ft_strndup(env[i], ft_strclen(env[i], '='));
-		if (ft_strchr(env[i], '='))
-			key[1] = ft_strchr(env[i], '=') + 1;
-		printf("declare -x %s", key[0]);
-		if (key[1])
-			printf("=\"%s\"\n", key[1]);
+		printf("declare -x %s", export->key_left[i]);
+		if (export->key_right[i])
+			printf("=\"%s\"\n", export->key_right[i]);
 		else
 			printf("\n");
-		free(key[0]);
-		key[1] = NULL;
 	}
-	free(key);
 	return (1);
 }
 

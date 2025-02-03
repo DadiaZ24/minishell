@@ -5,6 +5,14 @@
 #define MAX_PATH_LEN 1024
 #endif
 
+#include <stdbool.h>
+
+typedef struct s_export
+{
+	char	**key_left;
+	char	**key_right;
+}	t_export;
+
 int pwd(char **mtr, t_executor *exec);
 int cd(t_shell *shell, char **mtr, t_executor *exec);
 bool echo(char **mtr, t_executor *exec);
@@ -34,5 +42,8 @@ char **realloc_env(char **env, int i);
 bool	check_if_exists(char *arg, char **env);
 char	*join_entry(char *env_entry, char *entry, int size);
 char	*swap_export(char *entry, int j);
+int env_len(char **env);
+t_export *init_export(t_export *export, t_executor *exec);
+void free_export(t_export *export);
 
 #endif
