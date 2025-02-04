@@ -76,3 +76,18 @@ void	free_export(t_export *export)
 	free(export->key_right);
 	free(export);
 }
+
+bool	check_append(char *arg)
+{
+	if (!arg)
+		return (false);
+	if (ft_strchr(arg, '='))
+	{
+		while (*arg)
+		{
+			if (*arg == '+' && *(arg + 1) == '=')
+				return (true);
+		}
+	}
+	return (false);
+}

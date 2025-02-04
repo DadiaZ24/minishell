@@ -11,6 +11,9 @@ typedef struct s_export
 {
 	char	**key_left;
 	char	**key_right;
+	char	*arg_left;
+	char	*arg_right;
+	bool	append;
 }	t_export;
 
 int pwd(char **mtr, t_executor *exec);
@@ -45,5 +48,6 @@ char	*swap_export(char *entry, int j);
 int env_len(char **env);
 t_export *init_export(t_export *export, t_executor *exec);
 void free_export(t_export *export);
+bool	check_append(char *arg);
 
 #endif
