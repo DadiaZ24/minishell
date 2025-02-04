@@ -25,7 +25,10 @@ int export(t_executor *exec)
 		i = 0;
 		while (cmd->args[++i])
 		{
-			parse_export(cmd->args[i], export);
+			if (parse_export(cmd->args[i], export))
+			{
+				// EXECUTE EXPORT
+			}
 		}
 		return (1);
 	}
