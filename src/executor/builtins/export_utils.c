@@ -72,8 +72,14 @@ void	free_export(t_export *export)
 		if (export->key_right[i])
 			free(export->key_right[i]);
 	}
-	free(export->key_left);
-	free(export->key_right);
+	if (export->key_left)
+		free(export->key_left);
+	if (export->key_right)
+		free(export->key_right);
+	if (export->arg_left)
+		free(export->arg_left);
+	if (export->arg_right)
+		free(export->arg_right);
 	free(export);
 }
 

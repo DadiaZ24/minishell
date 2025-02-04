@@ -14,6 +14,10 @@ typedef struct s_export
 	char	*arg_left;
 	char	*arg_right;
 	bool	append;
+	bool 	arg_equals;
+	bool 	env_equals;
+	bool 	new_entry;
+	bool 	do_nothing;
 }	t_export;
 
 int pwd(char **mtr, t_executor *exec);
