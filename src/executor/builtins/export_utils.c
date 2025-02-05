@@ -7,10 +7,10 @@ bool bubblesort(t_export *export)
 	char *temp;
 
 	i = -1;
-	while (export->key_left[i++])
+	while (export->key_left[++i])
 	{
 		j = i;
-		while (export->key_left[j++])
+		while (export->key_left[++j])
 		{
 			if (ft_strncmp(export->key_left[i], export->key_left[j], ft_strlen(export->key_left[i]) + 1) > 0)
 			{
@@ -41,14 +41,14 @@ t_export *init_export(t_export *export, t_executor *exec)
 	int i;
 
 	i = -1;
-	export = malloc(sizeof(t_export));
-	if (!export)
-		return (NULL);
+	export->append = false;
+	export->arg_left = NULL;
+	export->arg_right = NULL;
 	export->key_left = malloc(sizeof(char *) * env_len(exec->shell->env) + 1);
 	export->key_right = malloc(sizeof(char *) * env_len(exec->shell->env) + 1);
 	if (!export->key_left || !export->key_right)
 		return (NULL);
-	while (exec->shell-env[++i])
+	while (exec->shell->env[++i])
 	{
 		export->key_left[i] = ft_strndup(exec->shell->env[i], ft_strclen(exec->shell->env[i], '='));
 		if (ft_strchr(exec->shell->env[i], '='))

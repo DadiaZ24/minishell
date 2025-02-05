@@ -5,14 +5,16 @@ int export(t_executor *exec)
 	t_cmds *cmd;
 	t_export *export;
 	int i;
-	bool is_new;
 
 	cmd = *(exec->cmds);
 	i = -1;
+	export = malloc(sizeof(t_export));
+	if (!export)
+		return (0);
 	export = init_export(export, exec);
 	if (cmd->args[0] && !cmd->args[1])
 	{
-		print_export(exec, exec->shell->env);
+		print_export(export);
 		if (exec->is_child)
 		{
 			free_process(exec);
@@ -27,8 +29,18 @@ int export(t_executor *exec)
 		{
 			if (parse_export(cmd->args[i], export))
 			{
-				execute_export(export, exec);
+				if (!execute_export(export, exec))
+				{
+					if (exec->is_child)
+					{
+						free_process(exec);
+						exit(1);
+					}
+					return (set_exit_status(exec->shell, 1), free_export(export), 1);
+				}
 			}
+			else
+				return (set_exit_status(exec->shell, 1), free_export(export), 1);
 		}
 		return (free_export(export), 1);
 	}
@@ -44,9 +56,9 @@ void	execute_append(t_export *export, t_executor *exec)
 	{
 		while(exec->shell->env[++i])
 		{
-			if (ft_strncmp(export->arg_left, exec->shell->env[i], ft_strlen(export->arg_left)) == 0)
+			if (ft_strncmp(export->arg_left, exec->shell->env[i], ft_strlen(export->arg_left) - 1) == 0)
 			{
-				if (exec->shell->env[i][ft_strlen(export->arg_left)] == '=')
+				if (exec->shell->env[i][ft_strlen(export->arg_left) - 1] == '=')
 				{
 					exec->shell->env[i] = ft_strjoin(exec->shell->env[i], export->arg_right);
 					break;
@@ -68,28 +80,47 @@ bool make_new_entry(t_export *export, t_executor *exec)
 	return (true);
 }
 
-bool	execute_export(t_export *export, t_executor *exec)
+bool replace_entry(t_export *export, t_executor *exec)
 {
 	int i;
 
 	i = -1;
+	while(exec->shell->env[++i])
+	{
+		if (ft_strncmp(export->arg_left, exec->shell->env[i], ft_strlen(export->arg_left)) == 0)
+		{
+				free(exec->shell->env[i]);
+				exec->shell->env[i] = ft_strjoin(ft_strjoin(export->arg_left, "="), export->arg_right);
+				break;
+		}
+	}
+	return (true);
+}
+
+bool	execute_export(t_export *export, t_executor *exec)
+{
 	if (export->do_nothing)
-		return ;
+		return (false);
 	if (export->arg_equals)
 	{
 		if (export->append)
 			return (execute_append(export, exec), true);
 		else
-			return (make_new_entry(export, exec), true);
+		{
+			if (export->new_entry)
+				return (make_new_entry(export, exec), true);
+			else
+				return (replace_entry(export, exec), true);
+		}
 	}
-
+	return (true);
 }
 
-int print_export(t_export *export)
+void print_export(t_export *export)
 {
 	int i;
 
-	bubblesort(exec);
+	bubblesort(export);
 	i = -1;
 	while (export->key_left[++i])
 	{
@@ -99,73 +130,80 @@ int print_export(t_export *export)
 		else
 			printf("\n");
 	}
-	return (1);
 }
 
 bool parse_export_equal(char *arg, t_export *export)
 {
-	int i;
+	size_t i;
 
 	i = -1;
 	export->arg_right = ft_strdup(ft_strchr(arg, '=') + 1);
 	export->arg_equals = true;
 	export->do_nothing = false;
-	if (export->arg_left[ft_strlen(export->arg_left)] == '+')
+	if (export->arg_left[ft_strlen(export->arg_left) - 1] == '+')
 		export->append = true;
 	while (export->arg_left[++i])
 	{
-		if (export->append && i == ft_strlen(export->arg_left) - 1)
+		if (export->append && i == ft_strlen(export->arg_left) - 1 && export->arg_left[i] == '+')
 			break;
 		if ((!ft_isalpha(export->arg_left[i]) && export->arg_left[i] != '_')  || ft_strlen(export->arg_left) == 0)
-			return (false);
+			return (printf("minishell: export: `%s': not a valid identifier\n", arg), free(arg), false);
 	}
 	i = -1;
-	if (export->arg_right)
-	{
-		while (export->arg_right[++i])
-		{
-			if ((!ft_isalnum(export->arg_right[i]) && export->arg_right[i] != '_'))
-				return (false);
-		}
-	}
+	return (free(arg), true);
 }
 
-bool parse_export_no_equal(char *arg, t_export *export)
+bool parse_export_no_equal(t_export *export)
 {
+	size_t i;
+
+	i = -1;
 	export->arg_right = NULL;
 	export->arg_equals = false;
 	while (export->arg_left[++i])
 	{
 		if ((!ft_isalpha(export->arg_left[i]) && export->arg_left[i] != '_')  || ft_strlen(export->arg_left) == 0)
-			return (false);
+			return (printf("minishell: export: `%s': not a valid identifier\n", export->arg_left), false);
 	}
 	if (!export->new_entry)
 		export->do_nothing = true;
 	else
 		export->do_nothing = false;
-	return (true);
+	return (printf("minishell: export: `%s': not a valid identifier\n", export->arg_left), false);
 }
 
 bool parse_export(char *arg, t_export *export)
 {
 	int i;
+	char *new_arg;
 
 	i = -1;
 	if (arg[0] == '=' || arg[0] == '+')
-		return (false);
-	export->arg_left = ft_strndup(arg, ft_strclen(arg, '='));
+		return (printf("minishell: export: `%s': not a valid identifier\n", arg), false);
+	if (arg[0] == '-')
+		return (printf("minishell: export: options are not suposed\n"), false);
+	new_arg = ft_trim_spaces(arg);
+	export->arg_left = ft_strndup(new_arg, ft_strclen(new_arg, '='));
+	export->new_entry = true;
 	while (export->key_left[++i])
 	{
-		if (ft_strcmp(export->key_left[i], export->arg_left) == 0)
+		if (ft_strcmp(export->key_left[i], export->arg_left) == 0 && !ft_strchr(export->arg_left, '+'))
+		{
 			export->new_entry = false;
-		else
-			export->new_entry = true;
+			break;
+		}
+		else if (ft_strncmp(export->key_left[i], export->arg_left, ft_strlen(export->arg_left) - 1) == 0 && ft_strchr(export->arg_left, '+'))
+		{
+			export->new_entry = false;
+			export->append = true;
+			break;
+		}
 	}
 	i = -1;
-	if (ft_strchr(arg, '='))
-		return (parse_export_equal(arg, export));
+	if (ft_strchr(new_arg, '='))
+		return (parse_export_equal(new_arg, export));
 	else
-		return (parse_export_no_equal(arg, export));
+		return (parse_export_no_equal(export));
 	return (true);
 }
 
