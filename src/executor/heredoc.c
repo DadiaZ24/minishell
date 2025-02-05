@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-char	*enum_heredoc()
+char	*enum_heredoc(void)
 {
 	static int	i = -1;
-	char 		*num;
+	char		*num;
 	char		*file;
 
 	num = ft_itoa(++i);
@@ -54,7 +54,7 @@ bool	handle_heredoc(t_cmds *cmds)
 bool	find_heredoc(t_cmds **cmds)
 {
 	t_cmds	*temp;
-	t_token *original;
+	t_token	*original;
 
 	temp = *cmds;
 	original = NULL;
@@ -63,10 +63,10 @@ bool	find_heredoc(t_cmds **cmds)
 		original = temp->redir;
 		while (temp->redir)
 		{
-				if (temp->redir->type)
-					if (temp->redir->type == HERE_DOC)
-						if (!handle_heredoc(temp))
-							return (false);
+			if (temp->redir->type)
+				if (temp->redir->type == HERE_DOC)
+					if (!handle_heredoc(temp))
+						return (false);
 			temp->redir = temp->redir->next;
 		}
 		temp->redir = original;
@@ -78,7 +78,7 @@ bool	find_heredoc(t_cmds **cmds)
 void	remove_file(void)
 {
 	static int	j = -1;
-	char 		*num;
+	char		*num;
 	char		*file;
 
 	num = ft_itoa(++j);

@@ -33,7 +33,7 @@ bool	check_max_min(char *str)
 
 int	exit_builtin(int status, t_executor *exec, char **mtr)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (mtr[1])
@@ -60,8 +60,9 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 		else if (mtr[1][0] == '-' || mtr[1][0] == '+')
 			++i;
 		else if (mtr[2])
-			return (set_exit_status(exec->shell, 1), w_error(" too many arguments\n"), 1);
-		while(mtr[1][++i])
+			return (set_exit_status(exec->shell, 1),
+				w_error(" too many arguments\n"), 1);
+		while (mtr[1][++i])
 		{
 			if (!ft_isdigit(mtr[1][i]))
 			{

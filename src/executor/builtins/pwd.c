@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int pwd(char **mtr, t_executor *exec)
+int	pwd(char **mtr, t_executor *exec)
 {
-	char cwd[MAX_PATH_LEN];
+	char	cwd[MAX_PATH_LEN];
 
 	(void)mtr;
 	if (getcwd(cwd, sizeof(cwd)))

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int minishell(t_executor *exec, char **envp)
+int	minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
@@ -12,9 +12,9 @@ int minishell(t_executor *exec, char **envp)
 	return (0);
 }
 
-int minishell_loop(t_executor *exec, t_token **tokens)
+int	minishell_loop(t_executor *exec, t_token **tokens)
 {
-	char **mtr;
+	char	**mtr;
 
 	signals();
 	exec->shell->line = readline("minishell$ ");
@@ -43,9 +43,9 @@ int minishell_loop(t_executor *exec, t_token **tokens)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_executor *exec;
+	t_executor	*exec;
 
 	(void)argc;
 	(void)argv;

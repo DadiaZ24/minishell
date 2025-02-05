@@ -1,13 +1,14 @@
 #include "minishell.h"
 
-bool env(t_shell *shell, char **mtr, t_executor *exec)
+bool	env(t_shell *shell, char **mtr, t_executor *exec)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (mtr[1])
 	{
-		printf("env: can not receive arguments or options (imposed by subject)\n");
+		printf("env: can not receive arguments or \
+			options (imposed by subject)\n");
 		set_exit_status(exec->shell, 1);
 		if (exec->is_child)
 		{

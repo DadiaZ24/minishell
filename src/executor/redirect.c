@@ -2,7 +2,7 @@
 
 int	check_is_dir(char *path)
 {
-	struct stat buffer;
+	struct stat	buffer;
 
 	if (stat(path, &buffer) == -1)
 		return (0);
@@ -64,21 +64,19 @@ bool	check_permission(t_executor *exec, char *path, int i)
 
 bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 {
-	int	fd_in;
-	int	fd_out;
+	int		fd_in;
+	int		fd_out;
 	t_token	*temp;
 
-	(void)exec;
 	fd_in = STDIN_FILENO;
 	fd_out = STDOUT_FILENO;
 	temp = cmds->redir;
-	
 	while (temp)
 	{
 		if (temp->type == RED_OUT)
 		{
 			fd_out = open(temp->info, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if  (!check_permission(exec, temp->info, 2))
+			if (!check_permission(exec, temp->info, 2))
 				return (false);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
@@ -86,7 +84,7 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 		else if (temp->type == RED_IN)
 		{
 			fd_in = open(temp->info, O_RDWR, 0777);
-			if  (!check_permission(exec, temp->info, 1))
+			if (!check_permission(exec, temp->info, 1))
 				return (false);
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
@@ -94,7 +92,7 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 		else if (temp->type == APPEND)
 		{
 			fd_out = open(temp->info, O_APPEND | O_CREAT | O_RDWR, 0777);
-			if  (!check_permission(exec, temp->info, 2))
+			if (!check_permission(exec, temp->info, 2))
 				return (false);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
