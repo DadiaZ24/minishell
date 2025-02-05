@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-int create_pid(t_executor *exec, t_cmds **cmds)
+int	create_pid(t_executor *exec, t_cmds **cmds)
 {
-	int i;
-	t_cmds *temp_cmds;
+	int		i;
+	t_cmds	*temp_cmds;
 
 	i = 0;
 	temp_cmds = *cmds;
@@ -20,18 +20,19 @@ int create_pid(t_executor *exec, t_cmds **cmds)
 	return (i);
 }
 
-bool handle_pipe(t_executor *exec, t_cmds **temp)
+bool	handle_pipe(t_executor *exec, t_cmds **temp)
 {
-	int 	fd[2];
-	int 	i;
+	int		fd[2];
+	int		i;
 	t_token	*start;
 
-	i = 0;
+	i = -1;
 	start = NULL;
 	while (*temp)
 	{
 		pipe(fd);
-		if ((exec->pid[i++] = fork()))
+		exec->pid[++i] = fork();
+		if (exec->pid[i])
 		{
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
@@ -44,14 +45,14 @@ bool handle_pipe(t_executor *exec, t_cmds **temp)
 		{
 			exec->is_child = true;
 			if (!(*temp)->next)
-				break;
+				break ;
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 			if ((*temp)->next && (*temp)->next->redir)
 				start = (*temp)->next->redir;
 			while ((*temp)->next && (*temp)->next->redir)
 			{
-				if ((*temp)->next->redir->type == RED_IN 
+				if ((*temp)->next->redir->type == RED_IN
 					|| (*temp)->next->redir->type == HERE_DOC)
 					return ((*temp)->next->redir = start, false);
 				(*temp)->next->redir = (*temp)->next->redir->next;
@@ -68,9 +69,9 @@ bool handle_pipe(t_executor *exec, t_cmds **temp)
 	return (false);
 }
 
-bool check_builtin(t_cmds **cmds)
+bool	check_builtin(t_cmds **cmds)
 {
-	t_cmds *temp_cmds;
+	t_cmds	*temp_cmds;
 
 	temp_cmds = *(cmds);
 	if (!temp_cmds->cmd)
@@ -92,9 +93,9 @@ bool check_builtin(t_cmds **cmds)
 	return (false);
 }
 
-bool builtin(t_executor *exec, t_cmds **cmds)
+bool	builtin(t_executor *exec, t_cmds **cmds)
 {
-	t_cmds *temp_cmds;
+	t_cmds	*temp_cmds;
 
 	temp_cmds = *(cmds);
 	if (!handle_redirects(exec, temp_cmds))
@@ -116,11 +117,11 @@ bool builtin(t_executor *exec, t_cmds **cmds)
 	return (true);
 }
 
-int executor(t_executor *exec)
+int	executor(t_executor *exec)
 {
-	char *str_path;
-	t_cmds *temp_cmds;
-	int r;
+	char	*str_path;
+	t_cmds	*temp_cmds;
+	int		r;
 
 	r = 0;
 	str_path = NULL;
@@ -138,9 +139,9 @@ int executor(t_executor *exec)
 	return (1);
 }
 
-int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
+int	exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 {
-	t_cmds *temp_cmds;
+	t_cmds	*temp_cmds;
 
 	temp_cmds = cmds;
 	if (!temp_cmds->cmd && exec->is_child)
@@ -148,7 +149,8 @@ int exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 		free_process(exec);
 		exit(0);
 	}
-	if (ft_strchr((temp_cmds)->cmd, '/') || !ft_strncmp((temp_cmds)->cmd, "./", 2))
+	if (ft_strchr((temp_cmds)->cmd, '/') || !ft_strncmp((temp_cmds)->cmd, "./",
+			2))
 		str_path = ft_strdup((temp_cmds)->cmd);
 	else
 		str_path = cmd_path(exec, temp_cmds->cmd);

@@ -122,7 +122,7 @@ bool update_entry(char **env_entry, char *entry, int size)
 {
 	if (ft_strchr(entry, '+'))
 	{
-		if (ft_strncmp(*env_entry, entry, size) == 0)
+		if (!ft_strncmp(*env_entry, entry, size))
 			if (!ft_strchr(*env_entry, '='))
 				*env_entry = join_entry(*env_entry, entry, size + 1);
 			else
@@ -132,7 +132,7 @@ bool update_entry(char **env_entry, char *entry, int size)
 	}
 	else
 	{
-		if (!ft_strncmp(*env_entry, entry, size) == 0)
+		if (!ft_strncmp(*env_entry, entry, size))
 		{
 			free(*env_entry);
 			*env_entry = ft_strdup(entry);

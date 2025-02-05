@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-void cd_utils(t_shell *shell, char *current_path)
+void	cd_utils(t_shell *shell, char *current_path)
 {
-	char new_path[MAX_PATH_LEN];
+	char	new_path[MAX_PATH_LEN];
 
 	getcwd(new_path, sizeof(new_path));
 	update_pwd_env(shell, current_path, new_path);
 }
 
-int cd(t_shell *shell, char **mtr, t_executor *exec)
+int	cd(t_shell *shell, char **mtr, t_executor *exec)
 {
-	char current_path[MAX_PATH_LEN];
-	char *str;
+	char	current_path[MAX_PATH_LEN];
+	char	*str;
 
 	str = NULL;
 	if (getcwd(current_path, sizeof(current_path)) == NULL)
@@ -23,7 +23,6 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 			free_process(exec);
 			exit(1);
 		}
-
 		return (1);
 	}
 	if (!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
@@ -37,7 +36,8 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 		chdir(getenvp(shell->env, "OLDPWD"));
 	else if (mtr[1] && !is_directory(mtr[1]))
 	{
-		return (set_exit_status(shell, 1), w_error(" No such file or directory\n"), 1);
+		return (set_exit_status(shell, 1),
+			w_error(" No such file or directory\n"), 1);
 	}
 	else if (mtr[1] && is_directory(mtr[1]))
 	{
@@ -59,11 +59,11 @@ int cd(t_shell *shell, char **mtr, t_executor *exec)
 	return (1);
 }
 
-void update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
+void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 {
-	char *oldpwd_line;
-	char *newpwd_line;
-	int i;
+	char	*oldpwd_line;
+	char	*newpwd_line;
+	int		i;
 
 	i = -1;
 	oldpwd_line = ft_strjoin("OLDPWD=", oldpwd);

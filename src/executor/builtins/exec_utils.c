@@ -2,7 +2,7 @@
 
 int	is_directory(char *path)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (stat(path, &path_stat) == 0)
 	{
@@ -14,8 +14,8 @@ int	is_directory(char *path)
 
 char	*getenvp(char **envp, char *var)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (envp[i])
@@ -30,15 +30,15 @@ char	*getenvp(char **envp, char *var)
 	return (NULL);
 }
 
-void wait_pid(t_executor *exec)
+void	wait_pid(t_executor *exec)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	if (!exec->pid)
-		return;
+		return ;
 	while (exec->pid[i] != 0)
 	{
 		waitpid(exec->pid[i++], &j, 0);
@@ -49,7 +49,7 @@ void wait_pid(t_executor *exec)
 	exec->pid = NULL;
 }
 
-void exit_exec(t_executor *exec, t_cmds *cmds)
+void	exit_exec(t_executor *exec, t_cmds *cmds)
 {
 	if (ft_strchr(cmds->cmd, '/') || !ft_strncmp(cmds->cmd, "./", 2))
 	{
@@ -73,7 +73,7 @@ void exit_exec(t_executor *exec, t_cmds *cmds)
 	}
 }
 
-void exit_exec2(t_executor *exec, t_cmds *cmds)
+void	exit_exec2(t_executor *exec, t_cmds *cmds)
 {
 	if (ft_strchr(cmds->cmd, '/') || !ft_strncmp(cmds->cmd, "./", 2))
 	{

@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-bool echo_utils(char *str)
+bool	echo_utils(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (str[++i] == '-')
@@ -18,7 +18,7 @@ bool echo_utils(char *str)
 	return (false);
 }
 
-bool echo(char **mtr, t_executor *exec)
+bool	echo(char **mtr, t_executor *exec)
 {
 	if (!mtr[1])
 	{
@@ -39,7 +39,7 @@ bool echo(char **mtr, t_executor *exec)
 	}
 	if (exec->is_child)
 	{
-		free_process(exec);	
+		free_process(exec);
 		exit(0);
 	}
 	return (set_exit_status(exec->shell, 0), 1);

@@ -7,7 +7,8 @@ int	get_env_var(t_exp *exp, t_executor *exec)
 	i = -1;
 	while (exec->shell->env[++exp->mtr_i])
 	{
-		if (ft_strncmp(exp->token->info + exp->start, exec->shell->env[exp->mtr_i], exp->str_i - exp->start) == 0 
+		if (ft_strncmp(exp->token->info + exp->start,
+				exec->shell->env[exp->mtr_i], exp->str_i - exp->start) == 0
 			&& exec->shell->env[exp->mtr_i][exp->str_i - exp->start] == '=')
 			i = exp->mtr_i;
 	}
@@ -38,7 +39,8 @@ void	swap_exp_dollar(t_exp *exp)
 	char	*temp;
 
 	temp = NULL;
-	temp = ft_substr(exp->token->info, exp->start, (exp->str_i + 1) - exp->start);
+	temp = ft_substr(exp->token->info, exp->start,
+			(exp->str_i + 1) - exp->start);
 	exp->swap = ft_strjoin(exp->temp, temp);
 	free(temp);
 	if (exp->temp)
@@ -56,7 +58,8 @@ void	check_exp_temp_dollar(t_exp *exp)
 	if (exp->temp)
 		swap_exp_dollar(exp);
 	else
-		exp->temp = ft_substr(exp->token->info, exp->start, (exp->str_i - exp->start));
+		exp->temp = ft_substr(exp->token->info, exp->start,
+				(exp->str_i - exp->start));
 	exp->start++;
 }
 
@@ -93,7 +96,8 @@ void	check_exp_temp(t_exp *exp)
 	if (exp->temp)
 		swap_exp(exp);
 	else
-		exp->temp = ft_substr(exp->token->info, exp->start, (exp->str_i - exp->start));
+		exp->temp = ft_substr(exp->token->info,
+				exp->start, (exp->str_i - exp->start));
 }
 
 void	expand(t_exp *exp, t_executor *exec)
@@ -118,7 +122,7 @@ void	expander(t_token **token, t_executor *exec)
 	exp = init_exp(exp, token);
 	while (exp->token)
 	{
-		if(exp->token->type == ARG || exp->token->type == MINI_FILE)
+		if (exp->token->type == ARG || exp->token->type == MINI_FILE)
 		{
 			while (exp->token->info[++exp->str_i])
 			{
@@ -127,7 +131,7 @@ void	expander(t_token **token, t_executor *exec)
 					check_exp_temp(exp);
 					exp->start = ++exp->str_i;
 					while (ft_isquote(exp->token->info[exp->str_i]) != 1)
-							exp->str_i++;
+						exp->str_i++;
 					if (exp->start != exp->str_i)
 						check_exp_temp(exp);
 					exp->start = exp->str_i + 1;
