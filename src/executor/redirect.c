@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:42:28 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:42:28 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_is_dir(char *path)
@@ -17,7 +29,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 {
 	if (access(path, F_OK))
 	{
-		print_error(" No such file or directory");
+		print_error(" No such file or directory\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -28,7 +40,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 1 && access(path, R_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -39,7 +51,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 2 && access(path, W_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -50,7 +62,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 3 && access(path, X_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
