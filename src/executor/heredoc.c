@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:42:07 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 14:14:12 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*enum_heredoc(void)
@@ -17,8 +29,11 @@ bool	check_signal(int i)
 	static int	j = 0;
 
 	if (i == 1)
+	{
 		j = 1;
-	return (j);
+		return (j--);
+	}
+	return (0);
 }
 
 bool	handle_heredoc(t_cmds *cmds)

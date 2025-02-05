@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:42:43 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:42:43 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	cd_utils(t_shell *shell, char *current_path)
@@ -41,9 +53,14 @@ int	cd(t_shell *shell, char **mtr, t_executor *exec)
 	}
 	else if (mtr[1] && is_directory(mtr[1]))
 	{
-		str = ft_joinpath(current_path, mtr[1]);
-		chdir(str);
-		free(str);
+		if (mtr[1][0] == '/')
+			chdir(mtr[1]);
+		else
+		{
+			str = ft_joinpath(current_path, mtr[1]);
+			chdir(str);
+			free(str);
+		}
 		cd_utils(shell, current_path);
 	}
 	else
