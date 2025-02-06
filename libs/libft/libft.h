@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <limits.h>
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line_bonus.h"
@@ -84,7 +85,7 @@ char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 //Added new functions
 char		*ft_joinpath(char const *s1, char const *s2);
 size_t		ft_strclen(const char *str, const char c);
-char		*ft_strjoin_quotes(char const *s1, char const *s2);
 char		*ft_strndup(const char *s, size_t n);
+char *ft_strjoin_free(char *s1, char const *s2, bool to_free);
 
 #endif

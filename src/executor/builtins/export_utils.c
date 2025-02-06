@@ -39,13 +39,15 @@ int	env_len(char **env)
 t_export *init_export(t_export *export, t_executor *exec)
 {
 	int i;
+	int env_size;
 
 	i = -1;
+	env_size = env_len(exec->shell->env);
 	export->append = false;
 	export->arg_left = NULL;
 	export->arg_right = NULL;
-	export->key_left = malloc(sizeof(char *) * env_len(exec->shell->env) + 1);
-	export->key_right = malloc(sizeof(char *) * env_len(exec->shell->env) + 1);
+	export->key_left = malloc(sizeof(char *) * (env_size + 1));
+	export->key_right = malloc(sizeof(char *) * (env_size + 1));
 	if (!export->key_left || !export->key_right)
 		return (NULL);
 	while (exec->shell->env[++i])
@@ -76,10 +78,6 @@ void	free_export(t_export *export)
 		free(export->key_left);
 	if (export->key_right)
 		free(export->key_right);
-	if (export->arg_left)
-		free(export->arg_left);
-	if (export->arg_right)
-		free(export->arg_right);
 	free(export);
 }
 
