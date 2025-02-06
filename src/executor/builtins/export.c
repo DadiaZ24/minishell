@@ -147,10 +147,10 @@ bool parse_export_equal(char *arg, t_export *export)
 		if (export->append && i == ft_strlen(export->arg_left) - 1 && export->arg_left[i] == '+')
 			break;
 		if ((!ft_isalpha(export->arg_left[i]) && export->arg_left[i] != '_')  || ft_strlen(export->arg_left) == 0)
-			return (printf("minishell: export: `%s': not a valid identifier\n", arg), free(arg), false);
+			return (printf("minishell: export: `%s': not a valid identifier\n", arg), false);
 	}
 	i = -1;
-	return (free(arg), true);
+	return (true);
 }
 
 bool parse_export_no_equal(t_export *export)
@@ -169,21 +169,19 @@ bool parse_export_no_equal(t_export *export)
 		export->do_nothing = true;
 	else
 		export->do_nothing = false;
-	return (printf("minishell: export: `%s': not a valid identifier\n", export->arg_left), false);
+	return (true);
 }
 
 bool parse_export(char *arg, t_export *export)
 {
 	int i;
-	char *new_arg;
 
 	i = -1;
 	if (arg[0] == '=' || arg[0] == '+')
 		return (printf("minishell: export: `%s': not a valid identifier\n", arg), false);
 	if (arg[0] == '-')
 		return (printf("minishell: export: options are not suposed\n"), false);
-	new_arg = ft_trim_spaces(arg);
-	export->arg_left = ft_strndup(new_arg, ft_strclen(new_arg, '='));
+	export->arg_left = ft_strndup(arg, ft_strclen(arg, '='));
 	export->new_entry = true;
 	while (export->key_left[++i])
 	{
@@ -200,8 +198,8 @@ bool parse_export(char *arg, t_export *export)
 		}
 	}
 	i = -1;
-	if (ft_strchr(new_arg, '='))
-		return (parse_export_equal(new_arg, export));
+	if (ft_strchr(arg, '='))
+		return (parse_export_equal(arg, export));
 	else
 		return (parse_export_no_equal(export));
 	return (true);
