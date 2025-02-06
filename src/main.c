@@ -24,6 +24,15 @@ int	minishell(t_executor *exec, char **envp)
 	return (0);
 }
 
+void	end_main(t_executor *exec)
+{
+	dup2(exec->fd_out, STDOUT_FILENO);
+	dup2(exec->fd_in, STDIN_FILENO);
+	wait_pid(exec);
+	free_all(exec);
+	remove_file();
+}
+
 int	minishell_loop(t_executor *exec, t_token **tokens)
 {
 	char	**mtr;
@@ -47,11 +56,7 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	free_token(*tokens);
 	if (find_heredoc(exec->cmds))
 		executor(exec);
-	dup2(exec->fd_out, STDOUT_FILENO);
-	dup2(exec->fd_in, STDIN_FILENO);
-	wait_pid(exec);
-	free_all(exec);
-	remove_file();
+	end_main(exec);
 	return (1);
 }
 
