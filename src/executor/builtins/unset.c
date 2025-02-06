@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:43:49 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:43:49 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-int realloc_unset(t_executor *exec, int x)
+int	realloc_unset(t_executor *exec, int x)
 {
-	int i;
-	int j;
-	char **new_env;
+	int		i;
+	int		j;
+	char	**new_env;
 
 	i = -1;
 	j = 0;
@@ -30,10 +42,10 @@ int realloc_unset(t_executor *exec, int x)
 	return (1);
 }
 
-int unset(char **mtr, t_executor *exec)
+int	unset(char **mtr, t_executor *exec)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (mtr[++i])
@@ -45,7 +57,7 @@ int unset(char **mtr, t_executor *exec)
 			{
 				if (!realloc_unset(exec, j))
 					return (set_exit_status(exec->shell, 1), 0);
-				break;
+				break ;
 			}
 		}
 	}

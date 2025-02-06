@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:42:28 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:42:28 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	check_is_dir(char *path)
 {
-	struct stat buffer;
+	struct stat	buffer;
 
 	if (stat(path, &buffer) == -1)
 		return (0);
@@ -17,7 +29,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 {
 	if (access(path, F_OK))
 	{
-		print_error(" No such file or directory");
+		print_error(" No such file or directory\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -28,7 +40,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 1 && access(path, R_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -39,7 +51,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 2 && access(path, W_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -50,7 +62,7 @@ bool	check_permission(t_executor *exec, char *path, int i)
 	}
 	if (i == 3 && access(path, X_OK))
 	{
-		print_error(" Permission denied");
+		print_error(" Permission denied\n");
 		if (!exec->is_child)
 		{
 			exec->shell->status = 1;
@@ -64,21 +76,19 @@ bool	check_permission(t_executor *exec, char *path, int i)
 
 bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 {
-	int	fd_in;
-	int	fd_out;
+	int		fd_in;
+	int		fd_out;
 	t_token	*temp;
 
-	(void)exec;
 	fd_in = STDIN_FILENO;
 	fd_out = STDOUT_FILENO;
 	temp = cmds->redir;
-	
 	while (temp)
 	{
 		if (temp->type == RED_OUT)
 		{
 			fd_out = open(temp->info, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if  (!check_permission(exec, temp->info, 2))
+			if (!check_permission(exec, temp->info, 2))
 				return (false);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);
@@ -86,7 +96,7 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 		else if (temp->type == RED_IN)
 		{
 			fd_in = open(temp->info, O_RDWR, 0777);
-			if  (!check_permission(exec, temp->info, 1))
+			if (!check_permission(exec, temp->info, 1))
 				return (false);
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
@@ -94,7 +104,7 @@ bool	handle_redirects(t_executor *exec, t_cmds *cmds)
 		else if (temp->type == APPEND)
 		{
 			fd_out = open(temp->info, O_APPEND | O_CREAT | O_RDWR, 0777);
-			if  (!check_permission(exec, temp->info, 2))
+			if (!check_permission(exec, temp->info, 2))
 				return (false);
 			dup2(fd_out, STDOUT_FILENO);
 			close(fd_out);

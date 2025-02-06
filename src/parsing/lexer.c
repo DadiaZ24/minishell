@@ -1,18 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:44:20 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:44:20 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/* int	check_cmd(char *s)
-{
-	if (ft_strcmp(s, "echo") == 0
-		|| ft_strcmp(s, "cd") == 0
-		|| ft_strcmp(s, "pwd") == 0
-		|| ft_strcmp(s, "export") == 0
-		|| ft_strcmp(s, "unset") == 0
-		|| ft_strcmp(s, "env") == 0
-		|| ft_strcmp(s, "exit") == 0)
-		return (CMD);
-	else
-		return (ARG);
-} */
+#include "minishell.h"
 
 int	check_redirect_or_pipe(char *s)
 {
@@ -58,7 +56,7 @@ void	lexer(t_token **tokens)
 	temp = temp->next;
 	while (temp)
 	{
-		if (check_file_eof(temp->prev->info) > 0 
+		if (check_file_eof(temp->prev->info) > 0
 			&& check_redirect_or_pipe(temp->info) < 0)
 			temp->type = check_file_eof(temp->prev->info);
 		else if (check_redirect_or_pipe(temp->info) > 0)

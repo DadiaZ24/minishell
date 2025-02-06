@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:43:11 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:43:11 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	w_error(char *str)
@@ -33,7 +45,7 @@ bool	check_max_min(char *str)
 
 int	exit_builtin(int status, t_executor *exec, char **mtr)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (mtr[1])
@@ -60,8 +72,9 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 		else if (mtr[1][0] == '-' || mtr[1][0] == '+')
 			++i;
 		else if (mtr[2])
-			return (set_exit_status(exec->shell, 1), w_error(" too many arguments\n"), 1);
-		while(mtr[1][++i])
+			return (set_exit_status(exec->shell, 1),
+				w_error(" too many arguments\n"), 1);
+		while (mtr[1][++i])
 		{
 			if (!ft_isdigit(mtr[1][i]))
 			{

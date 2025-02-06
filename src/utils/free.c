@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:44:53 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:44:53 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**free_split(char **str, int j)
@@ -34,64 +46,20 @@ void	free_token(t_token *token)
 	}
 }
 
-void	free_ast_utils(t_ast *ast)
+void	ft_free_cmds(t_cmds *cmds)
 {
-	if (ast->left)
-	{
-		if (ast->left->arg)
-			free_mtr(ast->left->arg);
-		if (ast->left->red_target)
-			free(ast->left->red_target);
-		free(ast->left);
-	}
-	if (ast->right)
-	{
-		if (ast->right->arg)
-			free_mtr(ast->right->arg);
-		if (ast->right->red_target)
-			free(ast->right->red_target);
-		free(ast->right);
-	}
-}
-
-/* void	free_ast(t_ast **ast)
-{
-	t_ast	*temp;
-
-	temp = *ast;
-	if (!temp)
-		return ;
-	if (temp->parent)
-	{
-		temp = temp->parent;
-		while (temp->parent)
-		{
-			free_ast_utils(temp);
-			temp = temp->parent;
-		}
-	}
-	free_ast_utils(temp);
-	if (temp->arg)
-		free_mtr(temp->arg);
-	if (temp->red_target)
-		free(temp->red_target);
-	free(temp);
-} */
-
-void    ft_free_cmds(t_cmds *cmds)
-{
-    t_cmds *temp;
+	t_cmds	*temp;
 
 	while (cmds)
-    {
-        temp = cmds->next;
-        if (cmds->cmd)
-            free(cmds->cmd);
-        if (cmds->args)
-            free_mtr(cmds->args);
-       if (cmds->redir)
-	   		free_token(cmds->redir);
+	{
+		temp = cmds->next;
+		if (cmds->cmd)
+			free(cmds->cmd);
+		if (cmds->args)
+			free_mtr(cmds->args);
+		if (cmds->redir)
+			free_token(cmds->redir);
 		free(cmds);
 		cmds = temp;
-    }
+	}
 }

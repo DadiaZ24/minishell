@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:42:50 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:42:50 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-bool echo_utils(char *str)
+bool	echo_utils(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (str[++i] == '-')
@@ -18,8 +30,13 @@ bool echo_utils(char *str)
 	return (false);
 }
 
-bool echo(char **mtr, t_executor *exec)
+bool	echo(char **mtr, t_executor *exec)
 {
+	int		i;
+	bool	check;
+
+	i = 0;
+	check = false;
 	if (!mtr[1])
 	{
 		write(1, "\n", 1);
@@ -30,16 +47,29 @@ bool echo(char **mtr, t_executor *exec)
 		}
 		return (set_exit_status(exec->shell, 0), 1);
 	}
-	if (mtr[1] && echo_utils(mtr[1]))
-		ft_putmtr(mtr + 2);
-	else if (mtr[1])
+	if (mtr[1] && mtr[1][0] && mtr[1][0] == '-'
+		&& mtr[1][1] && mtr[1][1] == 'n')
 	{
-		ft_putmtr(++mtr);
-		write(1, "\n", 1);
+		while (mtr[++i])
+		{
+			if (!echo_utils(mtr[i]))
+			{
+				ft_putmtr(mtr + i);
+				check = true;
+			}
+		}
+	}
+	if (!check)
+	{
+		if (mtr[1])
+		{
+			ft_putmtr(++mtr);
+			write(1, "\n", 1);
+		}
 	}
 	if (exec->is_child)
 	{
-		free_process(exec);	
+		free_process(exec);
 		exit(0);
 	}
 	return (set_exit_status(exec->shell, 0), 1);

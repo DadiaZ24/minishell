@@ -1,9 +1,21 @@
-#ifndef EXECUTOR_H
-#define EXECUTOR_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:33:36 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:33:36 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef MAX_PATH_LEN
-#define MAX_PATH_LEN 1024
-#endif
+#ifndef EXECUTOR_H
+# define EXECUTOR_H
+
+# ifndef MAX_PATH_LEN
+#  define MAX_PATH_LEN 1024
+# endif
 
 #include <stdbool.h>
 

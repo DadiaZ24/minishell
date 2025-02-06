@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/05 13:45:07 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/05 13:45:07 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void ft_print_token(t_token **token)
+void	ft_print_token(t_token **token)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = *token;
 	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
@@ -14,10 +26,10 @@ void ft_print_token(t_token **token)
 	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
 }
 
-char *mini_fill_word(const char *str, int start, int end)
+char	*mini_fill_word(const char *str, int start, int end)
 {
-	char *word;
-	int i;
+	char	*word;
+	int		i;
 
 	i = 0;
 	word = malloc((end - start + 1) * sizeof(char));
@@ -33,45 +45,18 @@ char *mini_fill_word(const char *str, int start, int end)
 	return (word);
 }
 
-void ft_print_ast(t_ast *ast)
+void	print_error(char *str)
 {
-	ft_printf("======\n");
-	ft_printf("Type->[%d]\nArg->[", ast->type);
-	ft_putmtr(ast->arg);
-	ft_printf("]\nRed->[%s]\n======\n", ast->red_target);
-	if (ast->parent)
-	{
-		ast = ast->parent;
-		while (ast)
-		{
-			if (ast->right)
-			{
-				ft_printf("======\n");
-				ft_printf("Type->[%d]\nArg->[", ast->right->type);
-				ft_putmtr(ast->right->arg);
-				ft_printf("]\nRed->[%s]\n======\n", ast->right->red_target);
-			}
-			ft_printf("======\n");
-			ft_printf("Type->[%d]\nArg->[", ast->type);
-			ft_putmtr(ast->arg);
-			ft_printf("]\nRed->[%s]\n======\n", ast->red_target);
-			ast = ast->parent;
-		}
-	}
-}
-
-void print_error(char *str)
-{
-	int i;
+	int		i;
 
 	i = -1;
 	while (str[++i])
 		write(STDERR_FILENO, &str[i], 1);
 }
 
-bool get_env(char **envp, t_shell *shell)
+bool	get_env(char **envp, t_shell *shell)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (envp[i])
