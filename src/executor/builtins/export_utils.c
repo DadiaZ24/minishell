@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/06 14:42:31 by ddias-fe          #+#    #+#             */
+/*   Updated: 2025/02/06 14:42:31 by ddias-fe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-bool bubblesort(t_export *export)
+bool	bubblesort(t_export *export)
 {
-	int i;
-	int j;
-	char *temp;
+	int		i;
+	int		j;
+	char	*temp;
 
 	i = -1;
 	while (export->key_left[++i])
@@ -12,7 +24,8 @@ bool bubblesort(t_export *export)
 		j = i;
 		while (export->key_left[++j])
 		{
-			if (ft_strncmp(export->key_left[i], export->key_left[j], ft_strlen(export->key_left[i]) + 1) > 0)
+			if (ft_strncmp(export->key_left[i], export->key_left[j],
+					ft_strlen(export->key_left[i]) + 1) > 0)
 			{
 				temp = export->key_left[i];
 				export->key_left[i] = export->key_left[j];
@@ -28,7 +41,7 @@ bool bubblesort(t_export *export)
 
 int	env_len(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])
@@ -36,10 +49,10 @@ int	env_len(char **env)
 	return (i);
 }
 
-t_export *init_export(t_export *export, t_executor *exec)
+t_export	*init_export(t_export *export, t_executor *exec)
 {
-	int i;
-	int env_size;
+	int	i;
+	int	env_size;
 
 	i = -1;
 	env_size = env_len(exec->shell->env);
@@ -52,9 +65,11 @@ t_export *init_export(t_export *export, t_executor *exec)
 		return (NULL);
 	while (exec->shell->env[++i])
 	{
-		export->key_left[i] = ft_strndup(exec->shell->env[i], ft_strclen(exec->shell->env[i], '='));
+		export->key_left[i] = ft_strndup(exec->shell->env[i],
+				ft_strclen(exec->shell->env[i], '='));
 		if (ft_strchr(exec->shell->env[i], '='))
-			export->key_right[i] = ft_strdup(ft_strchr(exec->shell->env[i], '=') + 1);
+			export->key_right[i] = ft_strdup(ft_strchr(exec->shell->env[i], '=')
+					+ 1);
 		else
 			export->key_right[i] = NULL;
 	}
@@ -65,7 +80,7 @@ t_export *init_export(t_export *export, t_executor *exec)
 
 void	free_export(t_export *export)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (export->key_left[++i])
@@ -87,19 +102,4 @@ void	free_export_args(t_export *export)
 		free(export->arg_left);
 	if (export->arg_right)
 		free(export->arg_right);
-}
-
-bool	check_append(char *arg)
-{
-	if (!arg)
-		return (false);
-	if (ft_strchr(arg, '='))
-	{
-		while (*arg)
-		{
-			if (*arg == '+' && *(arg + 1) == '=')
-				return (true);
-		}
-	}
-	return (false);
 }

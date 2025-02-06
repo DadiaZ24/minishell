@@ -59,5 +59,6 @@ bool parse_export_no_equal(t_export *export);
 bool parse_export(char *arg, t_export *export);
 char **realloc_env(char **env);
 void free_export_args(t_export *export);
+int compare_result(t_export *export, char *s1, char *s2);
 
 #endif
