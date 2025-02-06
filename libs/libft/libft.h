@@ -86,6 +86,6 @@ char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_joinpath(char const *s1, char const *s2);
 size_t		ft_strclen(const char *str, const char c);
 char		*ft_strndup(const char *s, size_t n);
-char *ft_strjoin_free(char *s1, char const *s2, bool to_free);
+char		*ft_strjoin_free(char *s1, char const *s2, bool to_free);
 
 #endif

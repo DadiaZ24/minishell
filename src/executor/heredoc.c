@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:42:07 by ptorrao-          #+#    #+#             */
-/*   Updated: 2025/02/06 15:01:26 by ddias-fe         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:30:58 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ bool	handle_heredoc(t_cmds *cmds)
 		if (check_signal(0))
 			return (free(eof), false);
 	}
-	free(eof);
-	return (true);
+	return (free(eof), true);
 }
 
 bool	find_heredoc(t_cmds **cmds)

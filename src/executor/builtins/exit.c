@@ -43,6 +43,39 @@ bool	check_max_min(char *str)
 	return (true);
 }
 
+void	exit_utils(t_executor *exec, int i, char **mtr)
+{
+	while (mtr[1][++i])
+	{
+		if (!ft_isdigit(mtr[1][i]))
+		{
+			set_exit_status(exec->shell, 2);
+			w_error(" numeric argument required\n");
+			free_process(exec);
+			exit(2);
+		}
+	}
+}
+
+bool	exit_checker(t_executor *exec, char **mtr)
+{
+	if (!check_max_min(mtr[1]))
+	{
+		set_exit_status(exec->shell, 2);
+		w_error(" numeric argument required\n");
+		free_process(exec);
+		exit(2);
+	}
+	else if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '+' && mtr[1][1] == '+')
+	{
+		set_exit_status(exec->shell, 2);
+		w_error(" numeric argument required\n");
+		free_process(exec);
+		exit(2);
+	}
+	return (true);
+}
+
 int	exit_builtin(int status, t_executor *exec, char **mtr)
 {
 	int	i;
@@ -55,35 +88,14 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 			free_process(exec);
 			exit (0);
 		}
-		else if (!check_max_min(mtr[1]))
-		{
-			set_exit_status(exec->shell, 2);
-			w_error(" numeric argument required\n");
-			free_process(exec);
-			exit(2);
-		}
-		else if (ft_strlen(mtr[1]) == 2 && mtr[1][0] == '+' && mtr[1][1] == '+')
-		{
-			set_exit_status(exec->shell, 2);
-			w_error(" numeric argument required\n");
-			free_process(exec);
-			exit(2);
-		}
+		if (!exit_checker(exec, mtr))
+			return (0);
 		else if (mtr[1][0] == '-' || mtr[1][0] == '+')
 			++i;
 		else if (mtr[2])
 			return (set_exit_status(exec->shell, 1),
 				w_error(" too many arguments\n"), 1);
-		while (mtr[1][++i])
-		{
-			if (!ft_isdigit(mtr[1][i]))
-			{
-				set_exit_status(exec->shell, 2);
-				w_error(" numeric argument required\n");
-				free_process(exec);
-				exit(2);
-			}
-		}
+		exit_utils(exec, i, mtr);
 		status = ft_atoll(mtr[1]);
 	}
 	free_process(exec);
