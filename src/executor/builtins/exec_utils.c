@@ -77,11 +77,13 @@ void	exit_exec(t_executor *exec, t_cmds *cmds)
 			print_error(": Permission denied\n");
 			exec->shell->status = 126;
 		}
+		free_process(exec);
 	}
 	else
 	{
 		print_error(cmds->cmd);
 		print_error(": command not found\n");
+		free_process(exec);
 	}
 }
 
@@ -101,11 +103,13 @@ void	exit_exec2(t_executor *exec, t_cmds *cmds)
 			print_error(": No such file or directory\n");
 			exec->shell->status = 127;
 		}
+		free_process(exec);
 	}
 	else
 	{
 		print_error(cmds->cmd);
 		print_error(": command not found\n");
+		free_process(exec);
 	}
 }
 
