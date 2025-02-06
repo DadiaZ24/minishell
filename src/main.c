@@ -56,5 +56,6 @@ int main(int argc, char **argv, char **envp)
 	if (!exec)
 		return (-1);
 	minishell(exec, envp);
+	free_split(exec->shell->env, env_len(exec->shell->env));
 	return (0);
 }

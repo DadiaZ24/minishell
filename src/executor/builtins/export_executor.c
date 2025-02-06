@@ -41,7 +41,7 @@ void	execute_append(t_export *export, t_executor *exec)
 				}
 				else
 				{
-					exec->shell->env[i] = ft_strjoin_free(ft_strjoin(exec->shell->env[i], "="), export->arg_right, true);
+					exec->shell->env[i] = ft_strjoin_free(ft_strjoin_free(exec->shell->env[i], "=", true), export->arg_right, true);
 					break;
 				}
 			}
@@ -89,7 +89,7 @@ bool replace_entry(t_export *export, t_executor *exec)
 bool	execute_export(t_export *export, t_executor *exec)
 {
 	if (export->do_nothing)
-		return (false);
+		return (free(export->arg_left), false);
 	if (export->append)
 		return (execute_append(export, exec), true);
 	else

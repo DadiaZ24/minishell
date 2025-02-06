@@ -81,6 +81,14 @@ void	free_export(t_export *export)
 	free(export);
 }
 
+void	free_export_args(t_export *export)
+{
+	if (export->arg_left)
+		free(export->arg_left);
+	if (export->arg_right)
+		free(export->arg_right);
+}
+
 bool	check_append(char *arg)
 {
 	if (!arg)

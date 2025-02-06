@@ -39,12 +39,7 @@ int export(t_executor *exec)
 					return (set_exit_status(exec->shell, 1), free_export(export), 1);
 				}
 				else
-				{
-					if (export->arg_left)
-						free(export->arg_left);
-					if (export->arg_right)
-						free(export->arg_right);
-				}
+					free_export_args(export);
 			}
 			else
 				return (set_exit_status(exec->shell, 1), free_export(export), 1);
@@ -82,13 +77,9 @@ char **realloc_env(char **env)
 	if (!new_env)
 		return (0);
 	while (env[++j])
-	{
 		new_env[j] = ft_strdup(env[j]);
-		free(env[j]);
-	}
 	new_env[j] = NULL;
 	new_env[j + 1] = NULL;
-	//free(env[j]);
-	free(env);
+	free_mtr(env);
 	return (new_env);
 }

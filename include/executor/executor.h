@@ -58,5 +58,6 @@ bool execute_export(t_export *export, t_executor *exec);bool parse_export_equal(
 bool parse_export_no_equal(t_export *export);
 bool parse_export(char *arg, t_export *export);
 char **realloc_env(char **env);
+void free_export_args(t_export *export);
 
 #endif
