@@ -48,18 +48,17 @@ void	execute_append(t_export *export, t_executor *exec)
 
 bool	make_new_entry(t_export *export, t_executor *exec)
 {
-	char *temp_arg_left;
+	char	*temp_arg_left;
 
 	temp_arg_left = ft_strndup(export->arg_left, ft_strclen(export->arg_left,
 				'+'));
 	exec->shell->env = realloc_env(exec->shell->env);
 	if (!exec->shell->env)
-		return (false);
+		return (free(temp_arg_left), false);
 	if (export->append)
 	{
 		exec->shell->env[env_len(exec->shell->env)] = ft_strjoin_free(
 				ft_strjoin(temp_arg_left, "="), export->arg_right, true);
-		free(temp_arg_left);
 	}
 	else
 	{
@@ -70,6 +69,7 @@ bool	make_new_entry(t_export *export, t_executor *exec)
 			exec->shell->env[env_len(exec->shell->env)] = ft_strdup(
 					export->arg_left);
 	}
+	free(temp_arg_left);
 	return (true);
 }
 
