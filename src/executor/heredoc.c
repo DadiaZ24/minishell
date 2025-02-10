@@ -6,7 +6,7 @@
 /*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 13:42:07 by ptorrao-          #+#    #+#             */
-/*   Updated: 2025/02/06 16:30:58 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2025/02/10 22:10:28 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ bool	check_signal(int i)
 	if (i == 1)
 	{
 		j = 1;
-		return (j--);
+		return (j);
 	}
+	if (j != 0)
+		return (j = 0, 1);
 	return (0);
 }
 
-bool	handle_heredoc(t_cmds *cmds)
+bool	handle_heredoc(t_cmds *cmds, t_executor *exec)
 {
 	char	*line;
 	char	*eof;
@@ -51,21 +53,21 @@ bool	handle_heredoc(t_cmds *cmds)
 	cmds->fd_hd = fd;
 	signal(SIGINT, handle_sighd);
 	line = readline("> ");
+	check_global(exec);
 	if (check_signal(0))
 		return (free(eof), false);
 	while (line && ft_strcmp(line, eof))
 	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		line = heredoc_line(fd, line);
 		line = readline("> ");
+		check_global(exec);
 		if (check_signal(0))
 			return (free(eof), false);
 	}
 	return (free(eof), true);
 }
 
-bool	find_heredoc(t_cmds **cmds)
+bool	find_heredoc(t_cmds **cmds, t_executor *exec)
 {
 	t_cmds	*temp;
 	t_token	*original;
@@ -79,7 +81,7 @@ bool	find_heredoc(t_cmds **cmds)
 		{
 			if (temp->redir->type)
 				if (temp->redir->type == HERE_DOC)
-					if (!handle_heredoc(temp))
+					if (!handle_heredoc(temp, exec))
 						return (false);
 			temp->redir = temp->redir->next;
 		}

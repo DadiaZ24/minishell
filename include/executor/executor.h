@@ -79,5 +79,18 @@ bool		handle_child(t_executor *exec, t_cmds **temp,
 				t_token *start, int *fd);
 void		handle_close(t_executor *exec, int *fd);
 bool		check_builtin(t_cmds **cmds);
+void		cd_invalid_path(t_executor *exec);
+void		cd_too_many_args(t_executor *exec);
+bool		handle_parent(t_executor *exec, t_cmds **temp, int *fd);
+bool		check_red_out(t_executor *exec, t_token *temp, int fd_out);
+bool		check_red_in(t_executor *exec, t_token *temp, int fd_in);
+bool		check_if_append(t_executor *exec, t_token *temp, int fd_out);
+void		check_here_doc(t_token *temp, int fd_in);
+bool		check_redirection(t_executor *exec, t_token *temp,
+				int fin, int fout);
+void		cd_oldpwd(t_shell *shell);
+void		cd_home(t_shell *shell);
+void		exec_sig(int sig);
+void		check_global(t_executor *exec);
 
 #endif
