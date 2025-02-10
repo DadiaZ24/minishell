@@ -88,6 +88,7 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 			free_process(exec);
 			exit (0);
 		}
+		exit_utils(exec, i, mtr);
 		if (!exit_checker(exec, mtr))
 			return (0);
 		else if (mtr[1][0] == '-' || mtr[1][0] == '+')
@@ -95,7 +96,6 @@ int	exit_builtin(int status, t_executor *exec, char **mtr)
 		else if (mtr[2])
 			return (set_exit_status(exec->shell, 1),
 				w_error(" too many arguments\n"), 1);
-		exit_utils(exec, i, mtr);
 		status = ft_atoll(mtr[1]);
 	}
 	free_process(exec);

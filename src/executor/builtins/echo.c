@@ -30,6 +30,37 @@ bool	echo_utils(char *str)
 	return (false);
 }
 
+void	echo_utils2(char **mtr)
+{
+	if (mtr[1])
+	{
+		ft_putmtr(++mtr);
+		write(1, "\n", 1);
+	}
+}
+
+int	echo_utils3(t_executor *exec)
+{
+	write(1, "\n", 1);
+	if (exec->is_child)
+	{
+		free_process(exec);
+		exit(0);
+	}
+	return (set_exit_status(exec->shell, 0), 1);
+}
+
+void	echo_utils4(bool check, char **mtr, t_executor *exec)
+{
+	if (!check)
+		echo_utils2(mtr);
+	if (exec->is_child)
+	{
+		free_process(exec);
+		exit(0);
+	}
+}
+
 bool	echo(char **mtr, t_executor *exec)
 {
 	int		i;
@@ -38,15 +69,8 @@ bool	echo(char **mtr, t_executor *exec)
 	i = 0;
 	check = false;
 	if (!mtr[1])
-	{
-		write(1, "\n", 1);
-		if (exec->is_child)
-		{
-			free_process(exec);
-			exit(0);
-		}
-		return (set_exit_status(exec->shell, 0), 1);
-	}
+		if (echo_utils3(exec))
+			return (1);
 	if (mtr[1] && mtr[1][0] && mtr[1][0] == '-'
 		&& mtr[1][1] && mtr[1][1] == 'n')
 	{
@@ -59,18 +83,6 @@ bool	echo(char **mtr, t_executor *exec)
 			}
 		}
 	}
-	if (!check)
-	{
-		if (mtr[1])
-		{
-			ft_putmtr(++mtr);
-			write(1, "\n", 1);
-		}
-	}
-	if (exec->is_child)
-	{
-		free_process(exec);
-		exit(0);
-	}
+	echo_utils4(check, mtr, exec);
 	return (set_exit_status(exec->shell, 0), 1);
 }

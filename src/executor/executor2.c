@@ -6,7 +6,7 @@
 /*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:25:35 by ptorrao-          #+#    #+#             */
-/*   Updated: 2025/02/06 20:47:56 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:15:20 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,17 @@ bool	check_builtin(t_cmds **cmds)
 		return (true);
 	else if (!strcmp((temp_cmds)->cmd, "exit"))
 		return (true);
+	return (false);
+}
+
+bool	handle_parent(t_executor *exec, t_cmds **temp, int *fd)
+{
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	signal(SIGINT, exec_sig);
+	if (!(*temp)->next)
+		return (dup2(exec->fd_in, STDIN_FILENO), true);
+	*temp = (*temp)->next;
 	return (false);
 }

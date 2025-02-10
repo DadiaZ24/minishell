@@ -101,6 +101,10 @@ int		get_env_var(t_exp *exp, t_executor *exec);
 void	check_exp_temp_dollar(t_exp *exp);
 void	swap_exp_code(t_exp *exp, t_executor *exec);
 void	swap_exp(t_exp *exp);
+void	cmd_types(t_cmds **cmd, t_token **tk, t_token **tmp, t_token **begin);
+bool	cmd_find_pipe(t_token **token, int *size);
+bool	cmd_get_arg(t_token **temp, char **args, int *i);
+t_token	*get_redir(t_token *token);
 
 void	remove_file(void);
 
