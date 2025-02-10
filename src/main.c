@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/05 13:41:56 by ptorrao-          #+#    #+#             */
-/*   Updated: 2025/02/05 13:41:56 by ptorrao-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	minishell(t_executor *exec, char **envp)
+int minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
@@ -42,7 +30,7 @@ void	tokens_and_lexer(t_token **tokens, char **mtr)
 
 int	minishell_loop(t_executor *exec, t_token **tokens)
 {
-	char	**mtr;
+	char **mtr;
 
 	signals();
 	exec->shell->line = readline("minishell$ ");
@@ -66,9 +54,9 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
-	t_executor	*exec;
+	t_executor *exec;
 
 	(void)argc;
 	(void)argv;
@@ -79,6 +67,5 @@ int	main(int argc, char **argv, char **envp)
 	if (!exec)
 		return (-1);
 	minishell(exec, envp);
-	free_split(exec->shell->env, env_len(exec->shell->env));
 	return (0);
 }
