@@ -24,52 +24,18 @@ char	**get_token(t_token *token)
 	temp = token;
 	i = 0;
 	while (token)
-	{
-		if (token->type == RED_IN || token->type == HERE_DOC
-			|| token->type == APPEND || token->type == RED_OUT)
-			token = token->next->next;
-		else if (token->type == PIPE)
+		if (cmd_find_pipe(&token, &size))
 			break ;
-		if (token && token->type == ARG && (token->info[0] != '\0'
-				|| token->d_quotes))
-			size++;
-		if (token)
-			token = token->next;
-	}
 	if (size == 0)
 		return (NULL);
 	args = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!args)
 		return (NULL);
 	while (temp)
-	{
-		if (temp->type == PIPE)
+		if (cmd_get_arg(&temp, args, &i))
 			break ;
-		if (temp->type == RED_IN || temp->type == HERE_DOC
-			|| temp->type == APPEND || temp->type == RED_OUT)
-			temp = temp->next;
-		else if (temp->type == ARG && (temp->info[0] != '\0' || temp->d_quotes)
-			&& (!temp->prev || (temp->prev->type != RED_IN
-					&& temp->prev->type != RED_OUT && temp->prev->type != APPEND
-					&& temp->prev->type != HERE_DOC)))
-			args[i++] = ft_strdup(temp->info);
-		temp = temp->next;
-	}
 	args[i] = NULL;
 	return (args);
-}
-
-t_token	*get_redir(t_token *token)
-{
-	t_token	*redir;
-
-	redir = (t_token *)malloc(sizeof(t_token));
-	if (!redir)
-		return (NULL);
-	redir->type = token->type;
-	redir->info = token->next->info;
-	redir->next = NULL;
-	return (redir);
 }
 
 void	init_cmds(t_cmds **cmds)
@@ -131,27 +97,7 @@ void	ft_div(t_cmds **cmds, t_token *token)
 	{
 		if (token->type == RED_IN || token->type == RED_OUT
 			|| token->type == APPEND || token->type == HERE_DOC)
-		{
-			if (!temp)
-			{
-				begin = (t_token *)malloc(sizeof(t_token));
-				begin->type = token->type;
-				begin->info = ft_strdup(token->next->info);
-				token = token->next;
-				begin->next = NULL;
-				cmd->redir = begin;
-				temp = begin;
-			}
-			else
-			{
-				temp->next = (t_token *)malloc(sizeof(t_token));
-				temp = temp->next;
-				temp->type = token->type;
-				temp->info = ft_strdup(token->next->info);
-				token = token->next;
-				temp->next = NULL;
-			}
-		}
+			cmd_types(&cmd, &token, &temp, &begin);
 		else
 			token = token->next;
 	}

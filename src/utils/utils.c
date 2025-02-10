@@ -71,3 +71,12 @@ bool	get_env(char **envp, t_shell *shell)
 	i = -1;
 	return (true);
 }
+
+char	*heredoc_line(int fd, char *line)
+{
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
+	free(line);
+	line = NULL;
+	return (line);
+}

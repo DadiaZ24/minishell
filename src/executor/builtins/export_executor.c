@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_executor.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:18:11 by ddias-fe          #+#    #+#             */
-/*   Updated: 2025/02/06 11:18:11 by ddias-fe         ###   ########.fr       */
+/*   Updated: 2025/02/06 18:28:01 by ptorrao-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	execute_append_loop(t_executor *exec, t_export *export)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (exec->shell->env[++i])

@@ -20,6 +20,31 @@ void	cd_utils(t_shell *shell, char *current_path)
 	update_pwd_env(shell, current_path, new_path);
 }
 
+int	cd_getcwd(t_executor *exec)
+{
+	w_error("Error getting current path\n");
+	exec->shell->status = 1;
+	if (exec->is_child)
+	{
+		free_process(exec);
+		exit(1);
+	}
+	return (1);
+}
+
+void	cd_is_dir(t_shell *shell, char **mtr, char *current_path, char *str)
+{
+	if (mtr[1][0] == '/')
+		chdir(mtr[1]);
+	else
+	{
+		str = ft_joinpath(current_path, mtr[1]);
+		chdir(str);
+		free(str);
+	}
+	cd_utils(shell, current_path);
+}
+
 int	cd(t_shell *shell, char **mtr, t_executor *exec)
 {
 	char	current_path[MAX_PATH_LEN];
@@ -27,47 +52,20 @@ int	cd(t_shell *shell, char **mtr, t_executor *exec)
 
 	str = NULL;
 	if (getcwd(current_path, sizeof(current_path)) == NULL)
-	{
-		printf("Error getting current path\n");
-		exec->shell->status = 1;
-		if (exec->is_child)
-		{
-			free_process(exec);
-			exit(1);
-		}
-		return (1);
-	}
+		return (cd_getcwd(exec));
 	if (!mtr[1] || (mtr[1] && !ft_strcmp(mtr[1], "~")))
-		chdir(getenvp(shell->env, "HOME"));
+		cd_home(shell);
 	else if (mtr[2])
-	{
-		exec->shell->status = 1;
-		w_error(" too many arguments\n");
-	}
+		cd_too_many_args(exec);
 	else if (mtr[1] && !ft_strcmp(mtr[1], "-"))
-		chdir(getenvp(shell->env, "OLDPWD"));
+		cd_oldpwd(shell);
 	else if (mtr[1] && !is_directory(mtr[1]))
-	{
 		return (set_exit_status(shell, 1),
 			w_error(" No such file or directory\n"), 1);
-	}
 	else if (mtr[1] && is_directory(mtr[1]))
-	{
-		if (mtr[1][0] == '/')
-			chdir(mtr[1]);
-		else
-		{
-			str = ft_joinpath(current_path, mtr[1]);
-			chdir(str);
-			free(str);
-		}
-		cd_utils(shell, current_path);
-	}
+		cd_is_dir(shell, mtr, current_path, str);
 	else
-	{
-		printf("Invalid path\n");
-		exec->shell->status = 1;
-	}
+		cd_invalid_path(exec);
 	if (exec->is_child)
 	{
 		free_process(exec);
