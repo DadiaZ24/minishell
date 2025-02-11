@@ -93,5 +93,7 @@ void		cd_home(t_shell *shell);
 void		exec_sig(int sig);
 void		check_global(t_executor *exec);
 void		echo_utils5(char **mtr, bool check, t_executor *exec, int i);
+void		echo_utils4(bool check, char **mtr, t_executor *exec);
+bool		echo_utils(char *str);
 
 #endif

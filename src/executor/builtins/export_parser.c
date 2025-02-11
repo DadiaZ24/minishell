@@ -30,7 +30,7 @@ bool	parse_export_equal(char *arg, t_export *export)
 		if ((!ft_isalpha(export->arg_left[i]) && export->arg_left[i] != '_')
 			|| ft_strlen(export->arg_left) == 0)
 			return (printf("minishell: export: `%s': not a valid identifier\n",
-					arg), free(export->arg_left), free(export->arg_right),
+					arg),
 				false);
 	}
 	i = -1;

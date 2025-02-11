@@ -37,3 +37,22 @@ bool	check_append(char *arg)
 	}
 	return (false);
 }
+
+char	**realloc_env(char **env)
+{
+	char	**new_env;
+	int		j;
+	int		len;
+
+	j = -1;
+	len = env_len(env);
+	new_env = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!new_env)
+		return (0);
+	while (env[++j])
+		new_env[j] = ft_strdup(env[j]);
+	new_env[j] = NULL;
+	new_env[j + 1] = NULL;
+	free_mtr(env);
+	return (new_env);
+}

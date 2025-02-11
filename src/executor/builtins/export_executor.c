@@ -100,7 +100,7 @@ bool	replace_entry(t_export *export, t_executor *exec)
 bool	execute_export(t_export *export, t_executor *exec)
 {
 	if (export->do_nothing)
-		return (free(export->arg_left), false);
+		return (false);
 	if (export->append)
 		return (execute_append(export, exec), true);
 	else

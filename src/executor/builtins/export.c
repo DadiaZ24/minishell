@@ -12,10 +12,39 @@
 
 #include "minishell.h"
 
-static void	exit_child(t_executor *exec, int exit_code)
+static void	exit_child(t_executor *exec, int exit_code, t_export *export)
 {
 	free_process(exec);
+	free_export_args(export);
+	free_export(export);
 	exit(exit_code);
+}
+
+static void	content_loop(t_export *export, t_cmds *cmd, t_executor *exec, int i)
+{
+	if (parse_export(cmd->args[i], export))
+	{
+		if (!execute_export(export, exec))
+		{
+			if (exec->is_child)
+				exit_child(exec, 1, export);
+			set_exit_status(exec->shell, 1);
+			free_export_args(export);
+		}
+		else
+		{
+			if (exec->is_child)
+				exit_child(exec, 0, export);
+			free_export_args(export);
+		}
+	}
+	else
+	{
+		if (exec->is_child)
+			exit_child(exec, 1, export);
+		set_exit_status(exec->shell, 1);
+		free_export_args(export);
+	}
 }
 
 static int	export_with_args(t_export *export, t_cmds *cmd, t_executor *exec)
@@ -25,26 +54,17 @@ static int	export_with_args(t_export *export, t_cmds *cmd, t_executor *exec)
 	i = 0;
 	while (cmd->args[++i])
 	{
-		if (parse_export(cmd->args[i], export))
+		if (i > 1)
 		{
-			if (!execute_export(export, exec))
-			{
-				if (exec->is_child)
-					exit_child(exec, 1);
-				return (set_exit_status(exec->shell, 1),
-					free_export(export), 1);
-			}
-			else
-			{
-				if (exec->is_child)
-					exit_child(exec, 0);
-				free_export_args(export);
-			}
+			export = malloc(sizeof(t_export));
+			if (!export)
+				return (0);
+			export = init_export(export, exec);
 		}
-		else
-			return (set_exit_status(exec->shell, 1), free_export(export), 1);
+		content_loop(export, cmd, exec, i);
+		free_export(export);
 	}
-	return (free_export(export), 0);
+	return (1);
 }
 
 int	export(t_executor *exec)
@@ -61,7 +81,7 @@ int	export(t_executor *exec)
 	{
 		print_export(export);
 		if (exec->is_child)
-			exit_child(exec, 0);
+			exit_child(exec, 0, export);
 		return (set_exit_status(exec->shell, 0), free_export(export), 1);
 	}
 	else if (cmd->args[1])
@@ -85,21 +105,3 @@ void	print_export(t_export *export)
 	}
 }
 
-char	**realloc_env(char **env)
-{
-	char	**new_env;
-	int		j;
-	int		len;
-
-	j = -1;
-	len = env_len(env);
-	new_env = (char **)malloc(sizeof(char *) * (len + 2));
-	if (!new_env)
-		return (0);
-	while (env[++j])
-		new_env[j] = ft_strdup(env[j]);
-	new_env[j] = NULL;
-	new_env[j + 1] = NULL;
-	free_mtr(env);
-	return (new_env);
-}
