@@ -92,5 +92,6 @@ void		cd_oldpwd(t_shell *shell);
 void		cd_home(t_shell *shell);
 void		exec_sig(int sig);
 void		check_global(t_executor *exec);
+void		echo_utils5(char **mtr, bool check, t_executor *exec, int i);
 
 #endif

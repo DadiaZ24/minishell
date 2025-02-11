@@ -23,7 +23,7 @@ void		free_all(t_executor	*exec);
 void		free_process(t_executor *exec);
 void		ft_free_cmds(t_cmds *cmds);
 
-void		create_token(char **mtr, t_token **token);
+bool		create_token(char **mtr, t_token **token);
 t_split		*init_split_var(void);
 t_words		*init_wc(void);
 t_executor	*init_exec(t_executor *exec);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 17:43:12 by ptorrao-          #+#    #+#             */
+/*   Updated: 2025/02/11 17:43:12 by ptorrao-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int minishell(t_executor *exec, char **envp)
+int	minishell(t_executor *exec, char **envp)
 {
 	if (!get_env(envp, exec->shell))
 		return (0);
@@ -21,16 +33,18 @@ void	end_main(t_executor *exec)
 	remove_file();
 }
 
-void	tokens_and_lexer(t_token **tokens, char **mtr)
+bool	tokens_and_lexer(t_token **tokens, char **mtr)
 {
-	create_token(mtr, tokens);
+	if (!create_token(mtr, tokens))
+		return (free_mtr(mtr), false);
 	free_mtr(mtr);
 	lexer(tokens);
+	return (true);
 }
 
 int	minishell_loop(t_executor *exec, t_token **tokens)
 {
-	char **mtr;
+	char	**mtr;
 
 	signals();
 	exec->shell->line = readline("minishell$ ");
@@ -42,7 +56,8 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	if (!exec->shell->line[0])
 		return (free(exec->shell->line), 1);
 	mtr = mini_split(exec->shell->line);
-	tokens_and_lexer(tokens, mtr);
+	if (!tokens_and_lexer(tokens, mtr))
+		return (1);
 	if (!syntax_checker(tokens, exec))
 		return (free_token(*tokens), 1);
 	expander(tokens, exec);
@@ -54,9 +69,9 @@ int	minishell_loop(t_executor *exec, t_token **tokens)
 	return (1);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_executor *exec;
+	t_executor	*exec;
 
 	(void)argc;
 	(void)argv;

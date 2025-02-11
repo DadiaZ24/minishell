@@ -32,22 +32,23 @@ void	create_token_utils(t_token **token, char **mtr, int i)
 	}
 }
 
-void	create_token(char **mtr, t_token **token)
+bool	create_token(char **mtr, t_token **token)
 {
 	int		i;
 
 	i = 0;
 	if (!mtr[i])
-		return ;
+		return (false);
 	*token = (t_token *)malloc(sizeof(t_token));
 	if (!(*token))
-		return ;
+		return (false);
 	(*token)->info = ft_strdup(mtr[i]);
 	(*token)->type = -1;
 	(*token)->d_quotes = false;
 	(*token)->prev = NULL;
 	(*token)->next = NULL;
 	create_token_utils(token, mtr, i);
+	return (true);
 }
 
 t_split	*init_split_var(void)
