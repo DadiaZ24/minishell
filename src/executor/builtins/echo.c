@@ -17,6 +17,8 @@ bool	echo_utils(char *str)
 	int	i;
 
 	i = -1;
+	if (!str || !str[0])
+		return (false);
 	if (str[++i] == '-')
 	{
 		if (str[++i] == 'n')
@@ -24,8 +26,6 @@ bool	echo_utils(char *str)
 				++i;
 		if (!str[i])
 			return (true);
-		else
-			return (false);
 	}
 	return (false);
 }
@@ -71,18 +71,6 @@ bool	echo(char **mtr, t_executor *exec)
 	if (!mtr[1])
 		if (echo_utils3(exec))
 			return (1);
-	if (mtr[1] && mtr[1][0] && mtr[1][0] == '-'
-		&& mtr[1][1] && mtr[1][1] == 'n')
-	{
-		while (mtr[++i])
-		{
-			if (!echo_utils(mtr[i]))
-			{
-				ft_putmtr(mtr + i);
-				check = true;
-			}
-		}
-	}
-	echo_utils4(check, mtr, exec);
+	echo_utils5(mtr, check, exec, i);
 	return (set_exit_status(exec->shell, 0), 1);
 }
