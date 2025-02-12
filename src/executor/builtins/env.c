@@ -25,7 +25,7 @@ bool	env(t_shell *shell, char **mtr, t_executor *exec)
 	i = -1;
 	if (mtr[1])
 	{
-		printf("env: can not receive arguments or "
+		w_error("env: can not receive arguments or "
 			"options (imposed by subject)\n");
 		set_exit_status(exec->shell, 1);
 		if (exec->is_child)

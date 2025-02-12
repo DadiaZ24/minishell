@@ -58,7 +58,7 @@ t_split	*init_split_var(void)
 	split = malloc((1) * sizeof(t_split));
 	if (!split)
 	{
-		ft_printf("%s\n", "Error");
+		w_error("Error\n");
 		exit(1);
 	}
 	split->i = -1;
@@ -76,7 +76,7 @@ t_words	*init_wc(void)
 	wc = malloc((1) * sizeof(t_split));
 	if (!wc)
 	{
-		ft_printf("%s\n", "Error");
+		w_error("Error\n");
 		exit(1);
 	}
 	wc->i = 0;

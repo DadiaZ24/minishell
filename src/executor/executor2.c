@@ -70,7 +70,10 @@ bool	handle_parent(t_executor *exec, t_cmds **temp, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	signal(SIGINT, exec_sig);
+	if (ft_strcmp((*exec->cmds)->cmd, "./minishell") == 0)
+		signal(SIGINT, SIG_IGN);
+	else
+		signal(SIGINT, exec_sig);
 	if (!(*temp)->next)
 		return (dup2(exec->fd_in, STDIN_FILENO), true);
 	*temp = (*temp)->next;
