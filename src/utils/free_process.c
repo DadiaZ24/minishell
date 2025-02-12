@@ -14,24 +14,50 @@
 
 void	free_d(t_executor *exec)
 {
-	free_mtr(exec->shell->env);
-	free(exec->cmds);
-	free(exec->shell);
-	free(exec->token);
-	free(exec);
+	if (exec->shell->env)
+	{
+		free_mtr(exec->shell->env);
+		exec->shell->env = NULL;
+	}
+	if (exec->cmds)
+	{
+		free(exec->cmds);
+		exec->cmds = NULL;
+	}
+	if (exec->shell)
+	{
+		free(exec->shell);
+		exec->shell = NULL;
+	}
+	if (exec->token)
+	{
+		free(exec->token);
+		exec->token = NULL;
+	}
 }
 
 void	free_all(t_executor *exec)
 {
-	free(exec->shell->line);
+	if (exec->shell->line)
+	{
+		free(exec->shell->line);
+		exec->shell->line = NULL;
+	}
 	ft_free_cmds(*exec->cmds);
 	if (exec->pid)
+	{
 		free(exec->pid);
-	exec->pid = NULL;
+		exec->pid = NULL;
+	}
 }
 
 void	free_process(t_executor *exec)
 {
 	free_all(exec);
 	free_d(exec);
+	if (exec)
+	{
+		free(exec);
+		exec = NULL;
+	}
 }

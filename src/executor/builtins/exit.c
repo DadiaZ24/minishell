@@ -47,7 +47,7 @@ void	exit_utils(t_executor *exec, int i, char **mtr)
 {
 	while (mtr[1][++i])
 	{
-		if (!ft_isdigit(mtr[1][i]))
+		if (!ft_isdigit(mtr[1][i]) && mtr[1][0] != '-' && mtr[1][0] != '+')
 		{
 			set_exit_status(exec->shell, 2);
 			w_error(" numeric argument required\n");

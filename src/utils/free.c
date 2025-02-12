@@ -28,8 +28,12 @@ void	free_mtr(char **mtr)
 	if (!mtr)
 		return ;
 	while (mtr[++j])
+	{
 		free(mtr[j]);
+		mtr[j] = NULL;
+	}
 	free(mtr);
+	mtr = NULL;
 }
 
 void	free_token(t_token *token)
@@ -54,12 +58,22 @@ void	ft_free_cmds(t_cmds *cmds)
 	{
 		temp = cmds->next;
 		if (cmds->cmd)
+		{
 			free(cmds->cmd);
+			cmds->cmd = NULL;
+		}
 		if (cmds->args)
+		{
 			free_mtr(cmds->args);
+			cmds->args = NULL;
+		}
 		if (cmds->redir)
+		{
 			free_token(cmds->redir);
+			cmds->redir = NULL;
+		}
 		free(cmds);
+		cmds = NULL;
 		cmds = temp;
 	}
 }

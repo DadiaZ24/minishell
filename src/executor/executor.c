@@ -89,9 +89,7 @@ int	executor(t_executor *exec)
 {
 	char	*str_path;
 	t_cmds	*temp_cmds;
-	int		r;
 
-	r = 0;
 	str_path = NULL;
 	temp_cmds = *(exec->cmds);
 	if (create_pid(exec, &temp_cmds) == 1 && check_builtin(&temp_cmds))
@@ -103,14 +101,16 @@ int	executor(t_executor *exec)
 	if (check_builtin(&temp_cmds))
 		builtin(exec, &temp_cmds);
 	else
-		exec_execve(&r, str_path, exec, temp_cmds);
+		exec_execve(str_path, exec, temp_cmds);
 	return (1);
 }
 
-int	exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
+int	exec_execve(char *str_path, t_executor *exec, t_cmds *cmds)
 {
+	int		exit_status;
 	t_cmds	*temp_cmds;
 
+	exit_status = 0;
 	temp_cmds = cmds;
 	if (!temp_cmds->cmd && exec->is_child)
 	{
@@ -126,8 +126,9 @@ int	exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds)
 		exec->shell->status = 127;
 	check_global(exec);
 	error_check(exec, temp_cmds);
-	*r = exec->shell->status;
+	exit_status = exec->shell->status;
 	free(str_path);
+	str_path = NULL;
 	free_process(exec);
-	exit(*r);
+	exit(exit_status);
 }

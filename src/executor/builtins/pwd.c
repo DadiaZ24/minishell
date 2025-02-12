@@ -16,7 +16,12 @@ int	pwd(char **mtr, t_executor *exec)
 {
 	char	cwd[MAX_PATH_LEN];
 
-	(void)mtr;
+	if (mtr[1] && mtr[1][0] == '-')
+	{
+		printf("pwd: can not receive arguments or options "
+			"(imposed by subject)\n");
+		return (set_exit_status(exec->shell, 1), 1);
+	}
 	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);
 	else

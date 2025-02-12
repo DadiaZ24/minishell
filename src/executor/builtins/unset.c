@@ -45,7 +45,13 @@ int	unset(char **mtr, t_executor *exec)
 	int	i;
 	int	j;
 
-	i = -1;
+	i = 0;
+	if (mtr[1] && mtr[1][0] == '-')
+	{
+		printf("unset: can not receive arguments or options"
+			" (imposed by subject)\n");
+		return (set_exit_status(exec->shell, 1), 1);
+	}
 	while (mtr[++i])
 	{
 		j = -1;

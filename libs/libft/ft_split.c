@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ptorrao- <ptorrao-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ddias-fe <ddias-fe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 15:58:10 by ptorrao-          #+#    #+#             */
-/*   Updated: 2024/08/12 11:54:07 by ptorrao-         ###   ########.fr       */
+/*   Updated: 2025/02/11 23:26:14 by ddias-fe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,12 @@ char	*fill_word(const char *str, int start, int end)
 char	**ft_free(char **str, int j)
 {
 	while (j--)
+	{
 		free(str[j]);
+		str[j] = NULL;
+	}
 	free(str);
+	str = NULL;
 	return (NULL);
 }
 

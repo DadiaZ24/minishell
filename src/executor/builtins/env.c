@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+static void	exit_the_child(t_executor *exec)
+{
+	free_process(exec);
+	exit(1);
+}
+
 bool	env(t_shell *shell, char **mtr, t_executor *exec)
 {
 	int	i;
@@ -19,14 +25,11 @@ bool	env(t_shell *shell, char **mtr, t_executor *exec)
 	i = -1;
 	if (mtr[1])
 	{
-		printf("env: can not receive arguments or \
-			options (imposed by subject)\n");
+		printf("env: can not receive arguments or "
+			"options (imposed by subject)\n");
 		set_exit_status(exec->shell, 1);
 		if (exec->is_child)
-		{
-			free_process(exec);
-			exit(1);
-		}
+			exit_the_child(exec);
 		return (1);
 	}
 	while (shell->env[++i])

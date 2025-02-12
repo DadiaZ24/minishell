@@ -59,7 +59,8 @@ bool	make_new_entry(t_export *export, t_executor *exec)
 		temp_arg_left = ft_strndup(export->arg_left, ft_strlen(export->arg_left)
 				- 1);
 		exec->shell->env[env_len(exec->shell->env)] = ft_strjoin_free(
-				ft_strjoin_free(temp_arg_left, "=", true), export->arg_right, true);
+				ft_strjoin_free(temp_arg_left, "=", true),
+				export->arg_right, true);
 	}
 	else
 	{

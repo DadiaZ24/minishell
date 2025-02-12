@@ -44,7 +44,7 @@ int			is_directory(char *path);
 int			check_is_dir(char *path);
 char		*getenvp(char **envp, char *var);
 void		update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd);
-int			exec_execve(int *r, char *str_path, t_executor *exec, t_cmds *cmds);
+int			exec_execve(char *str_path, t_executor *exec, t_cmds *cmds);
 int			export(t_executor *exec);
 bool		bubblesort(t_export *export);
 char		**export_body_update(char *arg, char **env, bool is_new,
@@ -95,5 +95,6 @@ void		check_global(t_executor *exec);
 void		echo_utils5(char **mtr, bool check, t_executor *exec, int i);
 void		echo_utils4(bool check, char **mtr, t_executor *exec);
 bool		echo_utils(char *str);
+void		cd_utils(t_shell *shell, char *current_path);
 
 #endif

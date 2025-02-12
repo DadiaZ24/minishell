@@ -66,9 +66,18 @@ bool	get_env(char **envp, t_shell *shell)
 		return (false);
 	i = -1;
 	while (envp[++i])
+	{
 		shell->env[i] = ft_strdup(envp[i]);
+		if (!shell->env[i])
+		{
+			while (i-- > 0)
+				free(shell->env[i]);
+			free(shell->env);
+			shell->env = NULL;
+			return (false);
+		}
+	}
 	shell->env[i] = NULL;
-	i = -1;
 	return (true);
 }
 
