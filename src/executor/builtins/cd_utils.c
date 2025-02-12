@@ -14,7 +14,7 @@
 
 void	cd_invalid_path(t_executor *exec)
 {
-	printf("Invalid path\n");
+	w_error("Invalid path\n");
 	exec->shell->status = 1;
 }
 

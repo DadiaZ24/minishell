@@ -18,14 +18,14 @@ int	pwd(char **mtr, t_executor *exec)
 
 	if (mtr[1] && mtr[1][0] == '-')
 	{
-		printf("pwd: can not receive arguments or options "
+		w_error("pwd: can not receive arguments or options "
 			"(imposed by subject)\n");
 		return (set_exit_status(exec->shell, 1), 1);
 	}
 	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);
 	else
-		printf("ERROR READING PWD\n");
+		w_error("ERROR READING PWD\n");
 	if (exec->is_child)
 	{
 		free_process(exec);
