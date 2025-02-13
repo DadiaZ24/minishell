@@ -88,4 +88,9 @@ void	handle_sigquit(int sig);
 void	signals(void);
 void	handle_sighd(int sig);
 
+//=========================[UTILS]=========================//
+void	get_pwd(char **envp, t_shell *shell);
+void	free_pwd(t_shell *shell);
+void	free_strings_pwd(char *s1, char *s2);
+
 #endif

@@ -54,6 +54,8 @@ typedef struct s_shell
 	char	*line;
 	int		status;
 	char	**env;
+	char	*pwd_str;
+	char	*oldpwd_str;
 
 }	t_shell;
 

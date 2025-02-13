@@ -83,13 +83,12 @@ void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 	i = -1;
 	oldpwd_line = ft_strjoin("OLDPWD=", oldpwd);
 	newpwd_line = ft_strjoin("PWD=", newpwd);
-	(void)newpwd_line;
 	while (shell->env[++i])
 	{
 		if (!ft_strncmp(shell->env[i], "OLDPWD=", 7))
 		{
 			free(shell->env[i]);
-			shell->env[i] = oldpwd_line;
+			shell->env[i] = ft_strdup(oldpwd_line);
 		}
 	}
 	i = -1;
@@ -98,7 +97,8 @@ void	update_pwd_env(t_shell *shell, char *oldpwd, char *newpwd)
 		if (!ft_strncmp(shell->env[i], "PWD=", 4))
 		{
 			free(shell->env[i]);
-			shell->env[i] = newpwd_line;
+			shell->env[i] = ft_strdup(newpwd_line);
 		}
 	}
+	free_strings_pwd(oldpwd_line, newpwd_line);
 }

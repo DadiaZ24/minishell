@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-/* void	ft_print_token(t_token **token)
-{
-	t_token	*temp;
-
-	temp = *token;
-	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-	while (temp)
-	{
-		printf("Info->[%s] || \tType->[%d]\n", temp->info, temp->type);
-		temp = temp->next;
-	}
-	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-} */
-
 char	*mini_fill_word(const char *str, int start, int end)
 {
 	char	*word;

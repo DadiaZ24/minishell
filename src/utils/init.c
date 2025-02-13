@@ -92,6 +92,8 @@ t_executor	*init_exec(t_executor *exec)
 	if (!exec->shell)
 		return (free(exec), NULL);
 	exec->shell->status = 0;
+	exec->shell->oldpwd_str = NULL;
+	exec->shell->pwd_str = NULL;
 	exec->token = (t_token **)malloc(sizeof(t_token));
 	if (!exec->token)
 	{

@@ -28,3 +28,17 @@ int	is_directory(char *path)
 	}
 	return (0);
 }
+
+void	free_strings_pwd(char *s1, char *s2)
+{
+	if (s1)
+	{
+		free(s1);
+		s1 = NULL;
+	}
+	if (s2)
+	{
+		free(s2);
+		s2 = NULL;
+	}
+}
