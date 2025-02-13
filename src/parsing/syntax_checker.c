@@ -18,7 +18,7 @@ int	syntax_checker(t_token **tokens, t_executor *exec)
 
 	token = *tokens;
 	if (!token || token->info[0] == '\0')
-		return (printf("\n"), 0);
+		return (ft_printf("\n"), 0);
 	while (token)
 	{
 		if (!check_quotes(token))

@@ -17,6 +17,7 @@ void	handle_close(t_executor *exec, int *fd)
 	dup2(exec->fd_out, STDOUT_FILENO);
 	close(exec->fd_out);
 	close(fd[0]);
+	close(fd[1]);
 }
 
 bool	handle_child(t_executor *exec, t_cmds **temp, t_token *start, int *fd)
@@ -48,19 +49,19 @@ bool	check_builtin(t_cmds **cmds)
 	temp_cmds = *(cmds);
 	if (!temp_cmds->cmd)
 		return (false);
-	if (!strcmp((temp_cmds)->cmd, "cd"))
+	if (!ft_strcmp((temp_cmds)->cmd, "cd"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "pwd"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "pwd"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "echo"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "echo"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "export"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "export"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "unset"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "unset"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "env"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "env"))
 		return (true);
-	else if (!strcmp((temp_cmds)->cmd, "exit"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "exit"))
 		return (true);
 	return (false);
 }

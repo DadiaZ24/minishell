@@ -62,9 +62,9 @@ bool	handle_heredoc(t_cmds *cmds, t_executor *exec)
 		line = readline("> ");
 		check_global(exec);
 		if (check_signal(0))
-			return (free(eof), false);
+			return (close(fd), free(eof), false);
 	}
-	return (free(eof), true);
+	return (close(fd), free(eof), true);
 }
 
 bool	find_heredoc(t_cmds **cmds, t_executor *exec)

@@ -23,7 +23,7 @@ int	pwd(char **mtr, t_executor *exec)
 		return (set_exit_status(exec->shell, 1), 1);
 	}
 	if (getcwd(cwd, sizeof(cwd)))
-		printf("%s\n", cwd);
+		ft_printf("%s\n", cwd);
 	else
 		w_error("ERROR READING PWD\n");
 	if (exec->is_child)

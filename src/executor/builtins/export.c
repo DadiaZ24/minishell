@@ -97,10 +97,10 @@ void	print_export(t_export *export)
 	i = -1;
 	while (export->key_left[++i])
 	{
-		printf("declare -x %s", export->key_left[i]);
+		ft_printf("declare -x %s", export->key_left[i]);
 		if (export->key_right[i])
-			printf("=\"%s\"\n", export->key_right[i]);
+			ft_printf("=\"%s\"\n", export->key_right[i]);
 		else
-			printf("\n");
+			ft_printf("\n");
 	}
 }

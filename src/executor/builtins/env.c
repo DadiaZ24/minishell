@@ -35,7 +35,7 @@ bool	env(t_shell *shell, char **mtr, t_executor *exec)
 	while (shell->env[++i])
 	{
 		if (ft_strchr(shell->env[i], '='))
-			printf("%s\n", shell->env[i]);
+			ft_printf("%s\n", shell->env[i]);
 	}
 	if (exec->is_child)
 	{
