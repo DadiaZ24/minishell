@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_print_token(t_token **token)
+/* void	ft_print_token(t_token **token)
 {
 	t_token	*temp;
 
@@ -24,7 +24,7 @@ void	ft_print_token(t_token **token)
 		temp = temp->next;
 	}
 	printf("|||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-}
+} */
 
 char	*mini_fill_word(const char *str, int start, int end)
 {

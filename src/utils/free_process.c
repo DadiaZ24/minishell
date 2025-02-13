@@ -12,6 +12,14 @@
 
 #include "minishell.h"
 
+void	free_fd(t_executor *exec)
+{
+	if (exec->fd_in)
+		close(exec->fd_in);
+	if (exec->fd_out)
+		close(exec->fd_out);
+}
+
 void	free_d(t_executor *exec)
 {
 	if (exec->shell->env)
@@ -34,6 +42,7 @@ void	free_d(t_executor *exec)
 		free(exec->token);
 		exec->token = NULL;
 	}
+	free_fd(exec);
 }
 
 void	free_all(t_executor *exec)

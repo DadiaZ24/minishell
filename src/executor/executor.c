@@ -68,19 +68,19 @@ bool	builtin(t_executor *exec, t_cmds **cmds)
 	temp_cmds = *(cmds);
 	if (!handle_redirects(exec, temp_cmds))
 		return (false);
-	if (!strcmp((temp_cmds)->cmd, "cd"))
+	if (!ft_strcmp((temp_cmds)->cmd, "cd"))
 		cd(exec->shell, (temp_cmds)->args, exec);
-	else if (!strcmp((temp_cmds)->cmd, "pwd"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "pwd"))
 		pwd((temp_cmds)->args, exec);
-	else if (!strcmp((temp_cmds)->cmd, "echo"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "echo"))
 		echo((temp_cmds)->args, exec);
-	else if (!strcmp((temp_cmds)->cmd, "export"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "export"))
 		export(exec);
-	else if (!strcmp((temp_cmds)->cmd, "unset"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "unset"))
 		unset((temp_cmds)->args, exec);
-	else if (!strcmp((temp_cmds)->cmd, "env"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "env"))
 		env(exec->shell, (temp_cmds)->args, exec);
-	else if (!strcmp((temp_cmds)->cmd, "exit"))
+	else if (!ft_strcmp((temp_cmds)->cmd, "exit"))
 		exit_builtin(exec->shell->status, exec, (temp_cmds)->args);
 	return (true);
 }
